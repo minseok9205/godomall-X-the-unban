@@ -251,7 +251,6 @@ function render(){
   else renderResult();
 }
 function renderEstimate(){
-  const bm = benchmark(state.intake);
   app.innerHTML = `
   <section class="panel">
     <div class="hd">
@@ -274,6 +273,32 @@ function renderEstimate(){
     </div>
   </section>
 
+  <div id="estimateResultMount"></div>`;
+
+  ['monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(id==='monthlyDirect'){
+      el.oninput=()=>{ state.intake[id]=el.value; save(); };
+      el.onchange=()=>{ state.intake[id]=el.value; save(); };
+    } else {
+      el.oninput=el.onchange=()=>{
+        state.intake[id]=el.value;
+        if(id==='monthlyBand'){
+          const directEl = document.getElementById('monthlyDirect');
+          directEl.disabled = el.value !== '직접입력';
+        }
+        save();
+      };
+    }
+  });
+  document.getElementById('estimateBtn').onclick = ()=>{ save(); renderEstimateResult(); };
+}
+
+function renderEstimateResult(){
+  const bm = benchmark(state.intake);
+  const mount = document.getElementById('estimateResultMount');
+  if(!mount) return;
+  mount.innerHTML = `
   <div class="resultBox">
     <div class="resultHeader">
       <div>
@@ -301,16 +326,6 @@ function renderEstimate(){
     </div>
   </div>`;
 
-  ['monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage'].forEach(id=>{
-    const el=document.getElementById(id);
-    el.oninput=el.onchange=()=>{
-      state.intake[id]=el.value;
-      if(id==='monthlyBand'){ document.getElementById('monthlyDirect').disabled = el.value !== '직접입력'; }
-      save();
-      renderEstimate();
-    };
-  });
-  document.getElementById('estimateBtn').onclick = ()=>{ save(); renderEstimate(); };
   document.getElementById('startDiagnosis').onclick = ()=>{ state.mode='diagnosis'; save(); render(); };
   document.getElementById('recalcBtn').onclick = ()=>window.scrollTo({top:0,behavior:'smooth'});
 }
