@@ -30,6 +30,7 @@ header{display:flex;justify-content:space-between;align-items:center;gap:14px;pa
 .logoUnit{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;box-shadow:var(--shadow)}
 .logoBox{width:132px;height:44px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .logoBox img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;object-fit:contain}
+.logoBox img.cj{transform:scale(1.35);}
 .logoDivider{width:1px;height:22px;background:#d0d5dd}
 .headerRight{font-size:13px;color:var(--muted)}
 .hero{background:var(--hero);border:1px solid #f5df8e;border-radius:var(--radius2);padding:34px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.2fr .8fr;gap:22px;margin-bottom:22px}
@@ -108,7 +109,7 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
   <header>
     <div class="logoRow">
       <div class="logoUnit">
-        <div class="logoBox"><img src="cj-logo.png.png" alt="CJ대한통운 로고"></div>
+        <div class="logoBox"><img class="cj" src="cj-logo.png.png" alt="CJ대한통운 로고"></div>
         <div class="logoDivider"></div>
         <div class="logoBox"><img src="unban-logo.png" alt="더 운반 로고"></div>
       </div>
