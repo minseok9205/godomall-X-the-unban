@@ -125,22 +125,14 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
       <div class="badges">
         <span class="badge">셀러 물류 진단</span>
         <span class="badge">AI Pricing</span>
-        <span class="badge">3~4분 Quick Diagnosis</span>
+        <span class="badge">3~4분 물류 진단</span>
       </div>
       <h1>우리 회사 운송비, 이 금액이 적정한 걸까?</h1>
       <p>
         먼저 <b>기본 운임 조회</b>로 시장 대비 절감 가능성을 확인하고, 이어서 물류 운영 진단을 통해 <b>왜 절감 여지가 발생하는지</b>를 확인해보세요.
       </p>
     </div>
-    <div class="heroSide">
-      <h3>이 프로토타입에서 확인할 수 있는 것</h3>
-      <p>
-        • 현재 운송비의 시장 대비 수준<br>
-        • 운임 / 배차 / 정산 / 디지털 운영의 비효율<br>
-        • 더 운반 AI Pricing과 연결되는 개선 포인트
-      </p>
-    </div>
-  </section>
+    </section>
 
   <section class="grid3">
     <div class="card"><h3>1. 기본 운임 조회</h3><p>월 운송비와 주요 구간 입력만으로 시장 대비 절감 가능성을 먼저 확인합니다.</p></div>
@@ -202,6 +194,14 @@ const choices = {
   18:['거의 없음','경험 기반','일부 데이터 참고','정기 분석','데이터 기반 운영'],
 };
 const monthlyBands = ['100만원 미만','300만원 미만','500만원 미만','1천만원 미만','1천만원 이상','직접입력'];
+function getUspBySection(sectionId){
+  const map = {
+    fare:{title:'AI Pricing 기반 실시간 운임 제공',desc:'더 운반은 주요 구간의 시장 운임 수준을 빠르게 비교해 현재 단가의 적정성을 판단할 수 있도록 돕습니다.'},
+    dispatch:{title:'실시간 관제 / 가시성',desc:'더 운반은 배차 상태, 차량 위치, 진행 현황을 실시간으로 보여줘 운영 불확실성과 확인 공수를 줄이는 데 강점이 있습니다.'},
+    settlement:{title:'정산 자동화 / 검증',desc:'더 운반은 운송 이력 기반 데이터 구조를 통해 정산 검증 공수와 누락·오청구 대응 부담을 줄일 수 있는 방향을 제안합니다.'},
+    digital:{title:'데이터 기반 운영 지원',desc:'더 운반은 데이터가 남는 운영 구조와 표준화를 기반으로, 화주의 물류 의사결정을 돕는 방향으로 서비스를 확장할 수 있습니다.'}
+  };
+  return map[sectionId] || {title:'
 const vehicleTypes = ['카고','윙바디','탑차'];
 const tonnageTypes = ['라보','다마스','1톤','2.5톤','3.5톤','5톤','11톤','18톤','25톤'];
 const levelByScore = (total) => { if(total <= 24) return {level:1, name:'Manual'}; if(total <= 40) return {level:2, name:'Excel'}; if(total <= 60) return {level:3, name:'Partial Digital'}; if(total <= 76) return {level:4, name:'Integrated'}; return {level:5, name:'Data Driven'}; };
@@ -350,16 +350,42 @@ function renderDiagnosis(){
         <div class="tabs" id="tabs"></div>
       </div>
       <div class="bd">
-        <div class="qcard">
-          <div class="qNo">Q${String(q.no).padStart(2,'0')}</div>
-          <div class="qTitle">${escapeHtml(q.q)}</div>
-          <div class="scale" id="scale"></div>
-          <div class="hint"><button id="toggleWhy">왜 중요한가요?</button><span id="whyText" class="hide"> ${escapeHtml(q.why)}</span></div>
-          <div class="actions">
-            <button class="ghost" id="prevBtn">← 이전</button>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-              <span class="miniPill">완료 ${answeredCount()} / 18</span>
-              <button id="nextBtn">다음 →</button>
+        <div class="compare" style="margin-top:0">
+          <div class="qcard">
+            <div class="qNo">Q${String(q.no).padStart(2,'0')}</div>
+            <div class="qTitle">${escapeHtml(q.q)}</div>
+            <div class="scale" id="scale"></div>
+            <div class="hint"><button id="toggleWhy">왜 중요한가요?</button><span id="whyText" class="hide"> ${escapeHtml(q.why)}</span></div>
+            <div class="actions">
+              <button class="ghost" id="prevBtn">← 이전</button>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                <span class="miniPill">완료 ${answeredCount()} / 18</span>
+                <button id="nextBtn">다음 →</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel" style="border-radius:18px;overflow:hidden">
+            <div class="hd">
+              <div class="sectionTitle" style="font-size:18px">이 질문을 드리는 이유</div>
+              <div class="sectionSub">질문과 연결되는 더 운반의 가치</div>
+            </div>
+            <div class="bd">
+              <div class="list">
+                <div class="li">
+                  <div>
+                    <b>질문의 목적</b>
+                    <small id="questionWhyInline">${escapeHtml(q.why)}</small>
+                  </div>
+                  <span class="miniPill">WHY</span>
+                </div>
+                <div class="li" style="background:#fffaf0">
+                  <div>
+                    <b id="uspTitleInline">${getUspBySection(sec.id).title}</b>
+                    <small id="uspDescInline">${getUspBySection(sec.id).desc}</small>
+                  </div>
+                  <span class="miniPill">USP</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
