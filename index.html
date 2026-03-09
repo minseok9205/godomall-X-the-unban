@@ -35,12 +35,11 @@ header{display:flex;justify-content:space-between;align-items:center;gap:14px;pa
 .headerRight{font-size:13px;color:var(--muted)}
 .hero{background:var(--hero);border:1px solid #f5df8e;border-radius:var(--radius2);padding:28px;box-shadow:var(--shadow);margin-bottom:18px}
 .hero h1{margin:10px 0 0;font-size:30px;line-height:1.22;letter-spacing:-.7px}
-.hero p{margin:12px 0 0;color:#475467;font-size:14px;line-height:1.6;max-width:800px}
+.hero p{margin:12px 0 0;color:#475467;font-size:14px;line-height:1.6;max-width:820px}
 .badges{display:flex;gap:8px;flex-wrap:wrap}
 .badge{display:inline-flex;align-items:center;gap:6px;background:#fff8d9;border:1px solid #f4d35e;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;color:#4b5563}
 .badge.dark{background:#fff;border-color:var(--line)}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0 20px}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
 .card h3{margin:0 0 8px;font-size:18px}
 .card p{margin:0;color:#667085;font-size:14px;line-height:1.6}
@@ -68,7 +67,7 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
 .numCard{background:#fafafa;border:1px solid var(--line);border-radius:14px;padding:16px}
 .numCard .k{font-size:12px;color:#667085}
 .numCard .v{margin-top:8px;font-size:23px;font-weight:900;letter-spacing:-.5px}
-.barWrap{margin-top:10px}
+.barWrap{margin-top:12px}
 .barTitle{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#475467;margin-bottom:6px}
 .meter{height:10px;background:#eef2f6;border-radius:999px;overflow:hidden;border:1px solid #e5e7eb}
 .meter>i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-deep));width:0%}
@@ -97,10 +96,10 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
 .li{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
 .li b{display:block;margin-bottom:5px}
 .li small{display:block;color:#475467;line-height:1.55}
-.footer{margin-top:34px;text-align:center;color:#667085;font-size:13px}
 .hide{display:none !important}
+.footer{margin-top:34px;text-align:center;color:#667085;font-size:13px}
 @media (max-width: 980px){
-  .grid3,.grid4,.numbers,.steps,.form,.scale,.qWrap,.compare{grid-template-columns:1fr}
+  .grid3,.numbers,.steps,.form,.scale,.qWrap,.compare{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -142,7 +141,7 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
 </div>
 
 <script>
-const STORAGE_KEY = 'godomall_diag_proto_v5';
+const STORAGE_KEY = 'godomall_diag_proto_v6';
 const sections = [
   { id:'fare', name:'운임 적정성' },
   { id:'dispatch', name:'배차 운영' },
@@ -202,7 +201,6 @@ function getUspBySection(sectionId){
   };
   return map[sectionId];
 }
-
 function levelByScore(total){
   if(total <= 24) return {level:1, name:'Manual'};
   if(total <= 40) return {level:2, name:'Excel'};
@@ -210,16 +208,11 @@ function levelByScore(total){
   if(total <= 76) return {level:4, name:'Integrated'};
   return {level:5, name:'Data Driven'};
 }
-
 function benchmark(profile){
   const bandBase = {'100만원 미만':120,'300만원 미만':260,'500만원 미만':430,'1천만원 미만':850,'1천만원 이상':1200};
   const monthly = profile.monthlyBand === '직접입력' ? Number(profile.monthlyDirect || 0) : (bandBase[profile.monthlyBand] || 300);
-  const avg = 58;
-  const top10 = 78;
-  const secAvg = {fare:14,dispatch:11,settlement:11,digital:14};
-  return {monthly, avg, top10, secAvg};
+  return {monthly, avg:58, top10:78, secAvg:{fare:14,dispatch:11,settlement:11,digital:14}};
 }
-
 function getSectionFeedback(sectionId, score){
   const feedback = {
     fare:[
@@ -260,7 +253,6 @@ function escapeHtml(str){ return String(str ?? '').replaceAll('&','&amp;').repla
 function currentQuestion(){ const list = questions.filter(q=>q.sec===state.nav.section); return list[state.nav.index] || null; }
 function answeredCount(){ return Object.keys(state.answers).length; }
 function compute(){ const total = questions.reduce((sum,q)=>sum + (state.answers[q.no] || 0),0); const perSec={}; sections.forEach(s=>{ perSec[s.id]=questions.filter(q=>q.sec===s.id).reduce((sum,q)=>sum + (state.answers[q.no]||0),0); }); return { total, perSec }; }
-function percentile(my, avg, top10){ if(my <= avg) return Math.max(1, Math.round((my/Math.max(1,avg))*50)); const ratio=(my-avg)/Math.max(1,(top10-avg)); return Math.min(99, Math.round(50 + ratio*40)); }
 function resetAll(){
   localStorage.removeItem(STORAGE_KEY);
   state = { mode:'estimate', intake:{ company:'', manager:'', phone:'', email:'', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' }, answers:{}, nav:{ section:'fare', index:0 } };
@@ -275,50 +267,44 @@ function render(){
 
 function renderEstimate(){
   app.innerHTML = `
-  <section class="panel">
-    <div class="hd">
-      <div class="sectionTitle">1. AI Pricing 자료 제출</div>
-      <div class="sectionSub">기본 운송 조건과 참고 자료를 제출하면 더 운반이 오프라인으로 검토할 수 있습니다</div>
-    </div>
-    <div class="bd">
-      <div class="form">
-        <div><label>회사명</label><input id="company" value="${escapeHtml(state.intake.company)}" placeholder="예: OOO셀러" /></div>
-        <div><label>담당자명</label><input id="manager" value="${escapeHtml(state.intake.manager)}" placeholder="예: 홍길동" /></div>
-        <div><label>연락처</label><input id="phone" value="${escapeHtml(state.intake.phone)}" placeholder="예: 010-0000-0000" /></div>
-        <div><label>이메일</label><input id="email" value="${escapeHtml(state.intake.email)}" placeholder="예: sample@company.com" /></div>
-        <div><label>월 운송비</label><select id="monthlyBand">${monthlyBands.map(v=>`<option ${state.intake.monthlyBand===v?'selected':''}>${v}</option>`).join('')}</select></div>
-        <div><label>직접 입력 (만원)</label><input id="monthlyDirect" placeholder="예: 1000" value="${escapeHtml(state.intake.monthlyDirect)}" ${state.intake.monthlyBand==='직접입력'?'':'disabled'} /></div>
-        <div><label>출발지</label><input id="origin" value="${escapeHtml(state.intake.origin)}" /></div>
-        <div><label>도착지</label><input id="destination" value="${escapeHtml(state.intake.destination)}" /></div>
-        <div><label>주 사용 차량</label><select id="vehicleType">${vehicleTypes.map(v=>`<option ${state.intake.vehicleType===v?'selected':''}>${v}</option>`).join('')}</select></div>
-        <div><label>주 사용 톤급</label><select id="tonnage">${tonnageTypes.map(v=>`<option ${state.intake.tonnage===v?'selected':''}>${v}</option>`).join('')}</select></div>
-        <div><label>참고 자료 업로드</label><input id="pricingFile" type="file" /></div>
-        <div><label>추가 메모</label><input id="notes" value="${escapeHtml(state.intake.notes)}" placeholder="검토가 필요한 노선/특이사항 입력" /></div>
+    <section class="panel">
+      <div class="hd">
+        <div class="sectionTitle">1. AI Pricing 자료 제출</div>
+        <div class="sectionSub">기본 운송 조건과 참고 자료를 제출하면 더 운반이 오프라인으로 검토할 수 있습니다</div>
       </div>
-      <div class="actions">
-        <span class="miniPill">프로토타입 단계에서는 제출 데이터를 저장하지 않고 화면상 흐름만 구현합니다.</span>
-        <button id="estimateBtn">자료 제출 후 물류 진단 시작</button>
+      <div class="bd">
+        <div class="form">
+          <div><label>회사명</label><input id="company" value="${escapeHtml(state.intake.company)}" placeholder="예: OOO셀러" /></div>
+          <div><label>담당자명</label><input id="manager" value="${escapeHtml(state.intake.manager)}" placeholder="예: 홍길동" /></div>
+          <div><label>연락처</label><input id="phone" value="${escapeHtml(state.intake.phone)}" placeholder="예: 010-0000-0000" /></div>
+          <div><label>이메일</label><input id="email" value="${escapeHtml(state.intake.email)}" placeholder="예: sample@company.com" /></div>
+          <div><label>월 운송비</label><select id="monthlyBand">${monthlyBands.map(v=>`<option ${state.intake.monthlyBand===v?'selected':''}>${v}</option>`).join('')}</select></div>
+          <div><label>직접 입력 (만원)</label><input id="monthlyDirect" placeholder="예: 1000" value="${escapeHtml(state.intake.monthlyDirect)}" ${state.intake.monthlyBand==='직접입력'?'':'disabled'} /></div>
+          <div><label>출발지</label><input id="origin" value="${escapeHtml(state.intake.origin)}" /></div>
+          <div><label>도착지</label><input id="destination" value="${escapeHtml(state.intake.destination)}" /></div>
+          <div><label>주 사용 차량</label><select id="vehicleType">${vehicleTypes.map(v=>`<option ${state.intake.vehicleType===v?'selected':''}>${v}</option>`).join('')}</select></div>
+          <div><label>주 사용 톤급</label><select id="tonnage">${tonnageTypes.map(v=>`<option ${state.intake.tonnage===v?'selected':''}>${v}</option>`).join('')}</select></div>
+          <div><label>참고 자료 업로드</label><input id="pricingFile" type="file" /></div>
+          <div><label>추가 메모</label><input id="notes" value="${escapeHtml(state.intake.notes)}" placeholder="검토가 필요한 노선/특이사항 입력" /></div>
+        </div>
+        <div class="actions">
+          <span class="miniPill">프로토타입 단계에서는 제출 데이터를 저장하지 않고 화면상 흐름만 구현합니다.</span>
+          <button id="estimateBtn">자료 제출 후 물류 진단 시작</button>
+        </div>
       </div>
-    </div>
-  </section>
-  <div id="estimateResultMount"></div>`;
+    </section>
+    <div id="estimateResultMount"></div>`;
 
   ['company','manager','phone','email','monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage','notes'].forEach(id=>{
     const el = document.getElementById(id);
     if(!el) return;
-    if(id==='monthlyDirect'){
-      el.oninput=()=>{ state.intake[id]=el.value; save(); };
-      el.onchange=()=>{ state.intake[id]=el.value; save(); };
-    } else {
-      el.oninput=el.onchange=()=>{
-        state.intake[id]=el.value;
-        if(id==='monthlyBand') document.getElementById('monthlyDirect').disabled = el.value !== '직접입력';
-        save();
-      };
-    }
+    el.oninput = el.onchange = ()=>{
+      state.intake[id] = el.value;
+      if(id === 'monthlyBand') document.getElementById('monthlyDirect').disabled = el.value !== '직접입력';
+      save();
+    };
   });
-  const pricingFile = document.getElementById('pricingFile');
-  pricingFile.onchange = ()=>{ state.intake.fileName = pricingFile.files && pricingFile.files[0] ? pricingFile.files[0].name : ''; save(); };
+  document.getElementById('pricingFile').onchange = (e)=>{ state.intake.fileName = e.target.files && e.target.files[0] ? e.target.files[0].name : ''; save(); };
   document.getElementById('estimateBtn').onclick = ()=> renderEstimateResult();
 }
 
@@ -346,7 +332,7 @@ function renderEstimateResult(){
       </div>
     </div>`;
   document.getElementById('startDiagnosis').onclick = ()=>{ state.mode='diagnosis'; save(); render(); };
-  document.getElementById('recalcBtn').onclick = ()=>window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('recalcBtn').onclick = ()=> window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function renderDiagnosis(){
@@ -401,13 +387,13 @@ function renderDiagnosis(){
       </div>
     </section>`;
 
-  const tabs=document.getElementById('tabs');
+  const tabs = document.getElementById('tabs');
   tabs.innerHTML = sections.map(s=>`<span class="${s.id===sec.id?'tab active':'tab'}" data-sec="${s.id}">${questions.filter(q=>q.sec===s.id).every(q=>state.answers[q.no])?'✓ ':''}${s.name}</span>`).join('');
-  [...tabs.querySelectorAll('.tab')].forEach(t=>t.onclick=()=>{ state.nav.section=t.dataset.sec; state.nav.index=0; save(); render(); });
+  [...tabs.querySelectorAll('.tab')].forEach(t=> t.onclick = ()=>{ state.nav.section=t.dataset.sec; state.nav.index=0; save(); render(); });
 
-  const scale=document.getElementById('scale');
+  const scale = document.getElementById('scale');
   scale.innerHTML = [1,2,3,4,5].map(n=>`<div class="${chosen===n?'opt sel':'opt'}" data-val="${n}"><div class="n">${n}</div><div class="t">${escapeHtml(choices[q.no][n-1])}</div></div>`).join('');
-  [...scale.querySelectorAll('.opt')].forEach(el=>el.onclick=()=>{ state.answers[q.no]=Number(el.dataset.val); save(); render(); });
+  [...scale.querySelectorAll('.opt')].forEach(el=> el.onclick = ()=>{ state.answers[q.no]=Number(el.dataset.val); save(); render(); });
 
   document.getElementById('toggleWhy').onclick = ()=> document.getElementById('whyText').classList.toggle('hide');
   document.getElementById('prevBtn').onclick = ()=>{ prevQ(); render(); };
@@ -419,25 +405,41 @@ function nextQ(){
   if(state.nav.index < list.length-1){ state.nav.index++; save(); return; }
   const i = sections.findIndex(s=>s.id===state.nav.section);
   if(i < sections.length-1){ state.nav.section = sections[i+1].id; state.nav.index = 0; save(); return; }
-  if(answeredCount()===18){ state.mode='result'; save(); }
+  if(answeredCount() === 18){ state.mode = 'result'; save(); }
 }
 function prevQ(){
-  if(state.nav.index>0){ state.nav.index--; save(); return; }
+  if(state.nav.index > 0){ state.nav.index--; save(); return; }
   const i = sections.findIndex(s=>s.id===state.nav.section);
-  if(i>0){ const prevSec=sections[i-1].id; state.nav.section=prevSec; state.nav.index=questions.filter(q=>q.sec===prevSec).length-1; save(); }
-  else { state.mode='estimate'; save(); }
+  if(i > 0){
+    const prevSec = sections[i-1].id;
+    state.nav.section = prevSec;
+    state.nav.index = questions.filter(q=>q.sec===prevSec).length-1;
+    save();
+  } else {
+    state.mode = 'estimate';
+    save();
+  }
 }
 
 function renderResult(){
   const bm = benchmark(state.intake);
   const { total, perSec } = compute();
   const lvl = levelByScore(total);
-  const pct = percentile(total, bm.avg, bm.top10);
   const gaps = sections.map(s=>({id:s.id,name:s.name,my:perSec[s.id],avg:bm.secAvg[s.id],gap:perSec[s.id]-bm.secAvg[s.id]})).sort((a,b)=>a.gap-b.gap);
   const weak = gaps.slice(0,2);
   const strong = gaps.slice(-2).reverse();
-  const painMap={fare:'운임 비교 기준이 약해 비싸게 쓰고 있는지 판단하기 어려운 상태입니다.',dispatch:'배차 요청과 차량 확보 구조가 비표준화되어 운영 스트레스가 발생할 가능성이 큽니다.',settlement:'정산 검증과 이력 조회 공수가 커서 누락/오청구 대응이 비효율적일 수 있습니다.',digital:'데이터와 운영 방식이 표준화되지 않아 담당자 의존도가 높은 상태입니다.'};
-  const solutionMap={fare:'AI Pricing 기반 실시간 운임 제공',dispatch:'실시간 관제/가시성 기반 배차 운영',settlement:'정산 자동화 및 운송 이력 기반 검증',digital:'데이터 기반 운영 표준화 및 의사결정 지원'};
+  const painMap = {
+    fare:'운임 비교 기준이 약해 비싸게 쓰고 있는지 판단하기 어려운 상태입니다.',
+    dispatch:'배차 요청과 차량 확보 구조가 비표준화되어 운영 스트레스를 유발할 가능성이 큽니다.',
+    settlement:'정산 검증과 이력 조회 공수가 커서 누락·오청구 대응이 비효율적일 수 있습니다.',
+    digital:'데이터와 운영 방식이 표준화되지 않아 담당자 의존도가 높은 상태입니다.'
+  };
+  const solutionMap = {
+    fare:'AI Pricing 기반 실시간 운임 제공',
+    dispatch:'실시간 관제/가시성 기반 배차 운영',
+    settlement:'정산 자동화 및 운송 이력 기반 검증',
+    digital:'데이터 기반 운영 표준화 및 의사결정 지원'
+  };
 
   app.innerHTML = `
     <div class="steps">
@@ -454,7 +456,6 @@ function renderResult(){
           <h2 style="margin-top:10px">Level ${lvl.level}: ${lvl.name}</h2>
           <p>동종업계 평균(${bm.avg}점) 대비 ${total>=bm.avg?'▲':'▼'} ${Math.abs(total-bm.avg)}점. 가장 큰 개선 여지는 <b>${weak[0].name}</b>, <b>${weak[1].name}</b>에서 나타납니다.</p>
         </div>
-        
       </div>
       <div class="numbers">
         <div class="numCard"><div class="k">회사명</div><div class="v" style="font-size:18px">${escapeHtml(state.intake.company || '-')}</div></div>
@@ -465,23 +466,22 @@ function renderResult(){
 
     <div class="compare">
       <div class="panel">
-        <div class="hd"><div class="sectionTitle" style="font-size:20px">섹션별 진단 결과</div><div class="sectionSub">우리 수준 vs 동종 평균</div></div>
+        <div class="hd"><div class="sectionTitle" style="font-size:20px">섹션별 진단 결과</div><div class="sectionSub">클릭하여 항목별 레포트와 해결방안을 확인하세요</div></div>
         <div class="bd">
-          ${sections.map(s=>{ const my=perSec[s.id], av=bm.secAvg[s.id]; const maxScore = questions.filter(q=>q.sec===s.id).length * 5; const fb = getSectionFeedback(s.id, perSec[s.id]); return `
-          <div class="barWrap">
-            <div class="barTitle" style="cursor:pointer" onclick="this.nextElementSibling.classList.toggle('hide')">
-              <span>${s.name}</span>
-              <span>${my} / avg ${av} ▾</span>
-            </div>
-            <div class="meter"><i style="width:${Math.round((my/maxScore)*100)}%"></i></div>
-            <div class="hint hide" style="margin-top:10px">
-              <b>${fb.title}</b><br>
-              ${fb.desc}<br><br>
-              <b>더 운반 해결방안</b><br>
-              ${fb.solution}
-            </div>
-          </div>
-        `<div class="barWrap"><div class="barTitle"><span>${s.name}</span><span>${my} / avg ${av}</span></div><div class="meter"><i style="width:${Math.round((my/maxScore)*100)}%"></i></div></div>`; }).join('')}
+          ${sections.map(s=>{ const my=perSec[s.id], av=bm.secAvg[s.id]; const maxScore = questions.filter(q=>q.sec===s.id).length*5; const fb = getSectionFeedback(s.id, my); return `
+            <div class="barWrap">
+              <div class="barTitle" style="cursor:pointer" onclick="toggleReport('${s.id}')">
+                <span>${s.name}</span>
+                <span>${my} / avg ${av} ▾</span>
+              </div>
+              <div class="meter"><i style="width:${Math.round((my/maxScore)*100)}%"></i></div>
+              <div id="report-${s.id}" class="hint hide" style="margin-top:10px">
+                <b>${fb.title}</b><br>
+                ${fb.desc}<br><br>
+                <b>더 운반 해결방안</b><br>
+                ${fb.solution}
+              </div>
+            </div>`; }).join('')}
         </div>
       </div>
       <div class="panel">
@@ -495,16 +495,8 @@ function renderResult(){
       </div>
     </div>
 
-    
-      <div class="bd">
-        <div class="list">
-          ${sections.map(s=>{ const fb = getSectionFeedback(s.id, perSec[s.id]); return `<div class="li" style="flex-direction:column"><div style="width:100%"><b>${s.name} · ${perSec[s.id]}점</b><small><b>${fb.title}</b><br>${fb.desc}<br><br><b>더 운반 해결방안</b><br>${fb.solution}</small></div></div>`; }).join('')}
-        </div>
-      </div>
-    </div>
-
     <div class="panel" style="margin-top:18px">
-      <div class="hd"><div class="sectionTitle" style="font-size:20px">3. 더 운반 추천 서비스</div><div class="sectionSub">진단 결과와 연결되는 더 운반의 핵심 USP</div></div>
+      <div class="hd"><div class="sectionTitle" style="font-size:20px">더 운반 추천 서비스</div><div class="sectionSub">진단 결과와 연결되는 더 운반의 핵심 USP</div></div>
       <div class="bd">
         <div class="grid3">
           <div class="card"><h3>AI Pricing 비교</h3><p>주요 구간의 시장 운임 수준을 비교해 현재 단가의 적정성을 빠르게 판단할 수 있습니다.</p></div>
@@ -519,9 +511,14 @@ function renderResult(){
       </div>
     </div>`;
 
-  document.getElementById('cta1').onclick=()=>alert('데모: AI Pricing 비교 화면으로 이동');
-  document.getElementById('cta2').onclick=()=>alert('데모: 더 운반 견적 접수로 이동');
-  document.getElementById('cta3').onclick=()=>{ state.mode='diagnosis'; save(); render(); };
+  document.getElementById('cta1').onclick = ()=> alert('데모: AI Pricing 비교 화면으로 이동');
+  document.getElementById('cta2').onclick = ()=> alert('데모: 더 운반 견적 접수로 이동');
+  document.getElementById('cta3').onclick = ()=>{ state.mode='diagnosis'; save(); render(); };
+}
+
+function toggleReport(sectionId){
+  const el = document.getElementById(`report-${sectionId}`);
+  if(el) el.classList.toggle('hide');
 }
 
 document.addEventListener('click',(e)=>{
@@ -532,8 +529,8 @@ document.addEventListener('click',(e)=>{
 window.addEventListener('keydown', (e)=>{
   if(state.mode!=='diagnosis') return;
   if(['1','2','3','4','5'].includes(e.key)){
-    const q=currentQuestion();
-    state.answers[q.no]=Number(e.key);
+    const q = currentQuestion();
+    state.answers[q.no] = Number(e.key);
     save();
     render();
   }
