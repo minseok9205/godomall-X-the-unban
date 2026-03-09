@@ -33,16 +33,14 @@ header{display:flex;justify-content:space-between;align-items:center;gap:14px;pa
 .logoBox img.cj{transform:scale(1.35)}
 .logoDivider{width:1px;height:22px;background:#d0d5dd}
 .headerRight{font-size:13px;color:var(--muted)}
-.hero{background:var(--hero);border:1px solid #f5df8e;border-radius:var(--radius2);padding:28px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-bottom:18px}
+.hero{background:var(--hero);border:1px solid #f5df8e;border-radius:var(--radius2);padding:28px;box-shadow:var(--shadow);margin-bottom:18px}
 .hero h1{margin:10px 0 0;font-size:30px;line-height:1.22;letter-spacing:-.7px}
-.hero p{margin:12px 0 0;color:#475467;font-size:14px;line-height:1.6}
+.hero p{margin:12px 0 0;color:#475467;font-size:14px;line-height:1.6;max-width:800px}
 .badges{display:flex;gap:8px;flex-wrap:wrap}
 .badge{display:inline-flex;align-items:center;gap:6px;background:#fff8d9;border:1px solid #f4d35e;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;color:#4b5563}
 .badge.dark{background:#fff;border-color:var(--line)}
-.heroSide{background:rgba(255,255,255,.78);border:1px solid rgba(255,255,255,.75);border-radius:18px;padding:18px}
-.heroSide h3{margin:0 0 10px;font-size:16px}
-.heroSide p{margin:0;color:#475467;font-size:14px;line-height:1.65}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0 20px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
 .card h3{margin:0 0 8px;font-size:18px}
 .card p{margin:0;color:#667085;font-size:14px;line-height:1.6}
@@ -53,8 +51,9 @@ header{display:flex;justify-content:space-between;align-items:center;gap:14px;pa
 .sectionSub{margin-top:6px;font-size:13px;color:var(--muted)}
 .form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 label{display:block;font-size:13px;color:#667085;margin-bottom:6px;font-weight:700}
-input,select{width:100%;padding:12px 13px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--text);outline:none;font-size:14px}
-input:focus,select:focus{border-color:#f5c518;box-shadow:0 0 0 4px rgba(255,184,0,.16)}
+input,select,textarea{width:100%;padding:12px 13px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--text);outline:none;font-size:14px}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:#f5c518;box-shadow:0 0 0 4px rgba(255,184,0,.16)}
 .actions{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:16px}
 button{border:none;background:var(--brand);color:#111827;padding:14px 18px;border-radius:12px;font-weight:800;cursor:pointer}
 button:hover{filter:brightness(.98)}
@@ -81,6 +80,7 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px}
 .tab{padding:8px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;color:#667085;font-size:12px;cursor:pointer;font-weight:700}
 .tab.active{background:#fff7d6;border-color:#f5c518;color:#111827}
+.qWrap{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
 .qcard{border:1px solid var(--line);border-radius:18px;background:#fff;padding:18px}
 .qNo{font-size:12px;color:#667085;font-family:ui-monospace,Consolas,monospace}
 .qTitle{margin:8px 0 10px;font-size:20px;font-weight:900;line-height:1.35}
@@ -98,9 +98,9 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
 .li b{display:block;margin-bottom:5px}
 .li small{display:block;color:#475467;line-height:1.55}
 .footer{margin-top:34px;text-align:center;color:#667085;font-size:13px}
+.hide{display:none !important}
 @media (max-width: 980px){
-  .hero,.compare{grid-template-columns:1fr}
-  .grid3,.numbers,.steps,.form,.scale{grid-template-columns:1fr}
+  .grid3,.grid4,.numbers,.steps,.form,.scale,.qWrap,.compare{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -121,18 +121,13 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
   </header>
 
   <section class="hero">
-    <div>
-      <div class="badges">
-        <span class="badge">AI Pricing 자료 제출</span>
-        <span class="badge">3~4분 물류 진단</span>
-        <span class="badge">더 운반 솔루션 연계</span>
-      </div>
-      <h1>AI Pricing 검토를 위한 자료를 제출하고,<br>우리 물류 운영 수준까지 함께 진단해보세요</h1>
-      <p>
-        당장 온라인 운임 조회 기능 대신, <b>AI Pricing 양식 기반 자료 제출</b>을 먼저 받고 더 운반이 오프라인으로 검토할 수 있도록 구성했습니다.
-        이어서 물류 운영 진단을 통해 운임 · 배차 · 정산 · 디지털 운영 측면의 개선 포인트를 함께 확인할 수 있습니다.
-      </p>
+    <div class="badges">
+      <span class="badge">AI Pricing 자료 제출</span>
+      <span class="badge">3~4분 물류 진단</span>
+      <span class="badge">더 운반 솔루션 연계</span>
     </div>
+    <h1>AI Pricing 검토를 위한 자료를 제출하고,<br>우리 물류 운영 수준까지 함께 진단해보세요</h1>
+    <p>당장 온라인 운임 조회 기능 대신, <b>AI Pricing 양식 기반 자료 제출</b>을 먼저 받고 더 운반이 오프라인으로 검토할 수 있도록 구성했습니다. 이어서 물류 운영 진단을 통해 운임 · 배차 · 정산 · 디지털 운영 측면의 개선 포인트를 함께 확인할 수 있습니다.</p>
   </section>
 
   <section class="grid3">
@@ -147,12 +142,12 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
 </div>
 
 <script>
-const STORAGE_KEY = 'godomall_diag_proto_v4';
+const STORAGE_KEY = 'godomall_diag_proto_v5';
 const sections = [
   { id:'fare', name:'운임 적정성' },
   { id:'dispatch', name:'배차 운영' },
   { id:'settlement', name:'정산 운영' },
-  { id:'digital', name:'디지털화 운영 수준' },
+  { id:'digital', name:'디지털 운영' },
 ];
 const questions = [
   { no:1, sec:'fare', q:'현재 물류 비용은 어떻게 결정되나요?', why:'운임 산정 방식이 불투명할수록 시장 대비 비싸게 쓰고 있을 가능성이 높습니다.' },
@@ -195,6 +190,9 @@ const choices = {
   18:['거의 없음','경험 기반','일부 데이터 참고','정기 분석','데이터 기반 운영'],
 };
 const monthlyBands = ['100만원 미만','300만원 미만','500만원 미만','1천만원 미만','1천만원 이상','직접입력'];
+const vehicleTypes = ['카고','윙바디','탑차'];
+const tonnageTypes = ['라보','다마스','1톤','2.5톤','3.5톤','5톤','11톤','18톤','25톤'];
+
 function getUspBySection(sectionId){
   const map = {
     fare:{title:'AI Pricing 기반 실시간 운임 제공',desc:'더 운반은 주요 구간의 시장 운임 수준을 빠르게 비교해 현재 단가의 적정성을 판단할 수 있도록 돕습니다.'},
@@ -202,217 +200,26 @@ function getUspBySection(sectionId){
     settlement:{title:'정산 자동화 / 검증',desc:'더 운반은 운송 이력 기반 데이터 구조를 통해 정산 검증 공수와 누락·오청구 대응 부담을 줄일 수 있는 방향을 제안합니다.'},
     digital:{title:'데이터 기반 운영 지원',desc:'더 운반은 데이터가 남는 운영 구조와 표준화를 기반으로, 화주의 물류 의사결정을 돕는 방향으로 서비스를 확장할 수 있습니다.'}
   };
-  return map[sectionId] || {title:'더 운반 USP',desc:'질문과 연계된 더 운반의 가치를 설명합니다.'};
+  return map[sectionId];
 }
-const vehicleTypes = ['카고','윙바디','탑차'];
-const tonnageTypes = ['라보','다마스','1톤','2.5톤','3.5톤','5톤','11톤','18톤','25톤'];
-const levelByScore = (total) => { if(total <= 24) return {level:1, name:'Manual'}; if(total <= 40) return {level:2, name:'Excel'}; if(total <= 60) return {level:3, name:'Partial Digital'}; if(total <= 76) return {level:4, name:'Integrated'}; return {level:5, name:'Data Driven'}; };
+
+function levelByScore(total){
+  if(total <= 24) return {level:1, name:'Manual'};
+  if(total <= 40) return {level:2, name:'Excel'};
+  if(total <= 60) return {level:3, name:'Partial Digital'};
+  if(total <= 76) return {level:4, name:'Integrated'};
+  return {level:5, name:'Data Driven'};
+}
+
 function benchmark(profile){
   const bandBase = {'100만원 미만':120,'300만원 미만':260,'500만원 미만':430,'1천만원 미만':850,'1천만원 이상':1200};
   const monthly = profile.monthlyBand === '직접입력' ? Number(profile.monthlyDirect || 0) : (bandBase[profile.monthlyBand] || 300);
-  const market = Math.round(monthly * 0.92);
-  const saving = Math.max(0, monthly - market);
-  const savingRate = monthly > 0 ? Math.round((saving / monthly) * 100) : 0;
-  let avg = 50;
-  if(monthly >= 1000) avg += 6;
-  if(profile.vehicleType === '윙바디') avg += 2;
-  if(['11톤','18톤','25톤'].includes(profile.tonnage)) avg += 4;
-  avg = Math.max(42, Math.min(68, avg));
-  const top10 = Math.min(88, avg + 16);
-  const per = avg / 4;
-  const secAvg = {fare:Math.round(per + 0.5),dispatch:Math.round(per),settlement:Math.round(per - 0.5),digital:Math.round(per + 1)};
-  return { monthly, market, saving, savingRate, avg, top10, secAvg };
-}
-let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {
-  mode:'estimate',
-  intake:{ company:'', manager:'', phone:'', email:'', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' },
-  answers:{},
-  nav:{ section:'fare', index:0 }
-};
-const app = document.getElementById('app');
-function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-function fmtMoney(v){ return Number(v || 0).toLocaleString('ko-KR'); }
-function escapeHtml(str){ return String(str ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;'); }
-function currentQuestion(){ const list = questions.filter(q=>q.sec===state.nav.section); return list[state.nav.index] || null; }
-function answeredCount(){ return Object.keys(state.answers).length; }
-function compute(){ const total = questions.reduce((sum,q)=>sum + (state.answers[q.no] || 0),0); const perSec={}; sections.forEach(s=>{ perSec[s.id]=questions.filter(q=>q.sec===s.id).reduce((sum,q)=>sum + (state.answers[q.no]||0),0); }); return { total, perSec }; }
-function percentile(my, avg, top10){ if(my <= avg) return Math.max(1, Math.round((my/Math.max(1,avg))*50)); const ratio=(my-avg)/Math.max(1,(top10-avg)); return Math.min(99, Math.round(50 + ratio*40)); }
-function resetAll(){
-  localStorage.removeItem(STORAGE_KEY);
-  state = {
-    mode:'estimate',
-    intake:{ company:'', manager:'', phone:'', email:'', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' },
-    answers:{},
-    nav:{ section:'fare', index:0 }
-  };
-  render();
-}
-function render(){
-  if(state.mode==='estimate') renderEstimate();
-  else if(state.mode==='diagnosis') renderDiagnosis();
-  else renderResult();
-}
-function renderEstimate(){
-  app.innerHTML = `
-  <section class="panel">
-    <div class="hd">
-      <div class="sectionTitle">1. AI Pricing 자료 제출</div>
-      <div class="sectionSub">기본 운송 조건과 참고 자료를 제출하면 더 운반이 오프라인으로 검토할 수 있습니다</div>
-    </div>
-    <div class="bd">
-      <div class="form">
-        <div><label>회사명</label><input id="company" value="${escapeHtml(state.intake.company || '')}" placeholder="예: OOO셀러" /></div>
-        <div><label>담당자명</label><input id="manager" value="${escapeHtml(state.intake.manager || '')}" placeholder="예: 홍길동" /></div>
-        <div><label>연락처</label><input id="phone" value="${escapeHtml(state.intake.phone || '')}" placeholder="예: 010-0000-0000" /></div>
-        <div><label>이메일</label><input id="email" value="${escapeHtml(state.intake.email || '')}" placeholder="예: sample@company.com" /></div>
-        <div><label>월 운송비</label><select id="monthlyBand">${monthlyBands.map(v=>`<option ${state.intake.monthlyBand===v?'selected':''}>${v}</option>`).join('')}</select></div>
-        <div><label>직접 입력 (만원)</label><input id="monthlyDirect" placeholder="예: 1000" value="${escapeHtml(state.intake.monthlyDirect)}" ${state.intake.monthlyBand==='직접입력'?'':'disabled'} /></div>
-        <div><label>출발지</label><input id="origin" value="${escapeHtml(state.intake.origin)}" /></div>
-        <div><label>도착지</label><input id="destination" value="${escapeHtml(state.intake.destination)}" /></div>
-        <div><label>주 사용 차량</label><select id="vehicleType">${vehicleTypes.map(v=>`<option ${state.intake.vehicleType===v?'selected':''}>${v}</option>`).join('')}</select></div>
-        <div><label>주 사용 톤급</label><select id="tonnage">${tonnageTypes.map(v=>`<option ${state.intake.tonnage===v?'selected':''}>${v}</option>`).join('')}</select></div>
-        <div><label>참고 자료 업로드</label><input id="pricingFile" type="file" /></div>
-        <div><label>추가 메모</label><input id="notes" value="${escapeHtml(state.intake.notes || '')}" placeholder="검토가 필요한 노선/특이사항 입력" /></div>
-      </div>
-      <div class="actions">
-        <span class="miniPill">프로토타입 단계에서는 제출 데이터를 저장하지 않고 화면상 흐름만 구현합니다.</span>
-        <button id="estimateBtn">자료 제출 후 물류 진단 시작</button>
-      </div>
-    </div>
-  </section>
-
-  <div id="estimateResultMount"></div>`;
-
-  ['company','manager','phone','email','monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage','notes'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el) return;
-    if(id==='monthlyDirect'){
-      el.oninput=()=>{ state.intake[id]=el.value; save(); };
-      el.onchange=()=>{ state.intake[id]=el.value; save(); };
-    } else {
-      el.oninput=el.onchange=()=>{
-        state.intake[id]=el.value;
-        if(id==='monthlyBand'){
-          const directEl = document.getElementById('monthlyDirect');
-          directEl.disabled = el.value !== '직접입력';
-        }
-        save();
-      };
-    }
-  });
-  const pricingFile = document.getElementById('pricingFile');
-  if(pricingFile){
-    pricingFile.onchange = ()=>{
-      state.intake.fileName = pricingFile.files && pricingFile.files[0] ? pricingFile.files[0].name : '';
-      save();
-    };
-  }
-  document.getElementById('estimateBtn').onclick = ()=>{ save(); renderEstimateResult(); };
+  const avg = 58;
+  const top10 = 78;
+  const secAvg = {fare:14,dispatch:11,settlement:11,digital:14};
+  return {monthly, avg, top10, secAvg};
 }
 
-function renderEstimateResult(){
-  const mount = document.getElementById('estimateResultMount');
-  if(!mount) return;
-  mount.innerHTML = `
-  <div class="resultBox">
-    <div class="resultHeader">
-      <div>
-        <span class="badge dark">AI Pricing 접수 준비 완료</span>
-        <h2 style="margin-top:10px">자료 검토 후 더 운반이 오프라인으로 운임 적정성을 확인합니다</h2>
-        <p>${escapeHtml(state.intake.origin)} → ${escapeHtml(state.intake.destination)} · ${escapeHtml(state.intake.vehicleType)} · ${escapeHtml(state.intake.tonnage)} 기준 자료가 접수될 수 있도록 준비되었습니다.</p>
-      </div>
-      <div class="miniPill">${state.intake.fileName ? '첨부파일: ' + escapeHtml(state.intake.fileName) : '첨부파일 없음'}</div>
-    </div>
-
-    <div class="numbers">
-      <div class="numCard"><div class="k">회사명</div><div class="v" style="font-size:18px">${escapeHtml(state.intake.company || '-')}</div></div>
-      <div class="numCard"><div class="k">월 운송비</div><div class="v" style="font-size:18px">${state.intake.monthlyBand==='직접입력' ? fmtMoney(state.intake.monthlyDirect || 0) + '만원' : escapeHtml(state.intake.monthlyBand)}</div></div>
-      <div class="numCard"><div class="k">검토 방식</div><div class="v" style="font-size:18px">AI Pricing 오프라인 검토</div></div>
-    </div>
-
-    <div class="ctaRow">
-      <button class="secondary" id="startDiagnosis">이어서 물류 진단 시작 →</button>
-      <button class="ghost" id="recalcBtn">입력 다시 보기</button>
-    </div>
-  </div>`;
-
-  document.getElementById('startDiagnosis').onclick = ()=>{ state.mode='diagnosis'; save(); render(); };
-  document.getElementById('recalcBtn').onclick = ()=>window.scrollTo({top:0,behavior:'smooth'});
-}
-function renderDiagnosis(){
-  const q = currentQuestion();
-  const sec = sections.find(s=>s.id===state.nav.section);
-  const secList = questions.filter(x=>x.sec===sec.id);
-  const idx = state.nav.index;
-  const globalIndex = questions.findIndex(x=>x.no===q.no);
-  const chosen = state.answers[q.no] || 0;
-  app.innerHTML = `
-    <div class="steps">
-      <div class="step done">기본 운임 조회</div>
-      <div class="step active">물류 운영 진단</div>
-      <div class="step">결과 확인</div>
-      <div class="step">더 운반 연결</div>
-    </div>
-    <section class="panel">
-      <div class="hd">
-        <div class="sectionTitle">2. 물류 운영 진단</div>
-        <div class="sectionSub">${globalIndex+1} / 18 · ${sec.name} (${idx+1} / ${secList.length})</div>
-        <div class="tabs" id="tabs"></div>
-      </div>
-      <div class="bd">
-        <div class="compare" style="margin-top:0">
-          <div class="qcard">
-            <div class="qNo">Q${String(q.no).padStart(2,'0')}</div>
-            <div class="qTitle">${escapeHtml(q.q)}</div>
-            <div class="scale" id="scale"></div>
-            <div class="hint"><button id="toggleWhy">왜 중요한가요?</button><span id="whyText" class="hide"> ${escapeHtml(q.why)}</span></div>
-            <div class="actions">
-              <button class="ghost" id="prevBtn">← 이전</button>
-              <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-                <span class="miniPill">완료 ${answeredCount()} / 18</span>
-                <button id="nextBtn">다음 →</button>
-              </div>
-            </div>
-          </div>
-          <div class="panel" style="border-radius:18px;overflow:hidden">
-            <div class="hd">
-              <div class="sectionTitle" style="font-size:18px">이 질문을 드리는 이유</div>
-              <div class="sectionSub">질문과 연결되는 더 운반의 가치</div>
-            </div>
-            <div class="bd">
-              <div class="list">
-                <div class="li">
-                  <div>
-                    <b>질문의 목적</b>
-                    <small id="questionWhyInline">${escapeHtml(q.why)}</small>
-                  </div>
-                  <span class="miniPill">WHY</span>
-                </div>
-                <div class="li" style="background:#fffaf0">
-                  <div>
-                    <b id="uspTitleInline">${getUspBySection(sec.id).title}</b>
-                    <small id="uspDescInline">${getUspBySection(sec.id).desc}</small>
-                  </div>
-                  <span class="miniPill">USP</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>`;
-  const tabs=document.getElementById('tabs');
-  tabs.innerHTML=sections.map(s=>`<span class="${s.id===sec.id?'tab active':'tab'}" data-sec="${s.id}">${questions.filter(q=>q.sec===s.id).every(q=>state.answers[q.no])?'✓ ':''}${s.name}</span>`).join('');
-  [...tabs.querySelectorAll('.tab')].forEach(t=>t.onclick=()=>{state.nav.section=t.dataset.sec; state.nav.index=0; save(); render();});
-  const scale=document.getElementById('scale');
-  scale.innerHTML=[1,2,3,4,5].map(n=>`<div class="${chosen===n?'opt sel':'opt'}" data-val="${n}"><div class="n">${n}</div><div class="t">${escapeHtml(choices[q.no][n-1])}</div></div>`).join('');
-  [...scale.querySelectorAll('.opt')].forEach(el=>el.onclick=()=>{state.answers[q.no]=Number(el.dataset.val); save(); render();});
-  document.getElementById('toggleWhy').onclick=()=>document.getElementById('whyText').classList.toggle('hide');
-  document.getElementById('prevBtn').onclick=()=>{ prevQ(); render(); };
-  document.getElementById('nextBtn').onclick=()=>{ if(!state.answers[q.no]) return alert('항목을 선택해 주세요.'); nextQ(); render(); };
-}
-function nextQ(){ const list=questions.filter(q=>q.sec===state.nav.section); if(state.nav.index < list.length-1){ state.nav.index++; save(); return; } const i=sections.findIndex(s=>s.id===state.nav.section); if(i < sections.length-1){ state.nav.section=sections[i+1].id; state.nav.index=0; save(); return; } if(answeredCount()===18){ state.mode='result'; save(); } }
-function prevQ(){ if(state.nav.index>0){ state.nav.index--; save(); return; } const i=sections.findIndex(s=>s.id===state.nav.section); if(i>0){ const prevSec=sections[i-1].id; state.nav.section=prevSec; state.nav.index=questions.filter(q=>q.sec===prevSec).length-1; save(); } else { state.mode='estimate'; save(); } }
 function getSectionFeedback(sectionId, score){
   const feedback = {
     fare:[
@@ -439,20 +246,207 @@ function getSectionFeedback(sectionId, score){
   return feedback[sectionId].find(x=>score<=x.max) || feedback[sectionId][feedback[sectionId].length-1];
 }
 
-function renderResult(){
-  const bm=benchmark(state.intake); const { total, perSec }=compute(); const lvl=levelByScore(total); const pct=percentile(total,bm.avg,bm.top10);
-  const gaps=sections.map(s=>({id:s.id,name:s.name,my:perSec[s.id],avg:bm.secAvg[s.id],gap:perSec[s.id]-bm.secAvg[s.id]})).sort((a,b)=>a.gap-b.gap);
-  const weak=gaps.slice(0,2); const strong=gaps.slice(-2).reverse();
-  const painMap={fare:'운임 비교 기준이 약해 비싸게 쓰고 있는지 판단하기 어려운 상태입니다.',dispatch:'배차 요청과 차량 확보 구조가 비표준화되어 운영 스트레스가 발생할 가능성이 큽니다.',settlement:'정산 검증과 이력 조회 공수가 커서 누락/오청구 대응이 비효율적일 수 있습니다.',digital:'데이터와 운영 방식이 표준화되지 않아 담당자 의존도가 높은 상태입니다.'};
-  const solutionMap={fare:'AI Pricing 기반 실시간 운임 제공',dispatch:'실시간 관제/가시성 기반 배차 운영',settlement:'정산 자동화 및 운송 이력 기반 검증',digital:'데이터 기반 운영 표준화 및 의사결정 지원'};
-  const uspMap={
+let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {
+  mode:'estimate',
+  intake:{ company:'', manager:'', phone:'', email:'', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' },
+  answers:{},
+  nav:{ section:'fare', index:0 }
+};
+
+const app = document.getElementById('app');
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function fmtMoney(v){ return Number(v || 0).toLocaleString('ko-KR'); }
+function escapeHtml(str){ return String(str ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;'); }
+function currentQuestion(){ const list = questions.filter(q=>q.sec===state.nav.section); return list[state.nav.index] || null; }
+function answeredCount(){ return Object.keys(state.answers).length; }
+function compute(){ const total = questions.reduce((sum,q)=>sum + (state.answers[q.no] || 0),0); const perSec={}; sections.forEach(s=>{ perSec[s.id]=questions.filter(q=>q.sec===s.id).reduce((sum,q)=>sum + (state.answers[q.no]||0),0); }); return { total, perSec }; }
+function percentile(my, avg, top10){ if(my <= avg) return Math.max(1, Math.round((my/Math.max(1,avg))*50)); const ratio=(my-avg)/Math.max(1,(top10-avg)); return Math.min(99, Math.round(50 + ratio*40)); }
+function resetAll(){
+  localStorage.removeItem(STORAGE_KEY);
+  state = { mode:'estimate', intake:{ company:'', manager:'', phone:'', email:'', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' }, answers:{}, nav:{ section:'fare', index:0 } };
+  render();
+}
+
+function render(){
+  if(state.mode==='estimate') renderEstimate();
+  else if(state.mode==='diagnosis') renderDiagnosis();
+  else renderResult();
+}
+
+function renderEstimate(){
+  app.innerHTML = `
+  <section class="panel">
+    <div class="hd">
+      <div class="sectionTitle">1. AI Pricing 자료 제출</div>
+      <div class="sectionSub">기본 운송 조건과 참고 자료를 제출하면 더 운반이 오프라인으로 검토할 수 있습니다</div>
+    </div>
+    <div class="bd">
+      <div class="form">
+        <div><label>회사명</label><input id="company" value="${escapeHtml(state.intake.company)}" placeholder="예: OOO셀러" /></div>
+        <div><label>담당자명</label><input id="manager" value="${escapeHtml(state.intake.manager)}" placeholder="예: 홍길동" /></div>
+        <div><label>연락처</label><input id="phone" value="${escapeHtml(state.intake.phone)}" placeholder="예: 010-0000-0000" /></div>
+        <div><label>이메일</label><input id="email" value="${escapeHtml(state.intake.email)}" placeholder="예: sample@company.com" /></div>
+        <div><label>월 운송비</label><select id="monthlyBand">${monthlyBands.map(v=>`<option ${state.intake.monthlyBand===v?'selected':''}>${v}</option>`).join('')}</select></div>
+        <div><label>직접 입력 (만원)</label><input id="monthlyDirect" placeholder="예: 1000" value="${escapeHtml(state.intake.monthlyDirect)}" ${state.intake.monthlyBand==='직접입력'?'':'disabled'} /></div>
+        <div><label>출발지</label><input id="origin" value="${escapeHtml(state.intake.origin)}" /></div>
+        <div><label>도착지</label><input id="destination" value="${escapeHtml(state.intake.destination)}" /></div>
+        <div><label>주 사용 차량</label><select id="vehicleType">${vehicleTypes.map(v=>`<option ${state.intake.vehicleType===v?'selected':''}>${v}</option>`).join('')}</select></div>
+        <div><label>주 사용 톤급</label><select id="tonnage">${tonnageTypes.map(v=>`<option ${state.intake.tonnage===v?'selected':''}>${v}</option>`).join('')}</select></div>
+        <div><label>참고 자료 업로드</label><input id="pricingFile" type="file" /></div>
+        <div><label>추가 메모</label><input id="notes" value="${escapeHtml(state.intake.notes)}" placeholder="검토가 필요한 노선/특이사항 입력" /></div>
+      </div>
+      <div class="actions">
+        <span class="miniPill">프로토타입 단계에서는 제출 데이터를 저장하지 않고 화면상 흐름만 구현합니다.</span>
+        <button id="estimateBtn">자료 제출 후 물류 진단 시작</button>
+      </div>
+    </div>
+  </section>
+  <div id="estimateResultMount"></div>`;
+
+  ['company','manager','phone','email','monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage','notes'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    if(id==='monthlyDirect'){
+      el.oninput=()=>{ state.intake[id]=el.value; save(); };
+      el.onchange=()=>{ state.intake[id]=el.value; save(); };
+    } else {
+      el.oninput=el.onchange=()=>{
+        state.intake[id]=el.value;
+        if(id==='monthlyBand') document.getElementById('monthlyDirect').disabled = el.value !== '직접입력';
+        save();
+      };
+    }
+  });
+  const pricingFile = document.getElementById('pricingFile');
+  pricingFile.onchange = ()=>{ state.intake.fileName = pricingFile.files && pricingFile.files[0] ? pricingFile.files[0].name : ''; save(); };
+  document.getElementById('estimateBtn').onclick = ()=> renderEstimateResult();
+}
+
+function renderEstimateResult(){
+  const mount = document.getElementById('estimateResultMount');
+  if(!mount) return;
+  mount.innerHTML = `
+    <div class="resultBox">
+      <div class="resultHeader">
+        <div>
+          <span class="badge dark">AI Pricing 접수 준비 완료</span>
+          <h2 style="margin-top:10px">자료 검토 후 더 운반이 오프라인으로 운임 적정성을 확인합니다</h2>
+          <p>${escapeHtml(state.intake.origin)} → ${escapeHtml(state.intake.destination)} · ${escapeHtml(state.intake.vehicleType)} · ${escapeHtml(state.intake.tonnage)} 기준 자료가 접수될 수 있도록 준비되었습니다.</p>
+        </div>
+        <div class="miniPill">${state.intake.fileName ? '첨부파일: ' + escapeHtml(state.intake.fileName) : '첨부파일 없음'}</div>
+      </div>
+      <div class="numbers">
+        <div class="numCard"><div class="k">회사명</div><div class="v" style="font-size:18px">${escapeHtml(state.intake.company || '-')}</div></div>
+        <div class="numCard"><div class="k">월 운송비</div><div class="v" style="font-size:18px">${state.intake.monthlyBand==='직접입력' ? fmtMoney(state.intake.monthlyDirect || 0) + '만원' : escapeHtml(state.intake.monthlyBand)}</div></div>
+        <div class="numCard"><div class="k">검토 방식</div><div class="v" style="font-size:18px">AI Pricing 오프라인 검토</div></div>
+      </div>
+      <div class="ctaRow">
+        <button class="secondary" id="startDiagnosis">이어서 물류 진단 시작 →</button>
+        <button class="ghost" id="recalcBtn">입력 다시 보기</button>
+      </div>
+    </div>`;
+  document.getElementById('startDiagnosis').onclick = ()=>{ state.mode='diagnosis'; save(); render(); };
+  document.getElementById('recalcBtn').onclick = ()=>window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderDiagnosis(){
+  const q = currentQuestion();
+  const sec = sections.find(s=>s.id===state.nav.section);
+  const secList = questions.filter(x=>x.sec===sec.id);
+  const idx = state.nav.index;
+  const globalIndex = questions.findIndex(x=>x.no===q.no);
+  const chosen = state.answers[q.no] || 0;
+  const usp = getUspBySection(sec.id);
   app.innerHTML = `
     <div class="steps">
-      <div class="step done">기본 운임 조회</div>
+      <div class="step done">AI Pricing 자료 제출</div>
+      <div class="step active">물류 운영 진단</div>
+      <div class="step">결과 확인</div>
+      <div class="step">더 운반 연결</div>
+    </div>
+    <section class="panel">
+      <div class="hd">
+        <div class="sectionTitle">2. 물류 운영 진단</div>
+        <div class="sectionSub">${globalIndex+1} / 18 · ${sec.name} (${idx+1} / ${secList.length})</div>
+        <div class="tabs" id="tabs"></div>
+      </div>
+      <div class="bd">
+        <div class="qWrap">
+          <div class="qcard">
+            <div class="qNo">Q${String(q.no).padStart(2,'0')}</div>
+            <div class="qTitle">${escapeHtml(q.q)}</div>
+            <div class="scale" id="scale"></div>
+            <div class="hint"><button id="toggleWhy">왜 중요한가요?</button><span id="whyText" class="hide"> ${escapeHtml(q.why)}</span></div>
+            <div class="actions">
+              <button class="ghost" id="prevBtn">← 이전</button>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                <span class="miniPill">완료 ${answeredCount()} / 18</span>
+                <button id="nextBtn">다음 →</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel" style="border-radius:18px;overflow:hidden">
+            <div class="hd">
+              <div class="sectionTitle" style="font-size:18px">이 질문을 드리는 이유</div>
+              <div class="sectionSub">질문과 연결되는 더 운반의 가치</div>
+            </div>
+            <div class="bd">
+              <div class="list">
+                <div class="li"><div><b>질문의 목적</b><small>${escapeHtml(q.why)}</small></div><span class="miniPill">WHY</span></div>
+                <div class="li" style="background:#fffaf0"><div><b>${usp.title}</b><small>${usp.desc}</small></div><span class="miniPill">USP</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>`;
+
+  const tabs=document.getElementById('tabs');
+  tabs.innerHTML = sections.map(s=>`<span class="${s.id===sec.id?'tab active':'tab'}" data-sec="${s.id}">${questions.filter(q=>q.sec===s.id).every(q=>state.answers[q.no])?'✓ ':''}${s.name}</span>`).join('');
+  [...tabs.querySelectorAll('.tab')].forEach(t=>t.onclick=()=>{ state.nav.section=t.dataset.sec; state.nav.index=0; save(); render(); });
+
+  const scale=document.getElementById('scale');
+  scale.innerHTML = [1,2,3,4,5].map(n=>`<div class="${chosen===n?'opt sel':'opt'}" data-val="${n}"><div class="n">${n}</div><div class="t">${escapeHtml(choices[q.no][n-1])}</div></div>`).join('');
+  [...scale.querySelectorAll('.opt')].forEach(el=>el.onclick=()=>{ state.answers[q.no]=Number(el.dataset.val); save(); render(); });
+
+  document.getElementById('toggleWhy').onclick = ()=> document.getElementById('whyText').classList.toggle('hide');
+  document.getElementById('prevBtn').onclick = ()=>{ prevQ(); render(); };
+  document.getElementById('nextBtn').onclick = ()=>{ if(!state.answers[q.no]) return alert('항목을 선택해 주세요.'); nextQ(); render(); };
+}
+
+function nextQ(){
+  const list = questions.filter(q=>q.sec===state.nav.section);
+  if(state.nav.index < list.length-1){ state.nav.index++; save(); return; }
+  const i = sections.findIndex(s=>s.id===state.nav.section);
+  if(i < sections.length-1){ state.nav.section = sections[i+1].id; state.nav.index = 0; save(); return; }
+  if(answeredCount()===18){ state.mode='result'; save(); }
+}
+function prevQ(){
+  if(state.nav.index>0){ state.nav.index--; save(); return; }
+  const i = sections.findIndex(s=>s.id===state.nav.section);
+  if(i>0){ const prevSec=sections[i-1].id; state.nav.section=prevSec; state.nav.index=questions.filter(q=>q.sec===prevSec).length-1; save(); }
+  else { state.mode='estimate'; save(); }
+}
+
+function renderResult(){
+  const bm = benchmark(state.intake);
+  const { total, perSec } = compute();
+  const lvl = levelByScore(total);
+  const pct = percentile(total, bm.avg, bm.top10);
+  const gaps = sections.map(s=>({id:s.id,name:s.name,my:perSec[s.id],avg:bm.secAvg[s.id],gap:perSec[s.id]-bm.secAvg[s.id]})).sort((a,b)=>a.gap-b.gap);
+  const weak = gaps.slice(0,2);
+  const strong = gaps.slice(-2).reverse();
+  const painMap={fare:'운임 비교 기준이 약해 비싸게 쓰고 있는지 판단하기 어려운 상태입니다.',dispatch:'배차 요청과 차량 확보 구조가 비표준화되어 운영 스트레스가 발생할 가능성이 큽니다.',settlement:'정산 검증과 이력 조회 공수가 커서 누락/오청구 대응이 비효율적일 수 있습니다.',digital:'데이터와 운영 방식이 표준화되지 않아 담당자 의존도가 높은 상태입니다.'};
+  const solutionMap={fare:'AI Pricing 기반 실시간 운임 제공',dispatch:'실시간 관제/가시성 기반 배차 운영',settlement:'정산 자동화 및 운송 이력 기반 검증',digital:'데이터 기반 운영 표준화 및 의사결정 지원'};
+
+  app.innerHTML = `
+    <div class="steps">
+      <div class="step done">AI Pricing 자료 제출</div>
       <div class="step done">물류 운영 진단</div>
       <div class="step active">결과 확인</div>
       <div class="step">더 운반 연결</div>
     </div>
+
     <div class="resultBox">
       <div class="resultHeader">
         <div>
@@ -460,12 +454,12 @@ function renderResult(){
           <h2 style="margin-top:10px">Level ${lvl.level}: ${lvl.name}</h2>
           <p>동종업계 평균(${bm.avg}점) 대비 ${total>=bm.avg?'▲':'▼'} ${Math.abs(total-bm.avg)}점. 가장 큰 개선 여지는 <b>${weak[0].name}</b>, <b>${weak[1].name}</b>에서 나타납니다.</p>
         </div>
-        <div class="miniPill">예상 절감 ${fmtMoney(bm.saving)}만원</div>
+        <div class="miniPill">동종업계 추정 ${pct}th</div>
       </div>
       <div class="numbers">
-        <div class="numCard"><div class="k">현재 월 운송비</div><div class="v">${fmtMoney(bm.monthly)}만원</div></div>
-        <div class="numCard"><div class="k">시장 적정 운송비</div><div class="v">${fmtMoney(bm.market)}만원</div></div>
-        <div class="numCard"><div class="k">동종업계 추정 퍼센타일</div><div class="v">${pct}th</div></div>
+        <div class="numCard"><div class="k">회사명</div><div class="v" style="font-size:18px">${escapeHtml(state.intake.company || '-')}</div></div>
+        <div class="numCard"><div class="k">월 운송비</div><div class="v" style="font-size:18px">${state.intake.monthlyBand==='직접입력' ? fmtMoney(state.intake.monthlyDirect || 0) + '만원' : escapeHtml(state.intake.monthlyBand)}</div></div>
+        <div class="numCard"><div class="k">진단 총점</div><div class="v">${total}점</div></div>
       </div>
     </div>
 
@@ -473,14 +467,14 @@ function renderResult(){
       <div class="panel">
         <div class="hd"><div class="sectionTitle" style="font-size:20px">영역별 진단 결과</div><div class="sectionSub">우리 수준 vs 동종 평균</div></div>
         <div class="bd">
-          ${sections.map(s=>{ const my=perSec[s.id], av=bm.secAvg[s.id]; return `<div class="barWrap"><div class="barTitle"><span>${s.name}</span><span>${my} / avg ${av}</span></div><div class="meter"><i style="width:${Math.round((my/(questions.filter(q=>q.sec===s.id).length*5))*100)}%"></i></div></div>`; }).join('')}
+          ${sections.map(s=>{ const my=perSec[s.id], av=bm.secAvg[s.id]; const maxScore = questions.filter(q=>q.sec===s.id).length * 5; return `<div class="barWrap"><div class="barTitle"><span>${s.name}</span><span>${my} / avg ${av}</span></div><div class="meter"><i style="width:${Math.round((my/maxScore)*100)}%"></i></div></div>`; }).join('')}
         </div>
       </div>
       <div class="panel">
-        <div class="hd"><div class="sectionTitle" style="font-size:20px">핵심 인사이트</div><div class="sectionSub">어디서 개선 여지가 큰지 먼저 보여드립니다</div></div>
+        <div class="hd"><div class="sectionTitle" style="font-size:20px">핵심 인사이트</div><div class="sectionSub">부족한 부분과 더 운반 연결 포인트</div></div>
         <div class="bd">
           <div class="list">
-            ${weak.map(x=>`<div class="li"><div><b>${x.name} 개선 우선</b><small>${painMap[x.id]}<br>→ ${solutionMap[x.id]}</small></div><span class="miniPill">${x.my}점</span></div><div class="li" style="background:#fffaf0"><div><b>${uspMap[x.id].title}</b><small>${uspMap[x.id].desc}</small></div><span class="miniPill">USP</span></div>`).join('')}
+            ${weak.map(x=>`<div class="li"><div><b>${x.name} 개선 우선</b><small>${painMap[x.id]}<br>→ ${solutionMap[x.id]}</small></div><span class="miniPill">${x.my}점</span></div>`).join('')}
             ${strong.map(x=>`<div class="li"><div><b>${x.name} 상대적 강점</b><small>현재 운영 기반이 비교적 안정적인 영역입니다.</small></div><span class="miniPill">${x.my}점</span></div>`).join('')}
           </div>
         </div>
@@ -491,7 +485,9 @@ function renderResult(){
       <div class="hd"><div class="sectionTitle" style="font-size:20px">4가지 항목별 피드백 레포트</div><div class="sectionSub">질문 → 답변 결과 → 더 운반 USP 기반 해결방안</div></div>
       <div class="bd">
         <div class="list">
-          ${sections.map(s=>{ const fb = getSectionFeedback(s.id, perSec[s.id]); return `<div class="li" style="flex-direction:column"><div style="width:100%"><b>${s.name} · ${perSec[s.id]}점</b><small><b>${fb.title}</b><br>${fb.desc}<br><br><b>더 운반 해결방안</b><br>${fb.solution}</small></div></div>`; }).joi
+          ${sections.map(s=>{ const fb = getSectionFeedback(s.id, perSec[s.id]); return `<div class="li" style="flex-direction:column"><div style="width:100%"><b>${s.name} · ${perSec[s.id]}점</b><small><b>${fb.title}</b><br>${fb.desc}<br><br><b>더 운반 해결방안</b><br>${fb.solution}</small></div></div>`; }).join('')}
+        </div>
+      </div>
     </div>
 
     <div class="panel" style="margin-top:18px">
@@ -509,10 +505,12 @@ function renderResult(){
         </div>
       </div>
     </div>`;
+
   document.getElementById('cta1').onclick=()=>alert('데모: AI Pricing 비교 화면으로 이동');
   document.getElementById('cta2').onclick=()=>alert('데모: 더 운반 견적 접수로 이동');
   document.getElementById('cta3').onclick=()=>{ state.mode='diagnosis'; save(); render(); };
 }
+
 document.addEventListener('click',(e)=>{
   if(e.target && e.target.id==='resetTopBtn'){
     if(confirm('입력값과 응답을 모두 초기화할까요?')) resetAll();
@@ -520,7 +518,12 @@ document.addEventListener('click',(e)=>{
 });
 window.addEventListener('keydown', (e)=>{
   if(state.mode!=='diagnosis') return;
-  if(['1','2','3','4','5'].includes(e.key)){ const q=currentQuestion(); state.answers[q.no]=Number(e.key); save(); render(); }
+  if(['1','2','3','4','5'].includes(e.key)){
+    const q=currentQuestion();
+    state.answers[q.no]=Number(e.key);
+    save();
+    render();
+  }
   if(e.key==='ArrowRight'){ nextQ(); render(); }
   if(e.key==='ArrowLeft'){ prevQ(); render(); }
 });
