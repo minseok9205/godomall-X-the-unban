@@ -3,103 +3,94 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>고도몰 셀러 물류 진단 Prototype</title>
+  <title>CJ대한통운 더 운반 x 고도몰 셀러 물류 진단</title>
   <style>
     :root{
-      --bg:#0b1020;
-      --panel:#10182b;
-      --card:#0f1a31;
-      --muted:#8ea0c2;
-      --text:#e9f0ff;
-      --line:rgba(255,255,255,.10);
-      --accent:#6ee7ff;
-      --accent2:#a78bfa;
-      --good:#34d399;
-      --warn:#fbbf24;
-      --bad:#fb7185;
-      --shadow:0 14px 40px rgba(0,0,0,.35);
+      --bg:#f7f9fc;
+      --panel:#ffffff;
+      --card:#ffffff;
+      --muted:#667085;
+      --text:#101828;
+      --line:#e4e7ec;
+      --brand:#ffcf33;
+      --brand-strong:#ffb800;
+      --brand-soft:#fff6cc;
+      --sub:#111827;
+      --accent:#1f2937;
+      --good:#12b76a;
+      --warn:#f79009;
+      --bad:#f04438;
+      --shadow:0 12px 30px rgba(16,24,40,.08);
       --radius:18px;
-      --radius2:26px;
+      --radius2:28px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      --sans: Pretendard, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
     }
     *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:var(--sans);
-      color:var(--text);
-      background:
-        radial-gradient(1000px 600px at 15% 10%, rgba(110,231,255,.18), transparent 60%),
-        radial-gradient(900px 650px at 80% 20%, rgba(167,139,250,.14), transparent 55%),
-        radial-gradient(900px 700px at 50% 110%, rgba(52,211,153,.10), transparent 55%),
-        var(--bg);
-      min-height:100vh;
-    }
-    .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 64px}
-    .topbar{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      padding:14px 16px;border:1px solid var(--line);border-radius:999px;
-      background:rgba(16,24,43,.65);backdrop-filter:blur(10px);box-shadow:var(--shadow);
-      position:sticky;top:14px;z-index:20;
-    }
+    body{margin:0;font-family:var(--sans);color:var(--text);background:linear-gradient(180deg,#fffdf4 0%,#f7f9fc 28%,#f5f7fb 100%)}
+    .wrap{max-width:1200px;margin:0 auto;padding:24px 20px 64px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);box-shadow:var(--shadow);position:sticky;top:14px;z-index:20}
     .brand{display:flex;align-items:center;gap:10px;font-weight:800}
-    .logo{width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 10px 26px rgba(110,231,255,.18)}
-    .pill{font-size:12px;color:var(--muted);padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(15,26,49,.5)}
-    .btn{border:1px solid var(--line);background:rgba(15,26,49,.55);color:var(--text);padding:10px 14px;border-radius:14px;cursor:pointer;display:inline-flex;gap:10px;align-items:center;font-weight:700}
-    .btn:hover{border-color:rgba(110,231,255,.35)}
-    .btn.primary{border-color:rgba(110,231,255,.38);background:linear-gradient(135deg, rgba(110,231,255,.18), rgba(167,139,250,.14));}
+    .logo{width:38px;height:38px;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--brand-strong));display:grid;place-items:center;box-shadow:0 10px 24px rgba(255,184,0,.28);font-weight:900;color:#111827}
+    .pill{font-size:12px;color:var(--muted);padding:7px 11px;border:1px solid var(--line);border-radius:999px;background:#fff}
+    .btn{border:1px solid var(--line);background:#fff;color:var(--text);padding:11px 15px;border-radius:14px;cursor:pointer;display:inline-flex;gap:10px;align-items:center;font-weight:700;transition:.15s ease}
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+    .btn.primary{border-color:#f5c518;background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#111827}
+    .btn.dark{background:#111827;color:#fff;border-color:#111827}
     .btn.small{padding:8px 12px;font-size:13px}
-    .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;align-items:start}
+    .grid{display:grid;grid-template-columns:1.18fr .82fr;gap:18px;align-items:start}
     @media (max-width:980px){.grid{grid-template-columns:1fr}}
-    .panel{border:1px solid var(--line);background:rgba(16,24,43,.58);border-radius:var(--radius2);box-shadow:var(--shadow);overflow:hidden}
-    .panel .hd{padding:18px 18px 8px;border-bottom:1px solid var(--line)}
+    .panel{border:1px solid var(--line);background:var(--panel);border-radius:var(--radius2);box-shadow:var(--shadow);overflow:hidden}
+    .panel .hd{padding:18px 18px 10px;border-bottom:1px solid var(--line)}
     .panel .bd{padding:18px}
-    .hero{padding:28px 24px;border-radius:var(--radius2);border:1px solid var(--line);background:linear-gradient(135deg, rgba(110,231,255,.16), rgba(167,139,250,.12));box-shadow:var(--shadow);position:relative;overflow:hidden}
-    .hero:before{content:"";position:absolute;inset:-80px -120px auto auto;width:220px;height:220px;border-radius:999px;background:radial-gradient(circle at 30% 30%, rgba(110,231,255,.55), transparent 60%);filter:blur(8px);opacity:.55}
-    .hero h1{margin:0;font-size:32px;line-height:1.12;letter-spacing:-.5px}
-    .hero p{margin:12px 0 0;color:rgba(233,240,255,.82);line-height:1.6}
+    .hero{padding:30px 26px;border-radius:var(--radius2);border:1px solid #f8df7a;background:linear-gradient(135deg,#fff7d6 0%,#fff2b3 100%);box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .hero:before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(255,255,255,0) 60%)}
+    .hero h1{margin:0;font-size:34px;line-height:1.14;letter-spacing:-.6px;color:#111827}
+    .hero p{margin:12px 0 0;color:#344054;line-height:1.6;font-size:15px}
     .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
     @media (max-width:980px){.cards{grid-template-columns:1fr}}
-    .card{border:1px solid var(--line);background:rgba(15,26,49,.45);border-radius:var(--radius);padding:14px}
+    .card{border:1px solid var(--line);background:var(--card);border-radius:var(--radius);padding:14px}
     .card .k{font-size:12px;color:var(--muted)}
-    .card .v{margin-top:8px;font-weight:800;font-size:18px}
+    .card .v{margin-top:8px;font-weight:800;font-size:18px;color:var(--sub)}
     .stepper{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    .step{padding:8px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);font-size:12px;background:rgba(15,26,49,.35)}
-    .step.active{color:var(--text);border-color:rgba(110,231,255,.35);background:rgba(110,231,255,.08)}
-    .step.done{color:rgba(52,211,153,.95);border-color:rgba(52,211,153,.35);background:rgba(52,211,153,.08)}
-    .progress{margin-top:14px;height:10px;border-radius:999px;border:1px solid var(--line);background:rgba(15,26,49,.35);overflow:hidden}
-    .bar{height:100%;width:0%;background:linear-gradient(90deg, rgba(110,231,255,.9), rgba(167,139,250,.85));}
+    .step{padding:8px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);font-size:12px;background:#fff}
+    .step.active{color:#111827;border-color:#f5c518;background:#fff6cc}
+    .step.done{color:#067647;border-color:#abefc6;background:#ecfdf3}
+    .progress{margin-top:14px;height:10px;border-radius:999px;border:1px solid var(--line);background:#f2f4f7;overflow:hidden}
+    .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--brand),var(--brand-strong))}
     .sectionTabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-    .tab{font-size:12px;padding:8px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:rgba(15,26,49,.35);cursor:pointer}
-    .tab.active{color:var(--text);border-color:rgba(110,231,255,.35);background:rgba(110,231,255,.08)}
-    .qcard{border:1px solid var(--line);background:rgba(15,26,49,.45);border-radius:var(--radius2);padding:16px}
-    .qno{font-family:var(--mono);font-size:12px;color:rgba(142,160,194,.95)}
-    .qtitle{margin:6px 0 10px;font-weight:800;line-height:1.35}
+    .tab{font-size:12px;padding:8px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:#fff;cursor:pointer}
+    .tab.active{color:#111827;border-color:#f5c518;background:#fff6cc}
+    .qcard{border:1px solid var(--line);background:#fff;border-radius:var(--radius2);padding:16px}
+    .qno{font-family:var(--mono);font-size:12px;color:#667085}
+    .qtitle{margin:6px 0 10px;font-weight:800;line-height:1.35;font-size:18px}
     .scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}
     @media (max-width:720px){.scale{grid-template-columns:1fr}}
-    .opt{border:1px solid var(--line);border-radius:16px;padding:10px;background:rgba(16,24,43,.35);cursor:pointer;min-height:56px;display:flex;flex-direction:column;justify-content:center;gap:4px}
-    .opt.sel{border-color:rgba(110,231,255,.55);background:rgba(110,231,255,.08)}
-    .opt .n{font-family:var(--mono);font-weight:800;font-size:12px;color:rgba(233,240,255,.85)}
-    .opt .t{font-size:12px;color:var(--muted);line-height:1.25}
-    .hint{margin-top:10px;border:1px dashed rgba(255,255,255,.16);border-radius:16px;padding:10px 12px;color:rgba(233,240,255,.75);font-size:12px;line-height:1.45}
-    .hint button{all:unset;cursor:pointer;color:rgba(110,231,255,.9);font-weight:700}
+    .opt{border:1px solid var(--line);border-radius:16px;padding:10px;background:#fff;cursor:pointer;min-height:64px;display:flex;flex-direction:column;justify-content:center;gap:4px;transition:.15s ease}
+    .opt:hover{border-color:#f5c518;background:#fff9df}
+    .opt.sel{border-color:#f5c518;background:#fff6cc;box-shadow:0 0 0 3px rgba(255,207,51,.18) inset}
+    .opt .n{font-family:var(--mono);font-weight:800;font-size:12px;color:#344054}
+    .opt .t{font-size:12px;color:#667085;line-height:1.25}
+    .hint{margin-top:10px;border:1px dashed #d0d5dd;border-radius:16px;padding:10px 12px;color:#475467;font-size:12px;line-height:1.45;background:#fcfcfd}
+    .hint button{all:unset;cursor:pointer;color:#111827;font-weight:700}
     .row{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:14px;flex-wrap:wrap}
     .form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     @media (max-width:760px){.form{grid-template-columns:1fr}}
-    label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
-    input, select{width:100%;padding:12px;border-radius:14px;border:1px solid var(--line);background:rgba(15,26,49,.45);color:var(--text);outline:none}
+    label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px;font-weight:600}
+    input, select{width:100%;padding:12px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--text);outline:none}
+    input:focus,select:focus{border-color:#f5c518;box-shadow:0 0 0 4px rgba(255,207,51,.18)}
     .big{font-size:40px;font-weight:900;letter-spacing:-.8px;margin:0}
-    .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(15,26,49,.35);font-size:12px;color:rgba(233,240,255,.82)}
-    .dot{width:8px;height:8px;border-radius:999px;background:var(--accent)}
-    .meter{height:10px;border-radius:999px;border:1px solid var(--line);background:rgba(15,26,49,.35);overflow:hidden}
-    .meter > i{display:block;height:100%;width:0;background:linear-gradient(90deg, rgba(52,211,153,.9), rgba(110,231,255,.85))}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12px;color:#344054}
+    .dot{width:8px;height:8px;border-radius:999px;background:var(--brand-strong)}
+    .meter{height:10px;border-radius:999px;border:1px solid var(--line);background:#f2f4f7;overflow:hidden}
+    .meter > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand-strong))}
     .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     @media (max-width:980px){.compare{grid-template-columns:1fr}}
     .list{display:flex;flex-direction:column;gap:10px}
-    .li{border:1px solid var(--line);background:rgba(15,26,49,.35);border-radius:var(--radius);padding:12px;display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+    .li{border:1px solid var(--line);background:#fff;border-radius:var(--radius);padding:12px;display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
     .li b{display:block;margin-bottom:4px}
-    .li small{color:rgba(233,240,255,.75);line-height:1.45}
-    .footerNote{margin-top:12px;color:rgba(142,160,194,.9);font-size:12px;line-height:1.5}
+    .li small{color:#475467;line-height:1.45}
+    .footerNote{margin-top:12px;color:#667085;font-size:12px;line-height:1.5}
     .hide{display:none !important}
   </style>
 </head>
@@ -107,10 +98,10 @@
   <div class="wrap">
     <div class="topbar">
       <div class="brand">
-        <div class="logo"></div>
+        <div class="logo">CJ</div>
         <div>
-          <div style="font-size:14px">고도몰 셀러 물류 진단 <span style="color:rgba(142,160,194,.9);font-weight:650">Prototype</span></div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px">Hooking + AI Pricing + 운영 진단</div>
+          <div style="font-size:14px">CJ대한통운 더 운반 x 고도몰 셀러 물류 진단</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">CJ대한통운 수송사업 기반 · 더 운반 AI Pricing · 셀러 친화형 Prototype</div>
         </div>
       </div>
       <div style="display:flex;gap:10px;align-items:center">
@@ -123,14 +114,13 @@
 
     <div class="grid">
       <div id="main"></div>
-
       <div>
         <div class="panel">
           <div class="hd">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
               <div>
                 <div style="font-weight:850">진행 현황</div>
-                <div style="font-size:12px;color:var(--muted);margin-top:4px">후킹 → 운영 진단 → 결과 리포트</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:4px">후킹 → 절감 추정 → 운영 진단 → 솔루션 제안</div>
               </div>
               <span class="badge"><span class="dot"></span><span id="rightStep">STEP 1/4</span></span>
             </div>
@@ -141,24 +131,37 @@
             <div class="cards">
               <div class="card"><div class="k">완료 문항</div><div class="v" id="kpiAnswered">0 / 18</div></div>
               <div class="card"><div class="k">예상 남은 시간</div><div class="v" id="kpiEta">~ 4분</div></div>
-              <div class="card"><div class="k">진단 기준</div><div class="v" style="font-size:14px;line-height:1.2" id="kpiBench">미설정</div></div>
+              <div class="card"><div class="k">기준 노선</div><div class="v" style="font-size:14px;line-height:1.2" id="kpiBench">미설정</div></div>
             </div>
             <div style="height:14px"></div>
             <div class="card">
-              <div class="k">핵심 메시지</div>
-              <div style="margin-top:8px;color:rgba(233,240,255,.78);line-height:1.55;font-size:13px">
-                이 프로토타입은 <b>당장 절감 가능한 비용</b>을 먼저 보여준 뒤, 왜 그런 차이가 발생하는지를
-                <b>운임 · 배차 · 정산 · 디지털 운영</b> 관점에서 진단하도록 설계했습니다.
+              <div class="k">셀러 관점 핵심</div>
+              <div style="margin-top:8px;color:#475467;line-height:1.55;font-size:13px">
+                먼저 <b>얼마나 절감 가능한지</b>를 보여드리고, 왜 그런 차이가 나는지를
+                <b>운임 · 배차 · 정산 · 디지털 운영</b> 관점으로 진단합니다.
               </div>
             </div>
             <div style="height:12px"></div>
             <div class="card">
-              <div class="k">활용 방향</div>
-              <div style="margin-top:8px;color:rgba(233,240,255,.78);line-height:1.55;font-size:13px">
-                고도몰 제안용 초안으로 시작하고, 이후 카페24 · 아임웹 · 이카운트 등 다른 플랫폼에도
-                문구/벤치마크만 바꿔 확장할 수 있는 구조입니다.
+              <div class="k">확장 방향</div>
+              <div style="margin-top:8px;color:#475467;line-height:1.55;font-size:13px">
+                고도몰 제안용으로 시작하고, 이후 카페24 · 아임웹 · 이카운트 등에도
+                문구와 벤치마크만 바꿔 재사용 가능한 구조입니다.
               </div>
             </div>
+          </div>
+        </div>
+        <div style="height:16px"></div>
+        <div class="panel">
+          <div class="hd">
+            <div style="font-weight:850">홈페이지화 체크포인트</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">프로토타입 → 공개 페이지 전환</div>
+          </div>
+          <div class="bd" style="font-size:13px;color:#475467;line-height:1.7">
+            1. 이 파일을 <b>index.html</b>로 저장<br/>
+            2. GitHub Pages / Netlify / Vercel 중 1개에 업로드<br/>
+            3. 도메인 연결 시 <b>diagnostic.도메인</b> 형태 권장<br/>
+            4. 이후 AI Pricing API, 리드 수집, 상담 연결 순으로 붙이면 됩니다
           </div>
         </div>
       </div>
@@ -166,44 +169,38 @@
   </div>
 
   <script>
-    const STORAGE_KEY = 'godomall_diag_proto_v1';
-
+    const STORAGE_KEY = 'godomall_diag_proto_v2';
     const sections = [
       { id:'fare', name:'운임 적정성' },
       { id:'dispatch', name:'배차 운영' },
       { id:'settlement', name:'정산 운영' },
       { id:'digital', name:'디지털화 운영 수준' },
     ];
-
     const questions = [
       { no:1, sec:'fare', q:'현재 물류 비용은 어떻게 결정되나요?', why:'운임 산정 방식이 불투명할수록 시장 대비 비싸게 쓰고 있을 가능성이 높습니다.' },
       { no:2, sec:'fare', q:'노선/구간별 운임 기준표가 있나요?', why:'구간별 기준표가 있어야 운임이 적정한지 검증할 수 있습니다.' },
       { no:3, sec:'fare', q:'운임 비교 또는 재협상을 정기적으로 하나요?', why:'정기적인 비교와 재협상 여부는 운임 경쟁력과 직결됩니다.' },
       { no:4, sec:'fare', q:'주요 구간별 운송비 추이를 인지하고 계신가요?', why:'비용 추이를 관리해야 고비용 구간을 식별할 수 있습니다.' },
       { no:5, sec:'fare', q:'현재 운송 단가는 얼마나 자주 변경되나요?', why:'운송 단가 조정 구조를 알면 시장 변동을 얼마나 반영하는지 볼 수 있습니다.' },
-
       { no:6, sec:'dispatch', q:'배차 요청은 어떤 방식으로 진행하나요?', why:'배차 요청 채널이 분산될수록 누락과 대응 지연이 발생하기 쉽습니다.' },
       { no:7, sec:'dispatch', q:'차량 확보는 얼마나 안정적인가요?', why:'차량 수급 안정성은 비용과 운영 스트레스를 동시에 좌우합니다.' },
       { no:8, sec:'dispatch', q:'배차 상태 및 차량 위치를 실시간으로 확인할 수 있나요?', why:'상태 가시성이 있어야 CS와 긴급 대응이 빨라집니다.' },
       { no:9, sec:'dispatch', q:'긴급 배차/변동 발생 시 대응은 원활한가요?', why:'긴급 대응 체계 수준은 운영 성숙도를 잘 보여줍니다.' },
-
       { no:10, sec:'settlement', q:'운송비 정산은 어떤 방식으로 처리하나요?', why:'정산 방식은 내부 운영 공수와 데이터 누락 위험을 보여줍니다.' },
       { no:11, sec:'settlement', q:'오청구/누락 확인을 위한 정산 검증 체계가 있나요?', why:'검증 체계가 약하면 비용 누수 가능성이 커집니다.' },
       { no:12, sec:'settlement', q:'정산 관련 업무에 드는 공수는 어느 정도인가요?', why:'정산 공수는 자동화 우선순위를 판단하는 핵심 지표입니다.' },
       { no:13, sec:'settlement', q:'정산 이력 및 증빙 데이터를 쉽게 찾을 수 있나요?', why:'이력 조회가 어려우면 검증과 분쟁 대응 시간이 길어집니다.' },
-
       { no:14, sec:'digital', q:'물류 관련 데이터는 어떤 방식으로 관리하나요?', why:'수기/엑셀 중심인지, 시스템/데이터 기반인지가 운영 수준을 가릅니다.' },
       { no:15, sec:'digital', q:'운송 현황을 회사 내 여러 명이 동시에 공유하고 있나요?', why:'정보가 한 사람에게 몰리면 운영 병목이 생깁니다.' },
       { no:16, sec:'digital', q:'물류 KPI(비용, 배차율 등)를 별도로 관리하고 계신가요?', why:'KPI가 있어야 개선 활동이 숫자로 이어집니다.' },
       { no:17, sec:'digital', q:'현재 물류 운영 방식은 얼마나 표준화되어 있나요?', why:'표준화 수준은 담당자 의존도를 판단하는 핵심 요소입니다.' },
       { no:18, sec:'digital', q:'운송 데이터 기반 의사결정을 하고 있나요?', why:'이 항목은 더 운반 AI Pricing 연결 논리를 강화해 줍니다.' },
     ];
-
     const choices = {
-      1:['개인 화물차 기사 제안 단가','정보망 변동 단가','계약 단가 기반 운영','담당자 협상','시장 운임 비교 후 결정'],
-      2:['없음','일부 구간만 있음','주요 노선 기준 존재','대부분 구간 기준 존재','정기적으로 업데이트'],
-      3:['거의 하지 않음','필요 시 비정기 진행','연 1회','분기별 진행','상시 운임 비교/관리'],
-      4:['전혀 모름','담당자 경험 의존','일부 데이터 관리','정기적으로 분석','시스템 기반 관리'],
+      1:['개인 기사 제안 단가','정보망 변동 단가','계약 단가 기반','담당자 협상','시장 운임 비교 후 결정'],
+      2:['없음','일부 구간만 있음','주요 노선 기준 존재','대부분 구간 기준 존재','정기 업데이트'],
+      3:['거의 하지 않음','필요 시 진행','연 1회','분기별 진행','상시 비교/관리'],
+      4:['전혀 모름','담당자 경험 의존','일부 데이터 관리','정기 분석','시스템 기반 관리'],
       5:['거의 고정','가끔 변경','필요 시 협상','정기 협상','시장 기반 조정'],
       6:['전화/카카오톡','메일/문자','엑셀 관리','일부 시스템 사용','플랫폼 기반 운영'],
       7:['자주 차량 확보 어려움','성수기/긴급배차 시 어려움','보통 수준','대부분 안정적 확보','매우 안정적'],
@@ -219,346 +216,56 @@
       17:['개인 경험 중심','일부 문서화','기본 프로세스 존재','표준 운영 프로세스','자동화 기반 운영'],
       18:['거의 없음','경험 기반','일부 데이터 참고','정기 분석','데이터 기반 운영'],
     };
-
     const monthlyBands = ['100만원 미만','300만원 미만','500만원 미만','1천만원 미만','1천만원 이상','직접입력'];
     const vehicleTypes = ['카고','윙바디','탑차'];
     const tonnageTypes = ['라보','다마스','1톤','2.5톤','3.5톤','5톤','11톤','18톤','25톤'];
-
-    const levelByScore = (total) => {
-      if(total <= 24) return {level:1, name:'Manual', color:'var(--bad)'};
-      if(total <= 40) return {level:2, name:'Excel', color:'var(--warn)'};
-      if(total <= 60) return {level:3, name:'Partial Digital', color:'var(--accent2)'};
-      if(total <= 76) return {level:4, name:'Integrated', color:'var(--accent)'};
-      return {level:5, name:'Data Driven', color:'var(--good)'};
-    };
-
+    const levelByScore = (total) => { if(total <= 24) return {level:1, name:'Manual', color:'var(--bad)'}; if(total <= 40) return {level:2, name:'Excel', color:'var(--warn)'}; if(total <= 60) return {level:3, name:'Partial Digital', color:'var(--accent2)'}; if(total <= 76) return {level:4, name:'Integrated', color:'var(--accent)'}; return {level:5, name:'Data Driven', color:'var(--good)'}; };
     function benchmark(profile){
-      const bandBase = {
-        '100만원 미만': 120,
-        '300만원 미만': 260,
-        '500만원 미만': 430,
-        '1천만원 미만': 850,
-        '1천만원 이상': 1200,
-      };
+      const bandBase = {'100만원 미만':120,'300만원 미만':260,'500만원 미만':430,'1천만원 미만':850,'1천만원 이상':1200};
       const monthly = profile.monthlyBand === '직접입력' ? Number(profile.monthlyDirect || 0) : (bandBase[profile.monthlyBand] || 300);
-      const market = Math.round(monthly * 0.92);
-      const saving = Math.max(0, monthly - market);
-      const savingRate = monthly > 0 ? Math.round((saving / monthly) * 100) : 0;
-
-      let avg = 50;
-      if(monthly >= 1000) avg += 6;
-      if(profile.vehicleType === '윙바디') avg += 2;
-      if(profile.tonnage === '11톤' || profile.tonnage === '18톤' || profile.tonnage === '25톤') avg += 4;
-      avg = Math.max(42, Math.min(68, avg));
-
-      const top10 = Math.min(88, avg + 16);
-      const per = avg / 4;
-      const secAvg = {
-        fare: Math.round(per + 0.5),
-        dispatch: Math.round(per),
-        settlement: Math.round(per - 0.5),
-        digital: Math.round(per + 1),
-      };
+      const market = Math.round(monthly * 0.92); const saving = Math.max(0, monthly - market); const savingRate = monthly > 0 ? Math.round((saving / monthly) * 100) : 0;
+      let avg = 50; if(monthly >= 1000) avg += 6; if(profile.vehicleType === '윙바디') avg += 2; if(['11톤','18톤','25톤'].includes(profile.tonnage)) avg += 4; avg = Math.max(42, Math.min(68, avg));
+      const top10 = Math.min(88, avg + 16); const per = avg / 4; const secAvg = {fare:Math.round(per + 0.5),dispatch:Math.round(per),settlement:Math.round(per - 0.5),digital:Math.round(per + 1)};
       return { monthly, market, saving, savingRate, avg, top10, secAvg };
     }
-
-    let state = load() || {
-      step:1,
-      intake:{ monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤' },
-      answers:{},
-      nav:{ section:'fare', index:0 }
-    };
-
-    const main = document.getElementById('main');
-    const progressBar = document.getElementById('progressBar');
-    const stepper = document.getElementById('stepper');
-    const rightStep = document.getElementById('rightStep');
-    const kpiAnswered = document.getElementById('kpiAnswered');
-    const kpiEta = document.getElementById('kpiEta');
-    const kpiBench = document.getElementById('kpiBench');
-
-    document.getElementById('resetBtn').onclick = () => {
-      if(confirm('초기화할까요?')){
-        localStorage.removeItem(STORAGE_KEY);
-        location.reload();
-      }
-    };
-
-    function load(){ try{ const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; }catch{ return null; } }
-    function save(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch{} }
-    function flashSave(){ const el = document.getElementById('saveStatus'); el.textContent = '저장 완료 ✓'; setTimeout(()=> el.textContent='로컬 저장: ON', 1000); }
+    let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || { step:1, intake:{ monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤' }, answers:{}, nav:{ section:'fare', index:0 } };
+    const main = document.getElementById('main'); const progressBar = document.getElementById('progressBar'); const stepper = document.getElementById('stepper'); const rightStep = document.getElementById('rightStep'); const kpiAnswered = document.getElementById('kpiAnswered'); const kpiEta = document.getElementById('kpiEta'); const kpiBench = document.getElementById('kpiBench');
+    document.getElementById('resetBtn').onclick = () => { if(confirm('초기화할까요?')){ localStorage.removeItem(STORAGE_KEY); location.reload(); } };
+    function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    function flashSave(){ const el = document.getElementById('saveStatus'); el.textContent='저장 완료 ✓'; setTimeout(()=>el.textContent='로컬 저장: ON',900); }
     function answeredCount(){ return Object.keys(state.answers).length; }
     function eta(){ return `~ ${Math.max(1, Math.round(((18-answeredCount())*11)/60))}분`; }
     function currentQuestion(){ const list = questions.filter(q=>q.sec===state.nav.section); return list[state.nav.index] || null; }
+    function compute(){ const total = questions.reduce((sum,q)=>sum + (state.answers[q.no] || 0),0); const perSec={}; sections.forEach(s=>{ perSec[s.id]=questions.filter(q=>q.sec===s.id).reduce((sum,q)=>sum + (state.answers[q.no]||0),0); }); return { total, perSec }; }
+    function percentile(my, avg, top10){ if(my <= avg) return Math.max(1, Math.round((my/Math.max(1,avg))*50)); const ratio=(my-avg)/Math.max(1,(top10-avg)); return Math.min(99, Math.round(50 + ratio*40)); }
     function setStep(step){ state.step=step; save(); render(); }
-
-    function compute(){
-      const total = questions.reduce((sum,q)=>sum + (state.answers[q.no] || 0),0);
-      const perSec = {};
-      sections.forEach(s=>{ perSec[s.id] = questions.filter(q=>q.sec===s.id).reduce((sum,q)=>sum + (state.answers[q.no]||0),0); });
-      return { total, perSec };
-    }
-
-    function percentile(my, avg, top10){
-      if(my <= avg) return Math.max(1, Math.round((my/Math.max(1,avg))*50));
-      const ratio = (my-avg)/Math.max(1,(top10-avg));
-      return Math.min(99, Math.round(50 + ratio*40));
-    }
-
     function render(){
-      kpiAnswered.textContent = `${answeredCount()} / 18`;
-      kpiEta.textContent = eta();
-      const bm = benchmark(state.intake);
-      kpiBench.textContent = `${state.intake.origin} → ${state.intake.destination} · ${state.intake.vehicleType} · ${state.intake.tonnage}`;
-
-      const steps = [{n:1,l:'Hook'},{n:2,l:'Quick Estimate'},{n:3,l:'진단'},{n:4,l:'결과'}];
-      stepper.innerHTML = steps.map(s=>`<span class="${s.n===state.step?'step active':(s.n<state.step?'step done':'step')}">${s.l}</span>`).join('');
-      rightStep.textContent = `STEP ${state.step}/4`;
-      const pct = state.step===1 ? 12 : state.step===2 ? 34 : state.step===3 ? 34 + Math.round((answeredCount()/18)*46) : 100;
-      progressBar.style.width = `${pct}%`;
-
-      if(state.step===1) renderHook();
-      else if(state.step===2) renderQuickEstimate();
-      else if(state.step===3) renderSurvey();
-      else renderResult();
+      kpiAnswered.textContent = `${answeredCount()} / 18`; kpiEta.textContent = eta(); kpiBench.textContent = `${state.intake.origin} → ${state.intake.destination} · ${state.intake.vehicleType} · ${state.intake.tonnage}`;
+      const steps=[{n:1,l:'Hook'},{n:2,l:'Estimate'},{n:3,l:'진단'},{n:4,l:'결과'}]; stepper.innerHTML = steps.map(s=>`<span class="${s.n===state.step?'step active':(s.n<state.step?'step done':'step')}">${s.l}</span>`).join(''); rightStep.textContent=`STEP ${state.step}/4`;
+      const pct = state.step===1 ? 12 : state.step===2 ? 34 : state.step===3 ? 34 + Math.round((answeredCount()/18)*46) : 100; progressBar.style.width=`${pct}%`;
+      if(state.step===1) renderHook(); else if(state.step===2) renderQuickEstimate(); else if(state.step===3) renderSurvey(); else renderResult();
     }
-
     function renderHook(){
-      main.innerHTML = `
-        <div class="hero">
-          <h1>우리 회사 운송비, 적정한 걸까?<br/>우리 물류 운영, 지금 어디쯤 와 있나요?</h1>
-          <p>기초 입력으로 먼저 <b>시장 대비 절감 가능성</b>을 보여드리고,<br/>이어서 운영 진단을 통해 왜 그런 차이가 발생하는지 확인합니다.</p>
-        </div>
-        <div style="height:16px"></div>
-        <div class="panel">
-          <div class="hd"><div style="font-weight:900">최소 진단</div><div style="font-size:12px;color:var(--muted);margin-top:4px">후킹용 입력 · AI Pricing 데모 계산</div></div>
-          <div class="bd">
-            <div class="form">
-              <div>
-                <label>월 운송비</label>
-                <select id="monthlyBand">${monthlyBands.map(v=>`<option ${state.intake.monthlyBand===v?'selected':''}>${v}</option>`).join('')}</select>
-              </div>
-              <div>
-                <label>직접 입력 (만원)</label>
-                <input id="monthlyDirect" placeholder="예: 1000" value="${escapeHtml(state.intake.monthlyDirect)}" ${state.intake.monthlyBand==='직접입력'?'':'disabled'} />
-              </div>
-              <div><label>출발지</label><input id="origin" value="${escapeHtml(state.intake.origin)}" /></div>
-              <div><label>도착지</label><input id="destination" value="${escapeHtml(state.intake.destination)}" /></div>
-              <div><label>주 사용 차량</label><select id="vehicleType">${vehicleTypes.map(v=>`<option ${state.intake.vehicleType===v?'selected':''}>${v}</option>`).join('')}</select></div>
-              <div><label>주 사용 톤급</label><select id="tonnage">${tonnageTypes.map(v=>`<option ${state.intake.tonnage===v?'selected':''}>${v}</option>`).join('')}</select></div>
-            </div>
-            <div class="row">
-              <span class="pill">예: 서울 → 경기 / 윙바디 / 5톤</span>
-              <button class="btn primary" id="estimateBtn">시장 대비 절감 가능성 보기 →</button>
-            </div>
-          </div>
-        </div>`;
-
-      ['monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage'].forEach(id=>{
-        const el = document.getElementById(id);
-        el.oninput = el.onchange = () => {
-          state.intake[id] = el.value;
-          if(id==='monthlyBand'){ document.getElementById('monthlyDirect').disabled = el.value !== '직접입력'; }
-          save();
-        };
-      });
-      document.getElementById('estimateBtn').onclick = () => { save(); setStep(2); };
+      main.innerHTML = `<div class="hero"><div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap"><div><div class="badge"><span class="dot"></span>CJ대한통운 Transportation Division · 더 운반</div><h1 style="margin-top:12px">우리 회사 운송비, 적정한 걸까?<br/>우리 물류 운영, 지금 어디쯤 와 있나요?</h1><p>복잡한 설문 대신, 먼저 <b>얼마나 절감 가능한지</b>부터 보여드립니다.<br/>CJ대한통운 더 운반의 <b>AI Pricing</b>과 운영 진단 프레임워크를 기반으로, 셀러가 바로 이해할 수 있는 방식으로 설계했습니다.</p></div><div class="card" style="min-width:240px;background:rgba(255,255,255,.72)"><div class="k">신뢰 포인트</div><div style="margin-top:10px;display:grid;gap:8px"><div class="badge">✔ CJ대한통운 기반 운영 인사이트</div><div class="badge">✔ 더 운반 AI Pricing 연계</div><div class="badge">✔ 셀러용 3~4분 Quick Diagnosis</div></div></div></div></div><div style="height:16px"></div><div class="cards"><div class="card"><div class="k">1단계</div><div class="v">절감 가능성 확인</div><div style="margin-top:8px;color:#475467;font-size:13px;line-height:1.5">월 운송비와 주요 구간만 입력하면 시장 대비 수준을 바로 확인할 수 있습니다.</div></div><div class="card"><div class="k">2단계</div><div class="v">운영 진단</div><div style="margin-top:8px;color:#475467;font-size:13px;line-height:1.5">운임, 배차, 정산, 디지털 운영 관점에서 현재 구조의 비효율을 진단합니다.</div></div><div class="card"><div class="k">3단계</div><div class="v">더 운반 솔루션 제안</div><div style="margin-top:8px;color:#475467;font-size:13px;line-height:1.5">AI Pricing, 견적 비교, 상담 연결까지 자연스럽게 이어지도록 구성했습니다.</div></div></div><div style="height:16px"></div><div class="panel"><div class="hd"><div style="font-weight:900">최소 진단</div><div style="font-size:12px;color:var(--muted);margin-top:4px">월 운송비와 주요 운송 구간만 입력해보세요</div></div><div class="bd"><div class="form"><div><label>월 운송비</label><select id="monthlyBand">${monthlyBands.map(v=>`<option ${state.intake.monthlyBand===v?'selected':''}>${v}</option>`).join('')}</select></div><div><label>직접 입력 (만원)</label><input id="monthlyDirect" placeholder="예: 1000" value="${escapeHtml(state.intake.monthlyDirect)}" ${state.intake.monthlyBand==='직접입력'?'':'disabled'} /></div><div><label>출발지</label><input id="origin" value="${escapeHtml(state.intake.origin)}" /></div><div><label>도착지</label><input id="destination" value="${escapeHtml(state.intake.destination)}" /></div><div><label>주 사용 차량</label><select id="vehicleType">${vehicleTypes.map(v=>`<option ${state.intake.vehicleType===v?'selected':''}>${v}</option>`).join('')}</select></div><div><label>주 사용 톤급</label><select id="tonnage">${tonnageTypes.map(v=>`<option ${state.intake.tonnage===v?'selected':''}>${v}</option>`).join('')}</select></div></div><div class="row"><span class="pill">예: 서울 → 경기 / 윙바디 / 5톤</span><button class="btn primary" id="estimateBtn">절감 가능성 바로 보기 →</button></div></div></div><div style="height:16px"></div><div class="panel"><div class="hd"><div style="font-weight:900">이 프로토타입을 더 있어 보이게 만드는 방법</div><div style="font-size:12px;color:var(--muted);margin-top:4px">실제 제안용 데모 시 추천 요소</div></div><div class="bd" style="font-size:14px;color:#475467;line-height:1.8"><b>브랜드 요소</b>: CJ대한통운 블러썸 로고, 더 운반 로고, 고도몰 로고를 상단 trust strip에 배치<br/><b>신뢰 요소</b>: “CJ대한통운 수송사업 기반”, “AI Pricing”, “B2B 화주 진단” 배지 추가<br/><b>세일즈 요소</b>: 절감액, 업계 평균, 상담 CTA를 첫 화면과 결과 화면에 반복 노출</div></div>`;
+      ['monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage'].forEach(id=>{ const el=document.getElementById(id); el.oninput=el.onchange=()=>{ state.intake[id]=el.value; if(id==='monthlyBand'){ document.getElementById('monthlyDirect').disabled = el.value !== '직접입력'; } save(); }; });
+      document.getElementById('estimateBtn').onclick = ()=>{ save(); setStep(2); };
     }
-
-    function renderQuickEstimate(){
-      const bm = benchmark(state.intake);
-      main.innerHTML = `
-        <div class="hero">
-          <div class="badge"><span class="dot"></span>AI Pricing Quick Estimate</div>
-          <h1 style="margin-top:10px">지금 구조 기준,<br/>당장 절감 가능한 비용이 보입니다</h1>
-          <p>${escapeHtml(state.intake.origin)} → ${escapeHtml(state.intake.destination)} · ${escapeHtml(state.intake.vehicleType)} · ${escapeHtml(state.intake.tonnage)} 기준</p>
-        </div>
-        <div style="height:16px"></div>
-        <div class="cards" style="grid-template-columns:repeat(3,1fr)">
-          <div class="card"><div class="k">현재 월 운송비</div><div class="v">${fmtMoney(bm.monthly)}만원</div></div>
-          <div class="card"><div class="k">시장 적정 운송비</div><div class="v">${fmtMoney(bm.market)}만원</div></div>
-          <div class="card"><div class="k">예상 절감 운송비</div><div class="v">${fmtMoney(bm.saving)}만원 (${bm.savingRate}%)</div></div>
-        </div>
-        <div style="height:16px"></div>
-        <div class="panel">
-          <div class="bd">
-            <div class="list">
-              <div class="li"><div><b>시장 대비 평균 ${bm.savingRate}% 높은 수준</b><small>현재 입력한 운송 구조 기준으로 보면 더 운반 AI Pricing 적용 시 절감 여지가 있는 상태입니다.</small></div><span class="badge"><span class="dot"></span>Quick Insight</span></div>
-              <div class="li"><div><b>왜 더 절감될 수도 있을까?</b><small>지금 구조에서 <b>배차 · 정산 · 운영 방식</b>에 따라 실제 절감 가능 수준은 더 달라집니다. 이어지는 운영 진단을 통해 문제점과 개선점을 확인해보세요.</small></div><span class="badge"><span class="dot" style="background:var(--warn)"></span>Next</span></div>
-            </div>
-            <div class="row">
-              <button class="btn" id="backHook">← 입력 수정</button>
-              <button class="btn primary" id="goSurvey">구체적인 운영 진단 시작 →</button>
-            </div>
-          </div>
-        </div>`;
-      document.getElementById('backHook').onclick = () => setStep(1);
-      document.getElementById('goSurvey').onclick = () => setStep(3);
+    function renderQuickEstimate(){ const bm=benchmark(state.intake); main.innerHTML = `<div class="hero"><div class="badge"><span class="dot"></span>AI Pricing Quick Estimate</div><h1 style="margin-top:10px">지금 구조 기준,<br/>당장 절감 가능한 비용이 보입니다</h1><p>${escapeHtml(state.intake.origin)} → ${escapeHtml(state.intake.destination)} · ${escapeHtml(state.intake.vehicleType)} · ${escapeHtml(state.intake.tonnage)} 기준</p></div><div style="height:16px"></div><div class="cards" style="grid-template-columns:repeat(3,1fr)"><div class="card"><div class="k">현재 월 운송비</div><div class="v">${fmtMoney(bm.monthly)}만원</div></div><div class="card"><div class="k">시장 적정 운송비</div><div class="v">${fmtMoney(bm.market)}만원</div></div><div class="card"><div class="k">예상 절감 운송비</div><div class="v">${fmtMoney(bm.saving)}만원 (${bm.savingRate}%)</div></div></div><div style="height:16px"></div><div class="panel"><div class="bd"><div class="list"><div class="li"><div><b>현재 운송비는 시장 대비 평균 ${bm.savingRate}% 높은 수준으로 추정됩니다</b><small>입력한 조건을 기준으로 더 운반 AI Pricing 적용 시 절감 여지가 있습니다.</small></div><span class="badge"><span class="dot"></span>Quick Insight</span></div><div class="li"><div><b>하지만 실제 절감 가능 수준은 더 달라질 수 있어요</b><small>지금 구조에서 <b>배차 · 정산 · 운영 방식</b>에 따라 물류비 절감 가능 수준이 달라집니다. 이어지는 진단으로 문제점과 개선점을 확인해보세요.</small></div><span class="badge"><span class="dot" style="background:var(--warn)"></span>Next</span></div></div><div class="row"><button class="btn" id="backHook">← 입력 수정</button><button class="btn dark" id="goSurvey">구체적인 운영 진단 시작 →</button></div></div></div>`; document.getElementById('backHook').onclick=()=>setStep(1); document.getElementById('goSurvey').onclick=()=>setStep(3); }
+    function renderSurvey(){ const q=currentQuestion(); const sec=sections.find(s=>s.id===state.nav.section); const secList=questions.filter(x=>x.sec===sec.id); const idx=state.nav.index; const globalIndex=questions.findIndex(x=>x.no===q.no); const chosen=state.answers[q.no]||0; main.innerHTML = `<div class="panel"><div class="hd"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div style="font-weight:900;font-size:18px">운영 진단</div><div style="font-size:12px;color:var(--muted);margin-top:4px">${globalIndex+1} / 18 · ${sec.name} (${idx+1} / ${secList.length})</div></div><div style="display:flex;gap:10px;align-items:center"><span class="pill">완료율 ${Math.round((answeredCount()/18)*100)}%</span><button class="btn small" id="saveBtn">저장</button></div></div><div class="sectionTabs" id="tabs"></div></div><div class="bd"><div class="qcard"><div class="qno">Q${String(q.no).padStart(2,'0')}</div><div class="qtitle">${escapeHtml(q.q)}</div><div class="scale" id="scale"></div><div class="hint"><button id="toggleWhy">왜 중요한가요?</button><span id="whyText" class="hide"> ${escapeHtml(q.why)}</span></div><div class="row"><button class="btn" id="prevBtn">← 이전</button><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="pill">1~5 숫자키 지원</span><button class="btn primary" id="nextBtn">다음 →</button></div></div></div><div class="footerNote">* 현재 운영 상태에 가장 가까운 항목을 선택해 주세요.</div></div></div>`;
+      const tabs=document.getElementById('tabs'); tabs.innerHTML=sections.map(s=>`<span class="${s.id===sec.id?'tab active':'tab'}" data-sec="${s.id}">${questions.filter(q=>q.sec===s.id).every(q=>state.answers[q.no])?'✓ ':''}${s.name}</span>`).join(''); [...tabs.querySelectorAll('.tab')].forEach(t=>t.onclick=()=>{state.nav.section=t.dataset.sec; state.nav.index=0; save(); render();});
+      const scale=document.getElementById('scale'); scale.innerHTML=[1,2,3,4,5].map(n=>`<div class="${chosen===n?'opt sel':'opt'}" data-val="${n}"><div class="n">${n}</div><div class="t">${escapeHtml(choices[q.no][n-1])}</div></div>`).join(''); [...scale.querySelectorAll('.opt')].forEach(el=>el.onclick=()=>{state.answers[q.no]=Number(el.dataset.val); save(); render();});
+      document.getElementById('toggleWhy').onclick=()=>document.getElementById('whyText').classList.toggle('hide'); document.getElementById('saveBtn').onclick=()=>{save();flashSave();}; document.getElementById('prevBtn').onclick=()=>{prevQ(); render();}; document.getElementById('nextBtn').onclick=()=>{ if(!state.answers[q.no]) return alert('항목을 선택해 주세요.'); nextQ(); render(); };
     }
-
-    function renderSurvey(){
-      const q = currentQuestion();
-      const sec = sections.find(s=>s.id===state.nav.section);
-      const secList = questions.filter(x=>x.sec===sec.id);
-      const idx = state.nav.index;
-      const globalIndex = questions.findIndex(x=>x.no===q.no);
-      const chosen = state.answers[q.no] || 0;
-
-      main.innerHTML = `
-        <div class="panel">
-          <div class="hd">
-            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
-              <div>
-                <div style="font-weight:900;font-size:18px">운영 진단</div>
-                <div style="font-size:12px;color:var(--muted);margin-top:4px">${globalIndex+1} / 18 · ${sec.name} (${idx+1} / ${secList.length})</div>
-              </div>
-              <div style="display:flex;gap:10px;align-items:center"><span class="pill">완료율 ${Math.round((answeredCount()/18)*100)}%</span><button class="btn small" id="saveBtn">저장</button></div>
-            </div>
-            <div class="sectionTabs" id="tabs"></div>
-          </div>
-          <div class="bd">
-            <div class="qcard">
-              <div class="qno">Q${String(q.no).padStart(2,'0')}</div>
-              <div class="qtitle">${escapeHtml(q.q)}</div>
-              <div class="scale" id="scale"></div>
-              <div class="hint"><button id="toggleWhy">왜 중요한가?</button><span id="whyText" class="hide"> ${escapeHtml(q.why)}</span></div>
-              <div class="row">
-                <button class="btn" id="prevBtn">← 이전</button>
-                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="pill">1~5 숫자키 지원</span><button class="btn primary" id="nextBtn">다음 →</button></div>
-              </div>
-            </div>
-          </div>
-        </div>`;
-
-      const tabs = document.getElementById('tabs');
-      tabs.innerHTML = sections.map(s=>`<span class="${s.id===sec.id?'tab active':'tab'}" data-sec="${s.id}">${questions.filter(q=>q.sec===s.id).every(q=>state.answers[q.no])?'✓ ':''}${s.name}</span>`).join('');
-      [...tabs.querySelectorAll('.tab')].forEach(t=>t.onclick=()=>{state.nav.section=t.dataset.sec;state.nav.index=0;save();render();});
-
-      const scale = document.getElementById('scale');
-      scale.innerHTML = [1,2,3,4,5].map(n=>`<div class="${chosen===n?'opt sel':'opt'}" data-val="${n}"><div class="n">${n}</div><div class="t">${escapeHtml(choices[q.no][n-1])}</div></div>`).join('');
-      [...scale.querySelectorAll('.opt')].forEach(el=>el.onclick=()=>{state.answers[q.no]=Number(el.dataset.val);save();render();});
-
-      document.getElementById('toggleWhy').onclick = ()=>document.getElementById('whyText').classList.toggle('hide');
-      document.getElementById('saveBtn').onclick = ()=>{save();flashSave();};
-      document.getElementById('prevBtn').onclick = ()=>{prevQ();render();};
-      document.getElementById('nextBtn').onclick = ()=>{
-        if(!state.answers[q.no]) return alert('점수를 선택해 주세요.');
-        nextQ(); render();
-      };
+    function nextQ(){ const list=questions.filter(q=>q.sec===state.nav.section); if(state.nav.index < list.length-1){ state.nav.index++; save(); return; } const i=sections.findIndex(s=>s.id===state.nav.section); if(i < sections.length-1){ state.nav.section=sections[i+1].id; state.nav.index=0; save(); return; } if(answeredCount()===18){ state.step=4; save(); } }
+    function prevQ(){ if(state.nav.index>0){ state.nav.index--; save(); return; } const i=sections.findIndex(s=>s.id===state.nav.section); if(i>0){ const prevSec=sections[i-1].id; state.nav.section=prevSec; state.nav.index=questions.filter(q=>q.sec===prevSec).length-1; save(); } }
+    function renderResult(){ const bm=benchmark(state.intake); const { total, perSec }=compute(); const lvl=levelByScore(total); const pct=percentile(total,bm.avg,bm.top10); const gaps=sections.map(s=>({id:s.id,name:s.name,my:perSec[s.id],avg:bm.secAvg[s.id],gap:perSec[s.id]-bm.secAvg[s.id]})).sort((a,b)=>a.gap-b.gap); const weak=gaps.slice(0,2); const strong=gaps.slice(-2).reverse(); const painMap={fare:'운임 비교 기준이 약해 비싸게 쓰고 있는지 판단하기 어려운 상태입니다.',dispatch:'배차 요청과 차량 확보 구조가 비표준화되어 운영 스트레스가 발생할 가능성이 큽니다.',settlement:'정산 검증과 이력 조회 공수가 커서 누락/오청구 대응이 비효율적일 수 있습니다.',digital:'데이터와 운영 방식이 표준화되지 않아 담당자 의존도가 높은 상태입니다.'}; const solutionMap={fare:'AI Pricing으로 시장 운임 비교',dispatch:'더 운반 플랫폼으로 배차 요청/가시성 개선',settlement:'운송 이력 기반 정산 검증/관리 체계화',digital:'데이터 기반 운영과 의사결정 구조 강화'};
+      main.innerHTML = `<div class="hero"><div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between"><div><div class="badge"><span class="dot" style="background:${lvl.color}"></span>CJ대한통운 더 운반 진단 결과</div><h1 style="margin-top:10px">Level ${lvl.level}: ${lvl.name}</h1><p>동종업계 평균(${bm.avg}점) 대비 ${total>=bm.avg?'▲':'▼'} ${Math.abs(total-bm.avg)}점. 가장 큰 개선 여지는 <b>${weak[0].name}</b>, <b>${weak[1].name}</b>에서 나타납니다.</p></div><div class="card" style="min-width:290px;background:rgba(255,255,255,.78)"><div class="k">Quick Estimate 재확인</div><div class="big">${fmtMoney(bm.saving)}<span style="font-size:14px;color:var(--muted);font-weight:700">만원 절감 가능</span></div><div style="margin-top:10px"><div style="display:flex;justify-content:space-between"><div style="font-size:12px;color:var(--muted)">현재 월 운송비</div><div style="font-family:var(--mono);font-weight:800">${fmtMoney(bm.monthly)}만원</div></div><div style="display:flex;justify-content:space-between;margin-top:6px"><div style="font-size:12px;color:var(--muted)">시장 적정 운송비</div><div style="font-family:var(--mono);font-weight:800">${fmtMoney(bm.market)}만원</div></div><div style="margin-top:10px" class="meter"><i style="width:${pct}%"></i></div><div style="margin-top:8px;color:#475467;font-size:12px">동종업계 추정 퍼센타일: <b>${pct}th</b></div></div></div></div></div><div style="height:16px"></div><div class="cards"><div class="card"><div class="k">추천 솔루션 1</div><div class="v">AI Pricing</div><div style="margin-top:8px;color:#475467;font-size:13px;line-height:1.5">주요 노선의 시장 운임 비교 및 적정 운임 판단</div></div><div class="card"><div class="k">추천 솔루션 2</div><div class="v">더 운반 견적</div><div style="margin-top:8px;color:#475467;font-size:13px;line-height:1.5">현재 구조 대비 절감 가능 금액을 실제 견적으로 확인</div></div><div class="card"><div class="k">추천 솔루션 3</div><div class="v">운영 상담</div><div style="margin-top:8px;color:#475467;font-size:13px;line-height:1.5">배차·정산·운영 체계까지 포함한 맞춤형 개선 제안</div></div></div><div style="height:16px"></div><div class="panel"><div class="hd"><div style="font-weight:900">영역별 진단 결과</div><div style="font-size:12px;color:var(--muted);margin-top:4px">우리 수준 vs 동종 평균</div></div><div class="bd"><div class="compare"><div class="card">${sections.map(s=>{ const my=perSec[s.id], av=bm.secAvg[s.id]; return `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;gap:10px"><div style="font-weight:800">${s.name}</div><div style="font-family:var(--mono)">${my} / avg ${av}</div></div><div style="margin-top:8px" class="meter"><i style="width:${Math.round((my/(questions.filter(q=>q.sec===s.id).length*5))*100)}%"></i></div></div>`; }).join('')}</div><div class="card"><div class="list">${weak.map(x=>`<div class="li"><div><b>${x.name} 개선 우선</b><small>${painMap[x.id]}<br/>→ ${solutionMap[x.id]}</small></div><span class="badge"><span class="dot" style="background:var(--bad)"></span>${x.my}점</span></div>`).join('')}${strong.map(x=>`<div class="li"><div><b>${x.name} 상대적 강점</b><small>현재 운영 기반이 비교적 안정적인 영역입니다.</small></div><span class="badge"><span class="dot" style="background:var(--good)"></span>${x.my}점</span></div>`).join('')}</div></div></div></div></div><div style="height:16px"></div><div class="panel"><div class="hd"><div style="font-weight:900">더 운반 솔루션 제안</div><div style="font-size:12px;color:var(--muted);margin-top:4px">진단 결과 기반 추천 액션</div></div><div class="bd"><div class="list"><div class="li"><div><b>1. AI Pricing으로 시장 운임 비교</b><small>주요 구간의 운임 적정성을 검증하고, 실제 협상 기준을 만듭니다.</small></div><span class="badge"><span class="dot"></span>핵심</span></div><div class="li"><div><b>2. 더 운반 운송 견적 받아보기</b><small>현재 구조 대비 얼마나 절감 가능한지 구체적인 비교 견적을 받아볼 수 있습니다.</small></div><span class="badge"><span class="dot" style="background:var(--warn)"></span>전환</span></div><div class="li"><div><b>3. 상담 신청</b><small>배차, 정산, 운영 방식까지 포함한 맞춤형 개선안을 상담으로 연결합니다.</small></div><span class="badge"><span class="dot" style="background:var(--good)"></span>CTA</span></div></div><div class="row"><button class="btn" id="backSurvey">응답 수정</button><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" id="cta1">AI Pricing 비교 시작</button><button class="btn dark" id="cta2">더 운반 견적 받기</button><button class="btn" id="cta3">상담 신청</button></div></div></div></div>`;
+      document.getElementById('backSurvey').onclick=()=>{ state.step=3; save(); render(); }; document.getElementById('cta1').onclick=()=>alert('데모: AI Pricing 비교 화면으로 이동'); document.getElementById('cta2').onclick=()=>alert('데모: 더 운반 견적 접수로 이동'); document.getElementById('cta3').onclick=()=>alert('데모: 상담 신청으로 이동');
     }
-
-    function nextQ(){
-      const list = questions.filter(q=>q.sec===state.nav.section);
-      if(state.nav.index < list.length-1){ state.nav.index++; save(); return; }
-      const i = sections.findIndex(s=>s.id===state.nav.section);
-      if(i < sections.length-1){ state.nav.section = sections[i+1].id; state.nav.index = 0; save(); return; }
-      if(answeredCount()===18){ state.step=4; save(); }
-    }
-    function prevQ(){
-      if(state.nav.index > 0){ state.nav.index--; save(); return; }
-      const i = sections.findIndex(s=>s.id===state.nav.section);
-      if(i > 0){ const prevSec = sections[i-1].id; state.nav.section = prevSec; state.nav.index = questions.filter(q=>q.sec===prevSec).length-1; save(); }
-    }
-
-    function renderResult(){
-      const bm = benchmark(state.intake);
-      const { total, perSec } = compute();
-      const lvl = levelByScore(total);
-      const pct = percentile(total, bm.avg, bm.top10);
-      const gaps = sections.map(s=>({id:s.id,name:s.name,my:perSec[s.id],avg:bm.secAvg[s.id],gap:perSec[s.id]-bm.secAvg[s.id]})).sort((a,b)=>a.gap-b.gap);
-      const weak = gaps.slice(0,2);
-      const strong = gaps.slice(-2).reverse();
-      const solutionMap = {
-        fare:'AI Pricing으로 시장 운임 비교',
-        dispatch:'더 운반 플랫폼으로 배차 요청/가시성 개선',
-        settlement:'운송 이력 기반 정산 검증/관리 체계화',
-        digital:'데이터 기반 운영과 의사결정 구조 강화'
-      };
-
-      main.innerHTML = `
-        <div class="hero">
-          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between">
-            <div>
-              <div class="badge"><span class="dot" style="background:${lvl.color}"></span>귀사 물류 운영 수준</div>
-              <h1 style="margin-top:10px">Level ${lvl.level}: ${lvl.name}</h1>
-              <p>동종업계 평균(${bm.avg}점) 대비 ${total>=bm.avg?'▲':'▼'} ${Math.abs(total-bm.avg)}점. 가장 큰 개선 여지는 <b>${weak[0].name}</b>, <b>${weak[1].name}</b>에서 나타납니다.</p>
-            </div>
-            <div class="card" style="min-width:280px">
-              <div class="k">Quick Estimate 재확인</div>
-              <div class="big">${fmtMoney(bm.saving)}<span style="font-size:14px;color:var(--muted);font-weight:700">만원 절감 가능</span></div>
-              <div style="margin-top:10px">
-                <div style="display:flex;justify-content:space-between"><div style="font-size:12px;color:var(--muted)">현재 월 운송비</div><div style="font-family:var(--mono);font-weight:800">${fmtMoney(bm.monthly)}만원</div></div>
-                <div style="display:flex;justify-content:space-between;margin-top:6px"><div style="font-size:12px;color:var(--muted)">시장 적정 운송비</div><div style="font-family:var(--mono);font-weight:800">${fmtMoney(bm.market)}만원</div></div>
-                <div style="margin-top:10px" class="meter"><i style="width:${pct}%"></i></div>
-                <div style="margin-top:8px;color:rgba(233,240,255,.78);font-size:12px">동종업계 추정 퍼센타일: <b>${pct}th</b></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style="height:16px"></div>
-
-        <div class="panel">
-          <div class="hd"><div style="font-weight:900">영역별 진단 결과</div><div style="font-size:12px;color:var(--muted);margin-top:4px">우리 수준 vs 동종 평균</div></div>
-          <div class="bd">
-            <div class="compare">
-              <div class="card">
-                ${sections.map(s=>{
-                  const my = perSec[s.id], av = bm.secAvg[s.id];
-                  return `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;gap:10px"><div style="font-weight:800">${s.name}</div><div style="font-family:var(--mono)">${my} / avg ${av}</div></div><div style="margin-top:8px" class="meter"><i style="width:${Math.round((my/(questions.filter(q=>q.sec===s.id).length*5))*100)}%"></i></div></div>`;
-                }).join('')}
-              </div>
-              <div class="card">
-                <div class="list">
-                  ${weak.map(x=>`<div class="li"><div><b>${x.name} 개선 우선</b><small>동종 평균 대비 ${x.gap}점. ${solutionMap[x.id]}</small></div><span class="badge"><span class="dot" style="background:var(--bad)"></span>${x.my}점</span></div>`).join('')}
-                  ${strong.map(x=>`<div class="li"><div><b>${x.name} 상대적 강점</b><small>현재 운영 기반이 비교적 안정적인 영역입니다.</small></div><span class="badge"><span class="dot" style="background:var(--good)"></span>${x.my}점</span></div>`).join('')}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style="height:16px"></div>
-
-        <div class="panel">
-          <div class="hd"><div style="font-weight:900">더 운반 솔루션 제안</div><div style="font-size:12px;color:var(--muted);margin-top:4px">진단 결과 기반 추천 액션</div></div>
-          <div class="bd">
-            <div class="list">
-              <div class="li"><div><b>1. AI Pricing으로 시장 운임 비교</b><small>주요 구간의 운임 적정성을 검증하고, 실제 협상 기준을 만듭니다.</small></div><span class="badge"><span class="dot"></span>핵심</span></div>
-              <div class="li"><div><b>2. 더 운반 운송 견적 받아보기</b><small>현재 구조 대비 얼마나 절감 가능한지 구체적인 비교 견적을 받아볼 수 있습니다.</small></div><span class="badge"><span class="dot" style="background:var(--warn)"></span>전환</span></div>
-              <div class="li"><div><b>3. 상담 신청</b><small>배차, 정산, 운영 방식까지 포함한 맞춤형 개선안을 상담으로 연결합니다.</small></div><span class="badge"><span class="dot" style="background:var(--good)"></span>CTA</span></div>
-            </div>
-            <div class="row">
-              <button class="btn" id="backSurvey">응답 수정</button>
-              <div style="display:flex;gap:10px;flex-wrap:wrap">
-                <button class="btn primary" id="cta1">AI Pricing 비교 시작</button>
-                <button class="btn" id="cta2">더 운반 견적 받기</button>
-                <button class="btn" id="cta3">상담 신청</button>
-              </div>
-            </div>
-          </div>
-        </div>`;
-
-      document.getElementById('backSurvey').onclick = ()=>{ state.step=3; save(); render(); };
-      document.getElementById('cta1').onclick = ()=>alert('데모: AI Pricing 비교 화면으로 이동');
-      document.getElementById('cta2').onclick = ()=>alert('데모: 더 운반 견적 접수로 이동');
-      document.getElementById('cta3').onclick = ()=>alert('데모: 상담 신청으로 이동');
-    }
-
-    window.addEventListener('keydown', (e)=>{
-      if(state.step!==3) return;
-      if(['1','2','3','4','5'].includes(e.key)){
-        const q = currentQuestion(); state.answers[q.no] = Number(e.key); save(); render();
-      }
-      if(e.key==='ArrowRight'){ nextQ(); render(); }
-      if(e.key==='ArrowLeft'){ prevQ(); render(); }
-      if(e.key.toLowerCase()==='s'){ save(); flashSave(); }
-    });
-
+    window.addEventListener('keydown', (e)=>{ if(state.step!==3) return; if(['1','2','3','4','5'].includes(e.key)){ const q=currentQuestion(); state.answers[q.no]=Number(e.key); save(); render(); } if(e.key==='ArrowRight'){ nextQ(); render(); } if(e.key==='ArrowLeft'){ prevQ(); render(); } if(e.key.toLowerCase()==='s'){ save(); flashSave(); } });
     function fmtMoney(v){ return Number(v || 0).toLocaleString('ko-KR'); }
     function escapeHtml(str){ return String(str ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;'); }
-
-    if(answeredCount()===18 && state.step===3){ state.step=4; save(); }
+    if(Object.keys(state.answers).length===18 && state.step===3){ state.step=4; save(); }
     render();
   </script>
 </body>
