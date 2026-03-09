@@ -123,21 +123,22 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
   <section class="hero">
     <div>
       <div class="badges">
-        <span class="badge">셀러 물류 진단</span>
-        <span class="badge">AI Pricing</span>
+        <span class="badge">AI Pricing 자료 제출</span>
         <span class="badge">3~4분 물류 진단</span>
+        <span class="badge">더 운반 솔루션 연계</span>
       </div>
-      <h1>우리 회사 운송비, 이 금액이 적정한 걸까?</h1>
+      <h1>AI Pricing 검토를 위한 자료를 제출하고,<br>우리 물류 운영 수준까지 함께 진단해보세요</h1>
       <p>
-        먼저 <b>기본 운임 조회</b>로 시장 대비 절감 가능성을 확인하고, 이어서 물류 운영 진단을 통해 <b>왜 절감 여지가 발생하는지</b>를 확인해보세요.
+        당장 온라인 운임 조회 기능 대신, <b>AI Pricing 양식 기반 자료 제출</b>을 먼저 받고 더 운반이 오프라인으로 검토할 수 있도록 구성했습니다.
+        이어서 물류 운영 진단을 통해 운임 · 배차 · 정산 · 디지털 운영 측면의 개선 포인트를 함께 확인할 수 있습니다.
       </p>
     </div>
-    </section>
+  </section>
 
   <section class="grid3">
-    <div class="card"><h3>1. 기본 운임 조회</h3><p>월 운송비와 주요 구간 입력만으로 시장 대비 절감 가능성을 먼저 확인합니다.</p></div>
+    <div class="card"><h3>1. AI Pricing 자료 제출</h3><p>주요 운송 조건과 기준 자료를 제출하면 더 운반이 오프라인으로 적정 운임 검토를 진행할 수 있습니다.</p></div>
     <div class="card"><h3>2. 물류 운영 진단</h3><p>운임, 배차, 정산, 디지털 운영 관점에서 현재 구조의 비효율을 진단합니다.</p></div>
-    <div class="card"><h3>3. 더 운반 추천 서비스</h3><p>AI Pricing, 실시간 관제, 정산 자동화로 이어지는 개선 방향을 제안합니다.</p></div>
+    <div class="card"><h3>3. 더 운반 해결 제안</h3><p>AI Pricing, 실시간 관제, 정산 자동화 관점에서 개선 방향을 제안합니다.</p></div>
   </section>
 
   <div id="app"></div>
@@ -224,7 +225,7 @@ function benchmark(profile){
 }
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {
   mode:'estimate',
-  intake:{ monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤' },
+  intake:{ company:'', manager:'', phone:'', email:'', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' },
   answers:{},
   nav:{ section:'fare', index:0 }
 };
@@ -240,7 +241,7 @@ function resetAll(){
   localStorage.removeItem(STORAGE_KEY);
   state = {
     mode:'estimate',
-    intake:{ monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤' },
+    intake:{ company:'', manager:'', phone:'', email:'', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' },
     answers:{},
     nav:{ section:'fare', index:0 }
   };
@@ -255,29 +256,36 @@ function renderEstimate(){
   app.innerHTML = `
   <section class="panel">
     <div class="hd">
-      <div class="sectionTitle">1. 기본 운임 조회</div>
-      <div class="sectionSub">먼저 현재 운송 구조 기준으로 시장 대비 절감 가능성을 확인해보세요</div>
+      <div class="sectionTitle">1. AI Pricing 자료 제출</div>
+      <div class="sectionSub">기본 운송 조건과 참고 자료를 제출하면 더 운반이 오프라인으로 검토할 수 있습니다</div>
     </div>
     <div class="bd">
       <div class="form">
+        <div><label>회사명</label><input id="company" value="${escapeHtml(state.intake.company || '')}" placeholder="예: OOO셀러" /></div>
+        <div><label>담당자명</label><input id="manager" value="${escapeHtml(state.intake.manager || '')}" placeholder="예: 홍길동" /></div>
+        <div><label>연락처</label><input id="phone" value="${escapeHtml(state.intake.phone || '')}" placeholder="예: 010-0000-0000" /></div>
+        <div><label>이메일</label><input id="email" value="${escapeHtml(state.intake.email || '')}" placeholder="예: sample@company.com" /></div>
         <div><label>월 운송비</label><select id="monthlyBand">${monthlyBands.map(v=>`<option ${state.intake.monthlyBand===v?'selected':''}>${v}</option>`).join('')}</select></div>
         <div><label>직접 입력 (만원)</label><input id="monthlyDirect" placeholder="예: 1000" value="${escapeHtml(state.intake.monthlyDirect)}" ${state.intake.monthlyBand==='직접입력'?'':'disabled'} /></div>
         <div><label>출발지</label><input id="origin" value="${escapeHtml(state.intake.origin)}" /></div>
         <div><label>도착지</label><input id="destination" value="${escapeHtml(state.intake.destination)}" /></div>
         <div><label>주 사용 차량</label><select id="vehicleType">${vehicleTypes.map(v=>`<option ${state.intake.vehicleType===v?'selected':''}>${v}</option>`).join('')}</select></div>
         <div><label>주 사용 톤급</label><select id="tonnage">${tonnageTypes.map(v=>`<option ${state.intake.tonnage===v?'selected':''}>${v}</option>`).join('')}</select></div>
+        <div><label>참고 자료 업로드</label><input id="pricingFile" type="file" /></div>
+        <div><label>추가 메모</label><input id="notes" value="${escapeHtml(state.intake.notes || '')}" placeholder="검토가 필요한 노선/특이사항 입력" /></div>
       </div>
       <div class="actions">
-        <span class="miniPill">예: 서울 → 경기 / 윙바디 / 5톤</span>
-        <button id="estimateBtn">운임 수준 확인하기</button>
+        <span class="miniPill">프로토타입 단계에서는 제출 데이터를 저장하지 않고 화면상 흐름만 구현합니다.</span>
+        <button id="estimateBtn">자료 제출 후 물류 진단 시작</button>
       </div>
     </div>
   </section>
 
   <div id="estimateResultMount"></div>`;
 
-  ['monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage'].forEach(id=>{
+  ['company','manager','phone','email','monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage','notes'].forEach(id=>{
     const el=document.getElementById(id);
+    if(!el) return;
     if(id==='monthlyDirect'){
       el.oninput=()=>{ state.intake[id]=el.value; save(); };
       el.onchange=()=>{ state.intake[id]=el.value; save(); };
@@ -292,33 +300,34 @@ function renderEstimate(){
       };
     }
   });
+  const pricingFile = document.getElementById('pricingFile');
+  if(pricingFile){
+    pricingFile.onchange = ()=>{
+      state.intake.fileName = pricingFile.files && pricingFile.files[0] ? pricingFile.files[0].name : '';
+      save();
+    };
+  }
   document.getElementById('estimateBtn').onclick = ()=>{ save(); renderEstimateResult(); };
 }
 
 function renderEstimateResult(){
-  const bm = benchmark(state.intake);
   const mount = document.getElementById('estimateResultMount');
   if(!mount) return;
   mount.innerHTML = `
   <div class="resultBox">
     <div class="resultHeader">
       <div>
-        <span class="badge dark">AI Pricing Quick Estimate</span>
-        <h2 style="margin-top:10px">현재 구조 기준,<br>당장 절감 가능한 비용이 보입니다</h2>
-        <p>${escapeHtml(state.intake.origin)} → ${escapeHtml(state.intake.destination)} · ${escapeHtml(state.intake.vehicleType)} · ${escapeHtml(state.intake.tonnage)} 기준</p>
+        <span class="badge dark">AI Pricing 접수 준비 완료</span>
+        <h2 style="margin-top:10px">자료 검토 후 더 운반이 오프라인으로 운임 적정성을 확인합니다</h2>
+        <p>${escapeHtml(state.intake.origin)} → ${escapeHtml(state.intake.destination)} · ${escapeHtml(state.intake.vehicleType)} · ${escapeHtml(state.intake.tonnage)} 기준 자료가 접수될 수 있도록 준비되었습니다.</p>
       </div>
-      <div class="miniPill">시장 대비 평균 ${bm.savingRate}% 높은 수준</div>
+      <div class="miniPill">${state.intake.fileName ? '첨부파일: ' + escapeHtml(state.intake.fileName) : '첨부파일 없음'}</div>
     </div>
 
     <div class="numbers">
-      <div class="numCard"><div class="k">현재 월 운송비</div><div class="v">${fmtMoney(bm.monthly)}만원</div></div>
-      <div class="numCard"><div class="k">시장 적정 운송비</div><div class="v">${fmtMoney(bm.market)}만원</div></div>
-      <div class="numCard"><div class="k">예상 절감 운송비</div><div class="v">${fmtMoney(bm.saving)}만원</div></div>
-    </div>
-
-    <div class="barWrap">
-      <div class="barTitle"><span>현재 운송비 대비 절감 여지</span><span>${bm.savingRate}%</span></div>
-      <div class="meter"><i style="width:${Math.min(100,bm.savingRate*4)}%"></i></div>
+      <div class="numCard"><div class="k">회사명</div><div class="v" style="font-size:18px">${escapeHtml(state.intake.company || '-')}</div></div>
+      <div class="numCard"><div class="k">월 운송비</div><div class="v" style="font-size:18px">${state.intake.monthlyBand==='직접입력' ? fmtMoney(state.intake.monthlyDirect || 0) + '만원' : escapeHtml(state.intake.monthlyBand)}</div></div>
+      <div class="numCard"><div class="k">검토 방식</div><div class="v" style="font-size:18px">AI Pricing 오프라인 검토</div></div>
     </div>
 
     <div class="ctaRow">
@@ -404,6 +413,32 @@ function renderDiagnosis(){
 }
 function nextQ(){ const list=questions.filter(q=>q.sec===state.nav.section); if(state.nav.index < list.length-1){ state.nav.index++; save(); return; } const i=sections.findIndex(s=>s.id===state.nav.section); if(i < sections.length-1){ state.nav.section=sections[i+1].id; state.nav.index=0; save(); return; } if(answeredCount()===18){ state.mode='result'; save(); } }
 function prevQ(){ if(state.nav.index>0){ state.nav.index--; save(); return; } const i=sections.findIndex(s=>s.id===state.nav.section); if(i>0){ const prevSec=sections[i-1].id; state.nav.section=prevSec; state.nav.index=questions.filter(q=>q.sec===prevSec).length-1; save(); } else { state.mode='estimate'; save(); } }
+function getSectionFeedback(sectionId, score){
+  const feedback = {
+    fare:[
+      {max:10,title:'운임 관리 체계가 미흡한 상태',desc:'현재는 운임 기준과 비교 체계가 약해 시장 대비 적정성을 판단하기 어려운 상태입니다.',solution:'더 운반의 AI Pricing 기반 실시간 운임 검토를 통해 주요 구간의 적정 운임 기준을 마련할 수 있습니다.'},
+      {max:18,title:'운임 관리가 부분적으로 이뤄지는 상태',desc:'일부 운임 기준과 비교 활동은 있으나, 정기적 관리 체계는 부족한 편입니다.',solution:'더 운반은 구간별 운임 비교와 검토를 통해 재협상 포인트를 빠르게 찾을 수 있도록 지원합니다.'},
+      {max:25,title:'운임 관리 체계가 비교적 안정적인 상태',desc:'운임 기준과 비교 구조가 비교적 갖춰져 있으나, 더 정교한 최적화 여지가 남아 있습니다.',solution:'더 운반 AI Pricing을 활용하면 더 세밀한 시장 비교와 적정 단가 검토가 가능합니다.'}
+    ],
+    dispatch:[
+      {max:8,title:'배차 운영 안정성이 낮은 상태',desc:'배차 요청 방식과 차량 확보 구조가 비표준화되어 누락·긴급 대응 이슈가 발생할 가능성이 큽니다.',solution:'더 운반의 실시간 관제/가시성 기능을 통해 배차 상태와 진행 현황을 한눈에 관리할 수 있습니다.'},
+      {max:14,title:'배차 운영이 부분적으로 체계화된 상태',desc:'일부 가시성과 대응 체계는 있으나, 운영 방식이 담당자 경험에 의존하는 구간이 남아 있습니다.',solution:'더 운반은 배차 요청·상태 확인·긴급 대응을 보다 일관된 방식으로 운영할 수 있도록 지원합니다.'},
+      {max:20,title:'배차 운영 체계가 비교적 안정적인 상태',desc:'차량 확보와 상태 확인 체계가 비교적 잘 갖춰져 있습니다.',solution:'더 운반의 실시간 관제 기능을 더하면 운영 가시성과 대응 속도를 한층 끌어올릴 수 있습니다.'}
+    ],
+    settlement:[
+      {max:8,title:'정산 공수와 검증 부담이 큰 상태',desc:'정산이 수기/엑셀 중심으로 운영되어 누락·오청구 대응과 증빙 확인에 많은 시간이 소요될 수 있습니다.',solution:'더 운반은 운송 이력 기반 정산 자동화 및 검증 체계 구축 방향을 제안할 수 있습니다.'},
+      {max:14,title:'정산 운영이 부분적으로 체계화된 상태',desc:'일부 시스템화는 되어 있으나, 여전히 수동 검증과 담당자 의존도가 남아 있습니다.',solution:'더 운반은 정산 데이터의 정합성과 조회 편의성을 높이는 방향으로 운영 효율을 개선할 수 있습니다.'},
+      {max:20,title:'정산 운영 체계가 비교적 안정적인 상태',desc:'정산 프로세스와 조회 구조가 비교적 잘 갖춰져 있습니다.',solution:'더 운반을 통해 정산 자동화 수준을 한 단계 더 끌어올리고, 검증 공수를 줄일 수 있습니다.'}
+    ],
+    digital:[
+      {max:10,title:'디지털 운영 수준이 낮은 상태',desc:'데이터 축적과 운영 표준화가 부족해 담당자 의존도가 높고, 운영 개선이 체계적으로 이어지기 어려운 상태입니다.',solution:'더 운반은 데이터가 남는 구조와 운영 표준화를 기반으로 화주의 의사결정을 지원할 수 있습니다.'},
+      {max:18,title:'디지털 운영이 부분적으로 이뤄지는 상태',desc:'일부 시스템과 공유 체계는 있으나, KPI 관리와 데이터 활용 수준은 더 높일 수 있습니다.',solution:'더 운반은 물류 데이터 기반 관리와 운영 투명성 제고를 통해 디지털 운영 수준을 끌어올릴 수 있습니다.'},
+      {max:25,title:'디지털 운영 체계가 비교적 안정적인 상태',desc:'데이터 관리와 운영 표준화 수준이 비교적 잘 갖춰져 있습니다.',solution:'더 운반과 연계하면 데이터 기반 의사결정과 운영 최적화를 더욱 고도화할 수 있습니다.'}
+    ]
+  };
+  return feedback[sectionId].find(x=>score<=x.max) || feedback[sectionId][feedback[sectionId].length-1];
+}
+
 function renderResult(){
   const bm=benchmark(state.intake); const { total, perSec }=compute(); const lvl=levelByScore(total); const pct=percentile(total,bm.avg,bm.top10);
   const gaps=sections.map(s=>({id:s.id,name:s.name,my:perSec[s.id],avg:bm.secAvg[s.id],gap:perSec[s.id]-bm.secAvg[s.id]})).sort((a,b)=>a.gap-b.gap);
@@ -411,11 +446,6 @@ function renderResult(){
   const painMap={fare:'운임 비교 기준이 약해 비싸게 쓰고 있는지 판단하기 어려운 상태입니다.',dispatch:'배차 요청과 차량 확보 구조가 비표준화되어 운영 스트레스가 발생할 가능성이 큽니다.',settlement:'정산 검증과 이력 조회 공수가 커서 누락/오청구 대응이 비효율적일 수 있습니다.',digital:'데이터와 운영 방식이 표준화되지 않아 담당자 의존도가 높은 상태입니다.'};
   const solutionMap={fare:'AI Pricing 기반 실시간 운임 제공',dispatch:'실시간 관제/가시성 기반 배차 운영',settlement:'정산 자동화 및 운송 이력 기반 검증',digital:'데이터 기반 운영 표준화 및 의사결정 지원'};
   const uspMap={
-    fare:{title:'왜 이 질문을 드리나요?',desc:'더 운반은 AI Pricing을 통해 주요 구간의 시장 운임 수준을 빠르게 비교하고, 화주가 현재 단가의 적정성을 실시간으로 확인할 수 있도록 돕습니다.'},
-    dispatch:{title:'왜 이 질문을 드리나요?',desc:'더 운반은 배차 상태, 차량 위치, 대응 현황을 실시간으로 확인할 수 있는 관제형 가시성 기능으로 배차 운영의 불확실성을 줄이는 데 강점이 있습니다.'},
-    settlement:{title:'왜 이 질문을 드리나요?',desc:'더 운반은 운송 이력 기반 정산 자동화 구조를 통해 정산 검증 공수와 누락/오청구 리스크를 줄일 수 있는 방향을 제안합니다.'},
-    digital:{title:'왜 이 질문을 드리나요?',desc:'더 운반은 단순 운송 연결을 넘어, 데이터가 남는 구조와 운영 표준화를 기반으로 화주의 의사결정을 지원하는 방향으로 서비스를 확장할 수 있습니다.'}
-  };
   app.innerHTML = `
     <div class="steps">
       <div class="step done">기본 운임 조회</div>
@@ -458,15 +488,10 @@ function renderResult(){
     </div>
 
     <div class="panel" style="margin-top:18px">
-      <div class="hd"><div class="sectionTitle" style="font-size:20px">질문과 더 운반 USP 연결</div><div class="sectionSub">이 진단을 통해 궁극적으로 제공하고 싶은 가치</div></div>
+      <div class="hd"><div class="sectionTitle" style="font-size:20px">4가지 항목별 피드백 레포트</div><div class="sectionSub">질문 → 답변 결과 → 더 운반 USP 기반 해결방안</div></div>
       <div class="bd">
-        <div class="grid3" style="grid-template-columns:repeat(4,1fr)">
-          <div class="card"><h3 style="font-size:16px">운임 적정성</h3><p><b>USP</b> : AI Pricing 기반 실시간 운임 제공<br><br>운임 관련 질문은 화주가 현재 단가의 적정성을 판단하지 못하는 문제를 드러내고, 더 운반이 시장 기준 운임을 제시할 수 있음을 보여주기 위한 것입니다.</p></div>
-          <div class="card"><h3 style="font-size:16px">배차 운영</h3><p><b>USP</b> : 실시간 관제 기능<br><br>배차 운영 질문은 누락, 상태 확인 불편, 긴급 대응 이슈를 드러내고, 더 운반이 실시간 가시성과 관제형 운영 지원을 제공할 수 있음을 보여주기 위한 것입니다.</p></div>
-          <div class="card"><h3 style="font-size:16px">정산 운영</h3><p><b>USP</b> : 정산 자동화<br><br>정산 질문은 엑셀/수기 기반 공수와 검증 부담을 드러내고, 더 운반이 운송 이력 기반 정산 자동화와 검증 체계를 제공할 수 있음을 보여주기 위한 것입니다.</p></div>
-          <div class="card"><h3 style="font-size:16px">디지털 운영</h3><p><b>USP</b> : 데이터 기반 운영 지원<br><br>디지털 운영 질문은 물류 데이터 축적과 표준화 수준을 진단하고, 더 운반이 운영 데이터 기반 의사결정을 지원하는 플랫폼으로 확장 가능함을 보여주기 위한 것입니다.</p></div>
-        </div>
-      </div>
+        <div class="list">
+          ${sections.map(s=>{ const fb = getSectionFeedback(s.id, perSec[s.id]); return `<div class="li" style="flex-direction:column"><div style="width:100%"><b>${s.name} · ${perSec[s.id]}점</b><small><b>${fb.title}</b><br>${fb.desc}<br><br><b>더 운반 해결방안</b><br>${fb.solution}</small></div></div>`; }).joi
     </div>
 
     <div class="panel" style="margin-top:18px">
