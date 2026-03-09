@@ -201,7 +201,8 @@ function getUspBySection(sectionId){
     settlement:{title:'정산 자동화 / 검증',desc:'더 운반은 운송 이력 기반 데이터 구조를 통해 정산 검증 공수와 누락·오청구 대응 부담을 줄일 수 있는 방향을 제안합니다.'},
     digital:{title:'데이터 기반 운영 지원',desc:'더 운반은 데이터가 남는 운영 구조와 표준화를 기반으로, 화주의 물류 의사결정을 돕는 방향으로 서비스를 확장할 수 있습니다.'}
   };
-  return map[sectionId] || {title:'
+  return map[sectionId] || {title:'더 운반 USP',desc:'질문과 연계된 더 운반의 가치를 설명합니다.'};
+}
 const vehicleTypes = ['카고','윙바디','탑차'];
 const tonnageTypes = ['라보','다마스','1톤','2.5톤','3.5톤','5톤','11톤','18톤','25톤'];
 const levelByScore = (total) => { if(total <= 24) return {level:1, name:'Manual'}; if(total <= 40) return {level:2, name:'Excel'}; if(total <= 60) return {level:3, name:'Partial Digital'}; if(total <= 76) return {level:4, name:'Integrated'}; return {level:5, name:'Data Driven'}; };
