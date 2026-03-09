@@ -454,7 +454,7 @@ function renderResult(){
           <h2 style="margin-top:10px">Level ${lvl.level}: ${lvl.name}</h2>
           <p>동종업계 평균(${bm.avg}점) 대비 ${total>=bm.avg?'▲':'▼'} ${Math.abs(total-bm.avg)}점. 가장 큰 개선 여지는 <b>${weak[0].name}</b>, <b>${weak[1].name}</b>에서 나타납니다.</p>
         </div>
-        <div class="miniPill">동종업계 추정 ${pct}th</div>
+        
       </div>
       <div class="numbers">
         <div class="numCard"><div class="k">회사명</div><div class="v" style="font-size:18px">${escapeHtml(state.intake.company || '-')}</div></div>
@@ -465,9 +465,23 @@ function renderResult(){
 
     <div class="compare">
       <div class="panel">
-        <div class="hd"><div class="sectionTitle" style="font-size:20px">영역별 진단 결과</div><div class="sectionSub">우리 수준 vs 동종 평균</div></div>
+        <div class="hd"><div class="sectionTitle" style="font-size:20px">섹션별 진단 결과</div><div class="sectionSub">우리 수준 vs 동종 평균</div></div>
         <div class="bd">
-          ${sections.map(s=>{ const my=perSec[s.id], av=bm.secAvg[s.id]; const maxScore = questions.filter(q=>q.sec===s.id).length * 5; return `<div class="barWrap"><div class="barTitle"><span>${s.name}</span><span>${my} / avg ${av}</span></div><div class="meter"><i style="width:${Math.round((my/maxScore)*100)}%"></i></div></div>`; }).join('')}
+          ${sections.map(s=>{ const my=perSec[s.id], av=bm.secAvg[s.id]; const maxScore = questions.filter(q=>q.sec===s.id).length * 5; const fb = getSectionFeedback(s.id, perSec[s.id]); return `
+          <div class="barWrap">
+            <div class="barTitle" style="cursor:pointer" onclick="this.nextElementSibling.classList.toggle('hide')">
+              <span>${s.name}</span>
+              <span>${my} / avg ${av} ▾</span>
+            </div>
+            <div class="meter"><i style="width:${Math.round((my/maxScore)*100)}%"></i></div>
+            <div class="hint hide" style="margin-top:10px">
+              <b>${fb.title}</b><br>
+              ${fb.desc}<br><br>
+              <b>더 운반 해결방안</b><br>
+              ${fb.solution}
+            </div>
+          </div>
+        `<div class="barWrap"><div class="barTitle"><span>${s.name}</span><span>${my} / avg ${av}</span></div><div class="meter"><i style="width:${Math.round((my/maxScore)*100)}%"></i></div></div>`; }).join('')}
         </div>
       </div>
       <div class="panel">
@@ -481,8 +495,7 @@ function renderResult(){
       </div>
     </div>
 
-    <div class="panel" style="margin-top:18px">
-      <div class="hd"><div class="sectionTitle" style="font-size:20px">4가지 항목별 피드백 레포트</div><div class="sectionSub">질문 → 답변 결과 → 더 운반 USP 기반 해결방안</div></div>
+    
       <div class="bd">
         <div class="list">
           ${sections.map(s=>{ const fb = getSectionFeedback(s.id, perSec[s.id]); return `<div class="li" style="flex-direction:column"><div style="width:100%"><b>${s.name} · ${perSec[s.id]}점</b><small><b>${fb.title}</b><br>${fb.desc}<br><br><b>더 운반 해결방안</b><br>${fb.solution}</small></div></div>`; }).join('')}
