@@ -277,20 +277,32 @@ function renderDiagnosis(){
   const secDoneMap = Object.fromEntries(sections.map(s=>[s.id, questions.filter(q=>q.sec===s.id).every(q=>state.answers[q.no]) ]));
   const q=currentQuestion(); const sec=sections.find(s=>s.id===state.nav.section); const secList=questions.filter(x=>x.sec===sec.id); const idx=state.nav.index; const globalIndex=questions.findIndex(x=>x.no===q.no); const chosen=state.answers[q.no]||0; const usp=getUspBySection(sec.id);
   app.innerHTML = `
+  <section class="panel" style="margin-bottom:14px">
+    <div class="bd">
+      <div class="badges">
+        <span class="badge">#물류 운영 진단</span>
+        <span class="badge">#운송비 구조 점검</span>
+        <span class="badge">#배차 운영 수준</span>
+        <span class="badge">#정산 운영 효율</span>
+        <span class="badge">#물류 디지털화 수준</span>
+        <span class="badge">#운영 개선 포인트</span>
+      </div>
+      <div style="margin-top:12px">
+        <div class="sectionTitle">물류 운영 진단</div>
+        <div class="sectionSub">현재 운영 수준을 진단하고, 섹션별 개선 포인트를 확인합니다.</div>
+      </div>
+    </div>
+  </section>
   <div class="steps">
     <div class="step done">물류 운임 진단 ✓</div>
     <div class="step active">물류 운영 진단</div>
     <div class="step">결과 확인</div>
     <div class="step">더 운반 연결</div>
   </div>
-  <div class="actions" style="margin:0 0 12px 0">
-    <button class="ghost" id="backToEstimateBtn">← 물류 운임 진단으로 돌아가기</button>
-    <span class="miniPill">운임 자료는 입력된 상태로 유지됩니다</span>
-  </div>
   <section class="panel">
     <div class="hd">
-      <div class="sectionTitle">2. 물류 운영 진단</div>
-      <div class="sectionSub">현재 운영 수준을 진단하고, 섹션별 개선 포인트를 확인합니다 · ${globalIndex+1} / 18 · ${sec.name} (${idx+1} / ${secList.length})</div>
+      <div class="sectionTitle">진단 진행 중</div>
+      <div class="sectionSub">${globalIndex+1} / 18 · ${sec.name} (${idx+1} / ${secList.length})</div>
       <div class="tabs" id="tabs"></div>
     </div>
     <div class="bd">
@@ -301,7 +313,10 @@ function renderDiagnosis(){
           <div class="scale" id="scale"></div>
           <div class="hint"><button id="toggleWhy">왜 중요한가요?</button><span id="whyText" class="hide"> ${escapeHtml(q.why)}</span></div>
           <div class="actions">
-            <button class="ghost" id="prevBtn">← 이전</button>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <button class="ghost" id="prevBtn">← 이전</button>
+              <button class="ghost" id="backToEstimateBtn">← 물류 운임 진단으로 돌아가기</button>
+            </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
               <span class="miniPill">완료 ${answeredCount()} / 18</span>
               <button class="primary" id="nextBtn">다음 →</button>
