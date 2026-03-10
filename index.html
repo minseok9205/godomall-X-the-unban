@@ -241,7 +241,7 @@ function getSectionFeedback(sectionId, score){
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {
   mode:'estimate',
-  intake:{ company:'', manager:'', phone:'', email:'', pricingType:'단일구간 단가', routeCount:'1개 구간', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' },
+  intake:{ company:'', manager:'', phone:'', email:'', pricingUnitType:'단일구간 단가', pricingStructure:'고정 운임', routeCount:'1개 구간', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' },
   answers:{},
   nav:{ section:'fare', index:0 }
 };
@@ -278,7 +278,8 @@ function renderEstimate(){
           <div><label>담당자명</label><input id="manager" value="${escapeHtml(state.intake.manager)}" placeholder="예: 홍길동" /></div>
           <div><label>연락처</label><input id="phone" value="${escapeHtml(state.intake.phone)}" placeholder="예: 010-0000-0000" /></div>
           <div><label>이메일</label><input id="email" value="${escapeHtml(state.intake.email)}" placeholder="예: sample@company.com" /></div>
-          <div><label>운임 검토 유형</label><select id="pricingType"><option ${state.intake.pricingType==='단일구간 단가'?'selected':''}>단일구간 단가</option><option ${state.intake.pricingType==='복수구간 단가'?'selected':''}>복수구간 단가</option><option ${state.intake.pricingType==='고정 운임'?'selected':''}>고정 운임</option><option ${state.intake.pricingType==='비고정 운임'?'selected':''}>비고정 운임</option></select></div>
+          <div><label>운임 단가 유형</label><select id="pricingUnitType"><option ${state.intake.pricingUnitType==='단일구간 단가'?'selected':''}>단일구간 단가</option><option ${state.intake.pricingUnitType==='복수구간 단가'?'selected':''}>복수구간 단가</option></select></div>
+          <div><label>운임 구조</label><select id="pricingStructure"><option ${state.intake.pricingStructure==='고정 운임'?'selected':''}>고정 운임</option><option ${state.intake.pricingStructure==='비고정 운임'?'selected':''}>비고정 운임</option></select></div>
           <div><label>검토 구간 수</label><select id="routeCount"><option ${state.intake.routeCount==='1개 구간'?'selected':''}>1개 구간</option><option ${state.intake.routeCount==='2~5개 구간'?'selected':''}>2~5개 구간</option><option ${state.intake.routeCount==='6개 이상'?'selected':''}>6개 이상</option></select></div>
           <div><label>출발지</label><input id="origin" value="${escapeHtml(state.intake.origin)}" /></div>
           <div><label>도착지</label><input id="destination" value="${escapeHtml(state.intake.destination)}" /></div>
@@ -290,14 +291,14 @@ function renderEstimate(){
           <div><label>추가 메모</label><input id="notes" value="${escapeHtml(state.intake.notes)}" placeholder="고정/비고정 여부, 검토가 필요한 노선 등 입력" /></div>
         </div>
         <div class="actions">
-          <span class="miniPill">운임 검토는 오프라인으로 산출 후 피드백드리며, 아래 물류 운영 진단 결과와 함께 연락드리는 흐름입니다.</span>
+          <span class="miniPill">제출된 운임 검토 양식을 기반으로 더 운반이 오프라인에서 단가 적정성을 검토한 뒤 피드백을 드립니다. 이어서 아래 물류 운영 진단 결과와 함께 종합적인 개선 방향을 안내드립니다.</span>
           <button id="estimateBtn">자료 제출 후 물류 진단 시작</button>
         </div>
       </div>
     </section>
     <div id="estimateResultMount"></div>`;
 
-  ['company','manager','phone','email','pricingType','routeCount','monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage','notes'].forEach(id=>{
+  ['company','manager','phone','email','pricingUnitType','pricingStructure','routeCount','monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage','notes'].forEach(id=>{
     const el = document.getElementById(id);
     if(!el) return;
     el.oninput = el.onchange = ()=>{
