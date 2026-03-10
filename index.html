@@ -113,10 +113,7 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
         <div class="logoBox"><img src="unban-logo.png" alt="더 운반 로고"></div>
       </div>
     </div>
-    <div style="display:flex;align-items:center;gap:10px">
-      <div class="headerRight">CJ대한통운 더 운반</div>
-      <button class="ghost" id="resetTopBtn" style="padding:10px 12px;border-radius:10px;font-weight:700">초기화</button>
-    </div>
+    <div class="headerRight">CJ대한통운 더 운반</div>
   </header>
 
   <section class="hero">
@@ -241,7 +238,7 @@ function getSectionFeedback(sectionId, score){
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {
   mode:'estimate',
-  intake:{ company:'', manager:'', phone:'', email:'', pricingUnitType:'단일구간 단가', pricingStructure:'고정 운임', routeCount:'1개 구간', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' },
+  intake:{ company:'', manager:'', phone:'', email:'', pricingUnitType:'단일구간 단가', pricingStructure:'고정 운임', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' },
   answers:{},
   nav:{ section:'fare', index:0 }
 };
@@ -269,8 +266,13 @@ function renderEstimate(){
   app.innerHTML = `
     <section class="panel">
       <div class="hd">
-        <div class="sectionTitle">1. 물류 운임 진단</div>
-        <div class="sectionSub">운임 검토 양식을 기반으로 단일구간 / 복수구간 / 고정·비고정 운임 구조를 오프라인으로 검토합니다</div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div>
+            <div class="sectionTitle">1. 물류 운임 진단</div>
+            <div class="sectionSub">운임 검토 양식을 기반으로 단일구간 / 복수구간 / 고정·비고정 운임 구조를 오프라인으로 검토합니다</div>
+          </div>
+          <button class="ghost" id="resetTopBtn" style="padding:10px 12px;border-radius:10px;font-weight:700">초기화</button>
+        </div>
       </div>
       <div class="bd">
         <div class="form">
@@ -280,7 +282,6 @@ function renderEstimate(){
           <div><label>이메일</label><input id="email" value="${escapeHtml(state.intake.email)}" placeholder="예: sample@company.com" /></div>
           <div><label>운임 단가 유형</label><select id="pricingUnitType"><option ${state.intake.pricingUnitType==='단일구간 단가'?'selected':''}>단일구간 단가</option><option ${state.intake.pricingUnitType==='복수구간 단가'?'selected':''}>복수구간 단가</option></select></div>
           <div><label>운임 구조</label><select id="pricingStructure"><option ${state.intake.pricingStructure==='고정 운임'?'selected':''}>고정 운임</option><option ${state.intake.pricingStructure==='비고정 운임'?'selected':''}>비고정 운임</option></select></div>
-          <div><label>검토 구간 수</label><select id="routeCount"><option ${state.intake.routeCount==='1개 구간'?'selected':''}>1개 구간</option><option ${state.intake.routeCount==='2~5개 구간'?'selected':''}>2~5개 구간</option><option ${state.intake.routeCount==='6개 이상'?'selected':''}>6개 이상</option></select></div>
           <div><label>출발지</label><input id="origin" value="${escapeHtml(state.intake.origin)}" /></div>
           <div><label>도착지</label><input id="destination" value="${escapeHtml(state.intake.destination)}" /></div>
           <div><label>주 사용 차량</label><select id="vehicleType">${vehicleTypes.map(v=>`<option ${state.intake.vehicleType===v?'selected':''}>${v}</option>`).join('')}</select></div>
@@ -298,14 +299,27 @@ function renderEstimate(){
     </section>
     <div id="estimateResultMount"></div>`;
 
-  ['company','manager','phone','email','pricingUnitType','pricingStructure','routeCount','monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage','notes'].forEach(id=>{
+  ['company','manager','phone','email','pricingUnitType','pricingStructure','monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage','notes'].forEach(id=>{
     const el = document.getElementById(id);
     if(!el) return;
-    el.oninput = el.onchange = ()=>{
-      state.intake[id] = el.value;
-      if(id === 'monthlyBand') document.getElementById('monthlyDirect').disabled = el.value !== '직접입력';
-      save();
-    };
+    if(id==='monthlyDirect'){
+      el.oninput = ()=>{
+        el.value = el.value.replace(/[^0-9]/g,'');
+        state.intake[id] = el.value;
+        save();
+      };
+      el.onchange = ()=>{
+        el.value = el.value.replace(/[^0-9]/g,'');
+        state.intake[id] = el.value;
+        save();
+      };
+    } else {
+      el.oninput = el.onchange = ()=>{
+        state.intake[id] = el.value;
+        if(id === 'monthlyBand') document.getElementById('monthlyDirect').disabled = el.value !== '직접입력';
+        save();
+      };
+    }
   });
   document.getElementById('pricingFile').onchange = (e)=>{ state.intake.fileName = e.target.files && e.target.files[0] ? e.target.files[0].name : ''; save(); };
   document.getElementById('estimateBtn').onclick = ()=> renderEstimateResult();
