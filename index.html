@@ -11,8 +11,8 @@
   --line:#1f3a56;
   --text:#f8fafc;
   --muted:#9fb3c8;
-  --brand:#4fd1ff;
-  --brand-deep:#2bb6e6;
+  --brand:#2f6bff;
+  --brand-deep:#1f4fd6;
   --dark:#020617;
   --good:#22c55e;
   --warn:#f59e0b;
@@ -20,7 +20,7 @@
   --radius:18px;
   --radius2:26px;
   --shadow:0 18px 40px rgba(0,0,0,.35);
-  --hero:linear-gradient(135deg,#0f2238 0%,#1c3552 100%);
+  --hero:linear-gradient(135deg,#0f2238 0%,#17395f 100%);
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Pretendard,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
@@ -37,7 +37,7 @@ header{display:flex;justify-content:space-between;align-items:center;gap:14px;pa
 .hero h1{margin:10px 0 0;font-size:32px;line-height:1.28;letter-spacing:-.7px}
 .hero p{margin:14px 0 0;color:var(--muted);font-size:14px;line-height:1.75;max-width:780px}
 .badges{display:flex;gap:8px;flex-wrap:wrap}
-.badge{display:inline-flex;align-items:center;gap:6px;background:#fff8d9;border:1px solid #f4d35e;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;color:#4b5563}
+.badge{display:inline-flex;align-items:center;gap:6px;background:#16385c;border:1px solid #2b5c93;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;color:#4b5563}
 .badge.dark{background:var(--card);border-color:var(--line)}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0 20px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
@@ -52,7 +52,7 @@ header{display:flex;justify-content:space-between;align-items:center;gap:14px;pa
 label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:700}
 input,select,textarea{width:100%;padding:12px 13px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);outline:none;font-size:14px}
 textarea{min-height:92px;resize:vertical}
-input:focus,select:focus,textarea:focus{border-color:#f5c518;box-shadow:0 0 0 4px rgba(255,184,0,.16)}
+input:focus,select:focus,textarea:focus{border-color:#2f6bff;box-shadow:0 0 0 4px rgba(47,107,255,.16)}
 .actions{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:16px}
 button{border:none;background:var(--brand);color:#111827;padding:14px 18px;border-radius:12px;font-weight:800;cursor:pointer}
 button:hover{filter:brightness(.98)}
@@ -74,19 +74,19 @@ button.ghost{background:var(--card);border:1px solid var(--line);color:var(--tex
 .ctaRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
 .step{padding:10px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:12px;text-align:center;font-weight:700}
-.step.active{background:#fff7d6;border-color:#f5c518;color:#111827}
+.step.active{background:#16385c;border-color:#2f6bff;color:#f8fafc}
 .step.done{background:#ecfdf3;border-color:#abefc6;color:#067647}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px}
 .tab{padding:8px 10px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--muted);font-size:12px;cursor:pointer;font-weight:700}
-.tab.active{background:#fff7d6;border-color:#f5c518;color:#111827}
+.tab.active{background:#16385c;border-color:#2f6bff;color:#f8fafc}
 .qWrap{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
 .qcard{border:1px solid var(--line);border-radius:18px;background:var(--card);padding:18px}
 .qNo{font-size:12px;color:var(--muted);font-family:ui-monospace,Consolas,monospace}
 .qTitle{margin:8px 0 10px;font-size:20px;font-weight:900;line-height:1.35}
 .scale{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .opt{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:12px;cursor:pointer;min-height:78px;display:flex;flex-direction:column;gap:6px;justify-content:center}
-.opt:hover{border-color:#f5c518;background:#fffaf0}
-.opt.sel{border-color:#f5c518;background:#fff6d8;box-shadow:0 0 0 3px rgba(255,184,0,.14) inset}
+.opt:hover{border-color:#2f6bff;background:#17395f}
+.opt.sel{border-color:#2f6bff;background:#17395f;box-shadow:0 0 0 3px rgba(47,107,255,.18) inset}
 .opt .n{font-size:12px;font-weight:900;color:#374151}
 .opt .t{font-size:12px;color:var(--muted);line-height:1.35}
 .hint{margin-top:12px;border:1px dashed #d0d5dd;border-radius:14px;padding:10px 12px;background:#fcfcfd;font-size:12px;color:var(--muted);line-height:1.55}
@@ -332,6 +332,7 @@ function renderEstimateResult(){
 }
 
 function renderDiagnosis(){
+  const secDoneMap = Object.fromEntries(sections.map(s=>[s.id, questions.filter(q=>q.sec===s.id).every(q=>state.answers[q.no]) ]));
   const q = currentQuestion();
   const sec = sections.find(s=>s.id===state.nav.section);
   const secList = questions.filter(x=>x.sec===sec.id);
@@ -379,7 +380,7 @@ function renderDiagnosis(){
             <div class="bd">
               <div class="list">
                 <div class="li"><div><b>질문의 목적</b><small>${escapeHtml(q.why)}</small></div><span class="miniPill">WHY</span></div>
-                <div class="li" style="background:#fffaf0"><div><b>${usp.title}</b><small>${usp.desc}</small></div><span class="miniPill">USP</span></div>
+                <div class="li" style="background:#17395f"><div><b>${usp.title}</b><small>${usp.desc}</small></div><span class="miniPill">USP</span></div>
               </div>
             </div>
           </div>
@@ -388,7 +389,7 @@ function renderDiagnosis(){
     </section>`;
 
   const tabs = document.getElementById('tabs');
-  tabs.innerHTML = sections.map(s=>`<span class="${s.id===sec.id?'tab active':'tab'}" data-sec="${s.id}">${questions.filter(q=>q.sec===s.id).every(q=>state.answers[q.no])?'✓ ':''}${s.name}</span>`).join('');
+  tabs.innerHTML = sections.map(s=>`<span class="${s.id===sec.id?'tab active':'tab'}" data-sec="${s.id}">${secDoneMap[s.id]?'✓ ':''}${s.name}</span>`).join('');
   [...tabs.querySelectorAll('.tab')].forEach(t=> t.onclick = ()=>{ state.nav.section=t.dataset.sec; state.nav.index=0; save(); render(); });
 
   const scale = document.getElementById('scale');
@@ -400,6 +401,8 @@ function renderDiagnosis(){
   const backEstimateBtn = document.getElementById('backToEstimateBtn');
   if(backEstimateBtn) backEstimateBtn.onclick = ()=>{ state.mode='estimate'; save(); render(); };
   document.getElementById('nextBtn').onclick = ()=>{ if(!state.answers[q.no]) return alert('항목을 선택해 주세요.'); nextQ(); render(); };
+  const backEstimateBtn = document.getElementById('backToEstimateBtn');
+  if(backEstimateBtn) backEstimateBtn.onclick = ()=>{ state.mode='estimate'; save(); render(); };
 }
 
 function nextQ(){
@@ -445,7 +448,7 @@ function renderResult(){
 
   app.innerHTML = `
     <div class="steps">
-      <div class="step done">AI Pricing 자료 제출</div>
+      <div class="step done">물류 운임 진단 ✓</div>
       <div class="step done">물류 운영 진단</div>
       <div class="step active">결과 확인</div>
       <div class="step">더 운반 연결</div>
