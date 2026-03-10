@@ -33,9 +33,9 @@ header{display:flex;justify-content:space-between;align-items:center;gap:14px;pa
 .logoBox img.cj{transform:scale(1.35)}
 .logoDivider{width:1px;height:22px;background:#d0d5dd}
 .headerRight{font-size:13px;color:var(--muted)}
-.hero{background:var(--hero);border:1px solid #f5df8e;border-radius:var(--radius2);padding:28px;box-shadow:var(--shadow);margin-bottom:18px}
-.hero h1{margin:10px 0 0;font-size:30px;line-height:1.22;letter-spacing:-.7px}
-.hero p{margin:12px 0 0;color:#475467;font-size:14px;line-height:1.6;max-width:820px}
+.hero{background:var(--hero);border:1px solid #f5df8e;border-radius:var(--radius2);padding:30px;box-shadow:var(--shadow);margin-bottom:18px}
+.hero h1{margin:10px 0 0;font-size:32px;line-height:1.28;letter-spacing:-.7px}
+.hero p{margin:14px 0 0;color:#475467;font-size:14px;line-height:1.75;max-width:780px}
 .badges{display:flex;gap:8px;flex-wrap:wrap}
 .badge{display:inline-flex;align-items:center;gap:6px;background:#fff8d9;border:1px solid #f4d35e;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;color:#4b5563}
 .badge.dark{background:#fff;border-color:var(--line)}
@@ -122,8 +122,8 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
       <span class="badge">3~4분 물류 진단</span>
       <span class="badge">해결 방안 제안</span>
     </div>
-    <h1>우리 회사 물류, 잘하고 있는 걸까?</h1>
-    <p>먼저 물류 운임 진단을 위한 기본 자료를 제출하고, 이어서 물류 운영 진단을 통해 현재 구조의 비효율을 점검해보세요. 진단 결과를 바탕으로 더 운반이 어떤 방식으로 개선을 지원할 수 있는지까지 한 번에 확인할 수 있습니다.</p>
+    <h1>우리 회사 물류,<br>잘하고 있는 걸까?</h1>
+    <p>먼저 <b>물류 운임 진단</b>을 위한 기본 자료를 제출하고,<br>이어서 <b>물류 운영 진단</b>을 통해 현재 구조의 비효율을 점검해보세요.<br><br>진단 결과를 바탕으로 더 운반이 어떤 방식으로 개선을 지원할 수 있는지까지 한 번에 확인할 수 있습니다.</p>
   </section>
 
   <section class="grid3">
@@ -341,10 +341,14 @@ function renderDiagnosis(){
   const usp = getUspBySection(sec.id);
   app.innerHTML = `
     <div class="steps">
-      <div class="step done">AI Pricing 자료 제출</div>
+      <div class="step done">물류 운임 진단</div>
       <div class="step active">물류 운영 진단</div>
       <div class="step">결과 확인</div>
       <div class="step">더 운반 연결</div>
+    </div>
+    <div class="actions" style="margin:0 0 12px 0">
+      <button class="ghost" id="backToEstimateBtn">← 물류 운임 진단으로 돌아가기</button>
+      <span class="miniPill">운임 자료는 입력된 상태로 유지됩니다</span>
     </div>
     <section class="panel">
       <div class="hd">
@@ -393,6 +397,8 @@ function renderDiagnosis(){
 
   document.getElementById('toggleWhy').onclick = ()=> document.getElementById('whyText').classList.toggle('hide');
   document.getElementById('prevBtn').onclick = ()=>{ prevQ(); render(); };
+  const backEstimateBtn = document.getElementById('backToEstimateBtn');
+  if(backEstimateBtn) backEstimateBtn.onclick = ()=>{ state.mode='estimate'; save(); render(); };
   document.getElementById('nextBtn').onclick = ()=>{ if(!state.answers[q.no]) return alert('항목을 선택해 주세요.'); nextQ(); render(); };
 }
 
