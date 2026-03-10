@@ -6,410 +6,252 @@
 <title>CJ대한통운 더 운반 | 셀러 물류 진단</title>
 <style>
 :root{
-  --bg:#081a2b;
-  --panel:#0f2741;
-  --card:#102844;
-  --line:#21476d;
-  --text:#f8fafc;
-  --muted:#b8c7d9;
-  --brand:#2f6bff;
-  --brand2:#3ea6ff;
-  --good:#22c55e;
-  --shadow:0 16px 40px rgba(0,0,0,.28);
-  --radius:18px;
-  --radius2:24px;
+--bg:#081a2b;
+--panel:#0f2741;
+--card:#102844;
+--line:#21476d;
+--text:#f8fafc;
+--muted:#b8c7d9;
+--brand:#2f6bff;
+--brand2:#3ea6ff;
+--shadow:0 18px 40px rgba(0,0,0,.28);
+--radius:18px;
 }
 *{box-sizing:border-box}
-body{margin:0;background:linear-gradient(180deg,#071627 0%, #081a2b 100%);color:var(--text);font-family:Pretendard,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-.container{max-width:1080px;margin:0 auto;padding:18px 18px 50px}
-header{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:18px}
-.logoUnit{display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:10px 14px;box-shadow:var(--shadow)}
-.logoBox{width:132px;height:44px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:8px;overflow:hidden}
-.logoBox img{max-width:100%;max-height:100%;display:block;object-fit:contain}
-.logoBox img.cj{transform:scale(1.35)}
-.logoDivider{width:1px;height:22px;background:#d1d5db}
-.headerRight{font-size:13px;color:var(--muted)}
-.hero{background:linear-gradient(135deg,#0f2741 0%, #17395f 100%);border:1px solid #3d6792;border-radius:var(--radius2);padding:30px;box-shadow:var(--shadow);margin-bottom:18px}
+body{margin:0;background:linear-gradient(180deg,#071627,#081a2b);color:var(--text);font-family:Pretendard,system-ui,-apple-system}
+.container{max-width:1100px;margin:auto;padding:20px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.logoUnit{display:flex;gap:10px;background:#fff;border-radius:14px;padding:10px 14px}
+.logoBox{width:130px;height:44px;display:flex;align-items:center;justify-content:center}
+.logoBox img{max-height:100%;max-width:100%;object-fit:contain}
+.hero{background:linear-gradient(135deg,#0f2741,#17395f);border-radius:24px;padding:32px;border:1px solid #35597e;margin-bottom:20px}
 .badges{display:flex;gap:8px;flex-wrap:wrap}
-.badge{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:#143352;border:1px solid #2f6bff;color:#dbeafe;font-size:12px;font-weight:700}
-.hero h1{margin:12px 0 0;font-size:34px;line-height:1.25;letter-spacing:-.6px;color:#fff}
-.hero p{margin:14px 0 0;max-width:760px;font-size:15px;line-height:1.75;color:#d9e6f2}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0 20px}
-.card,.panel,.resultBox{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-.card{padding:18px}
-.card h3{margin:0 0 8px;font-size:18px;color:#fff}
-.card p{margin:0;font-size:14px;line-height:1.65;color:var(--muted)}
-.panel{overflow:hidden}
-.panel .hd{padding:16px 18px 10px;border-bottom:1px solid var(--line)}
-.panel .bd{padding:18px}
-.sectionTitle{margin:0;font-size:20px;font-weight:900;color:#fff}
-.sectionSub{margin-top:6px;font-size:13px;color:var(--muted)}
+.badge{padding:6px 10px;border-radius:999px;border:1px solid #2f6bff;background:#143352;font-size:12px}
+.hero h1{font-size:34px;margin:10px 0}
+.hero p{color:#d9e6f2;line-height:1.7}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.card{background:var(--card);border:1px solid var(--line);padding:18px;border-radius:var(--radius)}
+.card h3{margin-top:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin-top:18px}
+.hd{padding:16px;border-bottom:1px solid var(--line)}
+.bd{padding:18px}
+.sectionTitle{font-weight:800;font-size:20px}
+.sectionSub{font-size:13px;color:var(--muted);margin-top:6px}
 .form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-label{display:block;margin-bottom:6px;font-size:13px;font-weight:700;color:#d9e6f2}
-input,select{width:100%;padding:12px 13px;border-radius:12px;border:1px solid var(--line);background:#0a2036;color:#fff;outline:none;font-size:14px}
-input::placeholder{color:#89a2bd}
-input:focus,select:focus{border-color:var(--brand2);box-shadow:0 0 0 4px rgba(62,166,255,.16)}
-.actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
-button{border:none;border-radius:12px;padding:13px 18px;font-weight:800;cursor:pointer}
-button.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
-button.secondary{background:#0b1320;color:#fff;border:1px solid #284567}
-button.ghost{background:transparent;color:#fff;border:1px solid #35597e}
-.miniPill{display:inline-block;padding:7px 10px;border-radius:999px;background:#0b2238;border:1px solid var(--line);font-size:12px;color:var(--muted)}
-.resultBox{padding:20px;margin-top:18px}
-.resultHeader{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
-.resultHeader h2{margin:10px 0 0;font-size:24px;line-height:1.25;color:#fff}
-.resultHeader p{margin:10px 0 0;line-height:1.7;color:var(--muted)}
-.numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
-.numCard{background:#0b2238;border:1px solid var(--line);border-radius:14px;padding:16px}
-.numCard .k{font-size:12px;color:var(--muted)}
-.numCard .v{margin-top:8px;font-size:22px;font-weight:900;color:#fff}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
-.step{padding:10px 12px;border-radius:999px;border:1px solid var(--line);background:#0b2238;color:var(--muted);font-size:12px;text-align:center;font-weight:700}
-.step.active{background:#16385c;border-color:var(--brand2);color:#fff}
-.step.done{background:#0f3346;border-color:#2f6bff;color:#dbeafe}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px}
-.tab{padding:8px 10px;border:1px solid var(--line);border-radius:999px;background:#0b2238;color:var(--muted);font-size:12px;cursor:pointer;font-weight:700}
-.tab.active{background:#16385c;border-color:var(--brand2);color:#fff}
-.qWrap{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
-.qcard{border:1px solid var(--line);border-radius:18px;background:#0b2238;padding:18px}
-.qNo{font-size:12px;color:var(--muted);font-family:ui-monospace,Consolas,monospace}
-.qTitle{margin:8px 0 10px;font-size:20px;font-weight:900;line-height:1.35;color:#fff}
+label{font-size:13px;font-weight:700}
+input,select{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#0a2036;color:#fff}
+input::placeholder{color:#8ba6c3}
+.actions{display:flex;justify-content:space-between;margin-top:16px;gap:10px}
+button{padding:12px 18px;border-radius:12px;border:none;font-weight:700;cursor:pointer}
+.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
+.secondary{background:#0b2238;color:#fff;border:1px solid var(--line)}
+.ghost{background:transparent;border:1px solid #35597e;color:#fff}
+.miniPill{font-size:12px;padding:6px 10px;border-radius:999px;background:#0b2238;border:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.step{background:#0b2238;border:1px solid var(--line);padding:8px;border-radius:999px;text-align:center;font-size:12px}
+.step.active{background:#16385c;border-color:var(--brand)}
+.step.done{background:#0f3346}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{background:#0b2238;border:1px solid var(--line);padding:8px 10px;border-radius:999px;font-size:12px;cursor:pointer}
+.tab.active{background:#16385c;border-color:var(--brand)}
+.qWrap{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+.qcard{background:#0b2238;border:1px solid var(--line);border-radius:18px;padding:18px}
+.qTitle{font-size:20px;margin:10px 0}
 .scale{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-.opt{border:1px solid var(--line);border-radius:16px;background:#102844;padding:12px;cursor:pointer;min-height:78px;display:flex;flex-direction:column;gap:6px;justify-content:center}
-.opt:hover{border-color:var(--brand2);background:#143352}
-.opt.sel{border-color:var(--brand2);background:#17395f;box-shadow:0 0 0 3px rgba(62,166,255,.18) inset}
-.opt .n{font-size:12px;font-weight:900;color:#fff}
-.opt .t{font-size:12px;line-height:1.35;color:var(--muted)}
-.hint{margin-top:12px;border:1px dashed #3d5f82;border-radius:14px;padding:10px 12px;background:#0e2237;font-size:12px;line-height:1.65;color:#d9e6f2}
-.hint button{all:unset;cursor:pointer;font-weight:800;color:#fff}
-.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
-.list{display:flex;flex-direction:column;gap:10px}
-.li{background:#0b2238;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.li b{display:block;margin-bottom:5px;color:#fff}
-.li small{display:block;line-height:1.65;color:var(--muted)}
-.barWrap{margin-top:12px}
-.barTitle{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#dbeafe;margin-bottom:6px}
-.meter{height:10px;background:#081a2b;border-radius:999px;overflow:hidden;border:1px solid #294766}
-.meter>i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2))}
-.hide{display:none !important}
-.footer{margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
-@media (max-width:980px){.grid3,.form,.steps,.numbers,.qWrap,.compare,.scale{grid-template-columns:1fr}}
+.opt{border:1px solid var(--line);border-radius:14px;padding:10px;background:#102844;cursor:pointer;font-size:12px}
+.opt.sel{border-color:var(--brand);background:#17395f}
+.hint{border:1px dashed #3d5f82;padding:10px;border-radius:14px;margin-top:10px;font-size:12px}
+.progressBar{height:8px;background:#0a2036;border-radius:999px;margin-top:8px}
+.progressBar>div{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:999px}
+.resultBox{padding:20px;background:var(--panel);border-radius:var(--radius);border:1px solid var(--line)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.footer{text-align:center;margin-top:30px;color:#b8c7d9;font-size:13px}
+@media(max-width:900px){.grid3,.form,.qWrap,.compare{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="container">
-  <header>
-    <div class="logoUnit">
-      <div class="logoBox"><img class="cj" src="cj-logo.png.png" alt="CJ대한통운 로고"></div>
-      <div class="logoDivider"></div>
-      <div class="logoBox"><img src="unban-logo.png" alt="더 운반 로고"></div>
-    </div>
-    <div class="headerRight">CJ대한통운 더 운반</div>
-  </header>
+<header>
+<div class="logoUnit">
+<div class="logoBox"><img src="cj-logo.png.png"></div>
+<div class="logoBox"><img src="unban-logo.png"></div>
+</div>
+<div style="font-size:13px;color:#b8c7d9">CJ대한통운 더 운반</div>
+</header>
 
-  <section class="hero">
-    <div class="badges">
-      <span class="badge">#물류 운임 진단</span>
-      <span class="badge">#물류 운영 진단</span>
-      <span class="badge">#물류 디지털화</span>
-      <span class="badge">#AI Pricing</span>
-      <span class="badge">#실시간 관제</span>
-      <span class="badge">#정산 자동화</span>
-    </div>
-    <h1>우리 회사 물류, 잘하고 있는 걸까?</h1>
-    <p>먼저 <b>물류 운임 진단</b>을 위한 양식을 내려받아 작성한 뒤 제출하고,<br>이어서 <b>물류 운영 진단</b>을 통해 현재 운영 구조의 비효율을 점검해보세요.<br><br>진단 결과를 바탕으로 더 운반이 어떤 방식으로 개선을 지원할 수 있는지까지 한 번에 확인할 수 있습니다.</p>
-  </section>
+<section class="hero">
+<div class="badges">
+<span class="badge">#물류 운임 진단</span>
+<span class="badge">#물류 운영 진단</span>
+<span class="badge">#물류 디지털화</span>
+<span class="badge">#AI Pricing</span>
+<span class="badge">#실시간 관제</span>
+<span class="badge">#정산 자동화</span>
+</div>
+<h1>우리 회사 물류, 잘하고 있는 걸까?</h1>
+<p>운임 구조와 운영 방식을 함께 점검하여 현재 물류 운영 수준을 진단하고, 더 운반 기반의 개선 방향을 확인할 수 있습니다.</p>
 
-  <section class="grid3">
-    <div class="card"><h3>1. 물류 운임 진단</h3><p>운임 검토 양식을 내려받아 작성 후 제출하면, 더 운반이 단일구간·복수구간 단가와 고정·비고정 운임 구조를 기준으로 오프라인 검토를 진행합니다.</p></div>
-    <div class="card"><h3>2. 물류 운영 진단</h3><p>운임, 배차, 정산, 디지털 운영 관점에서 현재 운영 수준을 진단하고, 우선적으로 개선이 필요한 영역을 확인합니다.</p></div>
-    <div class="card"><h3>3. 해결 방안 제안</h3><p>진단 결과를 바탕으로 AI Pricing, 실시간 관제, 정산 자동화 등 더 운반 기반의 실행 가능한 해결 방향을 제안합니다.</p></div>
-  </section>
+<div class="grid3">
+<div class="card"><h3>1. 물류 운임 진단</h3><p>운임 검토 양식을 기반으로 주요 구간의 운임 구조를 검토합니다.</p></div>
+<div class="card"><h3>2. 물류 운영 진단</h3><p>운임·배차·정산·디지털 운영 관점에서 현재 운영 수준을 진단합니다.</p></div>
+<div class="card"><h3>3. 해결 방안 제안</h3><p>AI Pricing, 실시간 관제, 정산 자동화 기반 개선 방향을 제안합니다.</p></div>
+</div>
+</section>
 
-  <div id="app"></div>
-  <div class="footer">CJ대한통운 더 운반 | B2B 화주/셀러 물류 진단 Prototype</div>
+<div id="app"></div>
+
+<div class="footer">CJ대한통운 더 운반 | 물류 운영 진단 Prototype</div>
 </div>
 
 <script>
-const STORAGE_KEY = 'godomall_diag_proto_v7';
-const sections = [
-  { id:'fare', name:'운임 적정성' },
-  { id:'dispatch', name:'배차 운영' },
-  { id:'settlement', name:'정산 운영' },
-  { id:'digital', name:'디지털 운영' }
-];
-const questions = [
-  { no:1, sec:'fare', q:'현재 물류 비용은 어떻게 결정되나요?', why:'운임 산정 방식이 불투명할수록 시장 대비 비싸게 쓰고 있을 가능성이 높습니다.' },
-  { no:2, sec:'fare', q:'노선/구간별 운임 기준표가 있나요?', why:'구간별 기준표가 있어야 운임이 적정한지 검증할 수 있습니다.' },
-  { no:3, sec:'fare', q:'운임 비교 또는 재협상을 정기적으로 하나요?', why:'정기적인 비교와 재협상 여부는 운임 경쟁력과 직결됩니다.' },
-  { no:4, sec:'fare', q:'주요 구간별 운송비 추이를 인지하고 계신가요?', why:'비용 추이를 관리해야 고비용 구간을 식별할 수 있습니다.' },
-  { no:5, sec:'fare', q:'현재 운송 단가는 얼마나 자주 변경되나요?', why:'운송 단가 조정 구조를 알면 시장 변동을 얼마나 반영하는지 볼 수 있습니다.' },
-  { no:6, sec:'dispatch', q:'배차 요청은 어떤 방식으로 진행하나요?', why:'배차 요청 채널이 분산될수록 누락과 대응 지연이 발생하기 쉽습니다.' },
-  { no:7, sec:'dispatch', q:'차량 확보는 얼마나 안정적인가요?', why:'차량 수급 안정성은 비용과 운영 스트레스를 동시에 좌우합니다.' },
-  { no:8, sec:'dispatch', q:'배차 상태 및 차량 위치를 실시간으로 확인할 수 있나요?', why:'상태 가시성이 있어야 CS와 긴급 대응이 빨라집니다.' },
-  { no:9, sec:'dispatch', q:'긴급 배차/변동 발생 시 대응은 원활한가요?', why:'긴급 대응 체계 수준은 운영 성숙도를 잘 보여줍니다.' },
-  { no:10, sec:'settlement', q:'운송비 정산은 어떤 방식으로 처리하나요?', why:'정산 방식은 내부 운영 공수와 데이터 누락 위험을 보여줍니다.' },
-  { no:11, sec:'settlement', q:'오청구/누락 확인을 위한 정산 검증 체계가 있나요?', why:'검증 체계가 약하면 비용 누수 가능성이 커집니다.' },
-  { no:12, sec:'settlement', q:'정산 관련 업무에 드는 공수는 어느 정도인가요?', why:'정산 공수는 자동화 우선순위를 판단하는 핵심 지표입니다.' },
-  { no:13, sec:'settlement', q:'정산 이력 및 증빙 데이터를 쉽게 찾을 수 있나요?', why:'이력 조회가 어려우면 검증과 분쟁 대응 시간이 길어집니다.' },
-  { no:14, sec:'digital', q:'물류 관련 데이터는 어떤 방식으로 관리하나요?', why:'수기/엑셀 중심인지, 시스템/데이터 기반인지가 운영 수준을 가릅니다.' },
-  { no:15, sec:'digital', q:'운송 현황을 회사 내 여러 명이 동시에 공유하고 있나요?', why:'정보가 한 사람에게 몰리면 운영 병목이 생깁니다.' },
-  { no:16, sec:'digital', q:'물류 KPI(비용, 배차율 등)를 별도로 관리하고 계신가요?', why:'KPI가 있어야 개선 활동이 숫자로 이어집니다.' },
-  { no:17, sec:'digital', q:'현재 물류 운영 방식은 얼마나 표준화되어 있나요?', why:'표준화 수준은 담당자 의존도를 판단하는 핵심 요소입니다.' },
-  { no:18, sec:'digital', q:'운송 데이터 기반 의사결정을 하고 있나요?', why:'이 항목은 더 운반 AI Pricing 연결 논리를 강화해 줍니다.' }
-];
-const choices = {
-  1:['개인 기사 제안 단가','정보망 변동 단가','계약 단가 기반','담당자 협상','시장 운임 비교 후 결정'],
-  2:['없음','일부 구간만 있음','주요 노선 기준 존재','대부분 구간 기준 존재','정기 업데이트'],
-  3:['거의 하지 않음','필요 시 진행','연 1회','분기별 진행','상시 비교/관리'],
-  4:['전혀 모름','담당자 경험 의존','일부 데이터 관리','정기 분석','시스템 기반 관리'],
-  5:['거의 고정','가끔 변경','필요 시 협상','정기 협상','시장 기반 조정'],
-  6:['전화/카카오톡','메일/문자','엑셀 관리','일부 시스템 사용','플랫폼 기반 운영'],
-  7:['자주 차량 확보 어려움','성수기/긴급배차 시 어려움','보통 수준','대부분 안정적 확보','매우 안정적'],
-  8:['전혀 확인 불가','기사 연락 통해 확인','일부 시스템 확인 가능','실시간 조회 가능','자동 공유/알림'],
-  9:['매우 어려움','담당자 경험 의존','보통 수준','비교적 원활','체계적 대응 가능'],
-  10:['수기 정산','엑셀 관리','일부 시스템','정산 시스템 사용','ERP 연동'],
-  11:['없음','담당자 수기 검증','일부 기준 존재','정기 검증 진행','자동 검증 시스템'],
-  12:['매우 많음','비교적 많음','보통','적은 편','자동화'],
-  13:['조회 어려움','파일 검색 필요','일부 조회 가능','대부분 조회 가능','시스템 조회 가능'],
-  14:['수기 관리','엑셀 관리','일부 시스템','통합 시스템','데이터 기반 운영'],
-  15:['불가능','담당자만 확인','일부 공유','대부분 공유','실시간 공유'],
-  16:['없음','가끔 확인','일부 관리','정기 관리','KPI 기반 운영'],
-  17:['개인 경험 중심','일부 문서화','기본 프로세스 존재','표준 운영 프로세스','자동화 기반 운영'],
-  18:['거의 없음','경험 기반','일부 데이터 참고','정기 분석','데이터 기반 운영']
-};
-const monthlyBands = ['100만원 미만','300만원 미만','500만원 미만','1천만원 미만','1천만원 이상','직접입력'];
-const vehicleTypes = ['카고','윙바디','탑차'];
-const tonnageTypes = ['라보','다마스','1톤','2.5톤','3.5톤','5톤','11톤','18톤','25톤'];
+const sections=[{id:'fare',name:'운임 진단'},{id:'dispatch',name:'배차 운영'},{id:'settlement',name:'정산 운영'},{id:'digital',name:'디지털 운영'}]
+const questions=[
+{sec:'fare',q:'현재 물류 비용은 어떻게 결정되나요?'},
+{sec:'fare',q:'노선별 운임 기준이 있나요?'},
+{sec:'fare',q:'운임 재협상을 정기적으로 하나요?'},
+{sec:'dispatch',q:'배차 요청은 어떤 방식인가요?'},
+{sec:'dispatch',q:'차량 확보는 안정적인가요?'},
+{sec:'dispatch',q:'배차 상태를 실시간 확인하나요?'},
+{sec:'settlement',q:'정산 방식은 무엇인가요?'},
+{sec:'settlement',q:'정산 검증 체계가 있나요?'},
+{sec:'settlement',q:'정산 공수는 어느 정도인가요?'},
+{sec:'digital',q:'물류 데이터 관리 방식은?'},
+{sec:'digital',q:'물류 KPI 관리 여부?'},
+{sec:'digital',q:'데이터 기반 의사결정 여부?'}
+]
 
-function getUspBySection(sectionId){
-  const map = {
-    fare:{title:'AI Pricing 기반 실시간 운임 제공',desc:'더 운반은 주요 구간의 시장 운임 수준을 빠르게 비교해 현재 단가의 적정성을 판단할 수 있도록 돕습니다.'},
-    dispatch:{title:'실시간 관제 / 가시성',desc:'더 운반은 배차 상태, 차량 위치, 진행 현황을 실시간으로 보여줘 운영 불확실성과 확인 공수를 줄이는 데 강점이 있습니다.'},
-    settlement:{title:'정산 자동화 / 검증',desc:'더 운반은 운송 이력 기반 데이터 구조를 통해 정산 검증 공수와 누락·오청구 대응 부담을 줄일 수 있는 방향을 제안합니다.'},
-    digital:{title:'데이터 기반 운영 지원',desc:'더 운반은 데이터가 남는 운영 구조와 표준화를 기반으로 화주의 물류 의사결정을 돕는 방향으로 서비스를 확장할 수 있습니다.'}
-  };
-  return map[sectionId];
-}
-function levelByScore(total){ if(total<=24) return {level:1,name:'Manual'}; if(total<=40) return {level:2,name:'Excel'}; if(total<=60) return {level:3,name:'Partial Digital'}; if(total<=76) return {level:4,name:'Integrated'}; return {level:5,name:'Data Driven'}; }
-function benchmark(profile){ const bandBase={'100만원 미만':120,'300만원 미만':260,'500만원 미만':430,'1천만원 미만':850,'1천만원 이상':1200}; const monthly=profile.monthlyBand==='직접입력'?Number(profile.monthlyDirect||0):(bandBase[profile.monthlyBand]||300); return {monthly,avg:58,secAvg:{fare:14,dispatch:11,settlement:11,digital:14}}; }
-function getSectionFeedback(sectionId, score){
-  const feedback={
-    fare:[{max:10,title:'운임 관리 체계가 미흡한 상태',desc:'현재는 운임 기준과 비교 체계가 약해 시장 대비 적정성을 판단하기 어려운 상태입니다.',solution:'더 운반의 AI Pricing 기반 실시간 운임 검토를 통해 주요 구간의 적정 운임 기준을 마련할 수 있습니다.'},{max:18,title:'운임 관리가 부분적으로 이뤄지는 상태',desc:'일부 운임 기준과 비교 활동은 있으나, 정기적 관리 체계는 부족한 편입니다.',solution:'더 운반은 구간별 운임 비교와 검토를 통해 재협상 포인트를 빠르게 찾을 수 있도록 지원합니다.'},{max:25,title:'운임 관리 체계가 비교적 안정적인 상태',desc:'운임 기준과 비교 구조가 비교적 갖춰져 있으나, 더 정교한 최적화 여지가 남아 있습니다.',solution:'더 운반 AI Pricing을 활용하면 더 세밀한 시장 비교와 적정 단가 검토가 가능합니다.'}],
-    dispatch:[{max:8,title:'배차 운영 안정성이 낮은 상태',desc:'배차 요청 방식과 차량 확보 구조가 비표준화되어 누락·긴급 대응 이슈가 발생할 가능성이 큽니다.',solution:'더 운반의 실시간 관제/가시성 기능을 통해 배차 상태와 진행 현황을 한눈에 관리할 수 있습니다.'},{max:14,title:'배차 운영이 부분적으로 체계화된 상태',desc:'일부 가시성과 대응 체계는 있으나, 운영 방식이 담당자 경험에 의존하는 구간이 남아 있습니다.',solution:'더 운반은 배차 요청·상태 확인·긴급 대응을 보다 일관된 방식으로 운영할 수 있도록 지원합니다.'},{max:20,title:'배차 운영 체계가 비교적 안정적인 상태',desc:'차량 확보와 상태 확인 체계가 비교적 잘 갖춰져 있습니다.',solution:'더 운반의 실시간 관제 기능을 더하면 운영 가시성과 대응 속도를 한층 끌어올릴 수 있습니다.'}],
-    settlement:[{max:8,title:'정산 공수와 검증 부담이 큰 상태',desc:'정산이 수기/엑셀 중심으로 운영되어 누락·오청구 대응과 증빙 확인에 많은 시간이 소요될 수 있습니다.',solution:'더 운반은 운송 이력 기반 정산 자동화 및 검증 체계 구축 방향을 제안할 수 있습니다.'},{max:14,title:'정산 운영이 부분적으로 체계화된 상태',desc:'일부 시스템화는 되어 있으나, 여전히 수동 검증과 담당자 의존도가 남아 있습니다.',solution:'더 운반은 정산 데이터의 정합성과 조회 편의성을 높이는 방향으로 운영 효율을 개선할 수 있습니다.'},{max:20,title:'정산 운영 체계가 비교적 안정적인 상태',desc:'정산 프로세스와 조회 구조가 비교적 잘 갖춰져 있습니다.',solution:'더 운반을 통해 정산 자동화 수준을 한 단계 더 끌어올리고, 검증 공수를 줄일 수 있습니다.'}],
-    digital:[{max:10,title:'디지털 운영 수준이 낮은 상태',desc:'데이터 축적과 운영 표준화가 부족해 담당자 의존도가 높고, 운영 개선이 체계적으로 이어지기 어려운 상태입니다.',solution:'더 운반은 데이터가 남는 구조와 운영 표준화를 기반으로 화주의 의사결정을 지원할 수 있습니다.'},{max:18,title:'디지털 운영이 부분적으로 이뤄지는 상태',desc:'일부 시스템과 공유 체계는 있으나, KPI 관리와 데이터 활용 수준은 더 높일 수 있습니다.',solution:'더 운반은 물류 데이터 기반 관리와 운영 투명성 제고를 통해 디지털 운영 수준을 끌어올릴 수 있습니다.'},{max:25,title:'디지털 운영 체계가 비교적 안정적인 상태',desc:'데이터 관리와 운영 표준화 수준이 비교적 잘 갖춰져 있습니다.',solution:'더 운반과 연계하면 데이터 기반 의사결정과 운영 최적화를 더욱 고도화할 수 있습니다.'}]
-  };
-  return feedback[sectionId].find(x=>score<=x.max) || feedback[sectionId][feedback[sectionId].length-1];
+const choices=['매우 낮음','낮음','보통','높음','매우 높음']
+
+let state={mode:'estimate',answers:{},i:0,section:'fare'}
+
+const app=document.getElementById('app')
+
+function render(){
+if(state.mode==='estimate') renderPage1()
+else if(state.mode==='diagnosis') renderQuestions()
+else renderResult()
 }
 
-let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || { mode:'estimate', intake:{ company:'', manager:'', phone:'', email:'', pricingUnitType:'단일구간 단가', pricingStructure:'고정 운임', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' }, answers:{}, nav:{ section:'fare', index:0 } };
-const app = document.getElementById('app');
-function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-function escapeHtml(str){ return String(str ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;'); }
-function fmtMoney(v){ return Number(v||0).toLocaleString('ko-KR'); }
-function currentQuestion(){ const list=questions.filter(q=>q.sec===state.nav.section); return list[state.nav.index]||null; }
-function answeredCount(){ return Object.keys(state.answers).length; }
-function compute(){ const total=questions.reduce((s,q)=>s+(state.answers[q.no]||0),0); const perSec={}; sections.forEach(s=>{ perSec[s.id]=questions.filter(q=>q.sec===s.id).reduce((sum,q)=>sum+(state.answers[q.no]||0),0);}); return {total,perSec}; }
-function resetAll(){ localStorage.removeItem(STORAGE_KEY); state={ mode:'estimate', intake:{ company:'', manager:'', phone:'', email:'', pricingUnitType:'단일구간 단가', pricingStructure:'고정 운임', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' }, answers:{}, nav:{ section:'fare', index:0 } }; render(); }
-
-function render(){ if(state.mode==='estimate') renderEstimate(); else if(state.mode==='diagnosis') renderDiagnosis(); else renderResult(); }
-
-function renderEstimate(){
-  app.innerHTML = `
-  <section class="panel">
-    <div class="hd">
-      <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap">
-        <div>
-          <div class="sectionTitle">1. 물류 운임 진단</div>
-          <div class="sectionSub">운임 검토 양식을 기반으로 단일구간 / 복수구간 / 고정·비고정 운임 구조를 오프라인으로 검토합니다</div>
-        </div>
-        <button class="ghost" id="resetTopBtn">초기화</button>
-      </div>
-    </div>
-    <div class="bd">
-      <div class="form">
-        <div><label>회사명</label><input id="company" value="${escapeHtml(state.intake.company)}" placeholder="예: OOO셀러" /></div>
-        <div><label>담당자명</label><input id="manager" value="${escapeHtml(state.intake.manager)}" placeholder="예: 홍길동" /></div>
-        <div><label>연락처</label><input id="phone" value="${escapeHtml(state.intake.phone)}" placeholder="예: 010-0000-0000" /></div>
-        <div><label>이메일</label><input id="email" value="${escapeHtml(state.intake.email)}" placeholder="예: sample@company.com" /></div>
-        <div><label>운임 단가 유형</label><select id="pricingUnitType"><option ${state.intake.pricingUnitType==='단일구간 단가'?'selected':''}>단일구간 단가</option><option ${state.intake.pricingUnitType==='복수구간 단가'?'selected':''}>복수구간 단가</option></select></div>
-        <div><label>운임 구조</label><select id="pricingStructure"><option ${state.intake.pricingStructure==='고정 운임'?'selected':''}>고정 운임</option><option ${state.intake.pricingStructure==='비고정 운임'?'selected':''}>비고정 운임</option></select></div>
-        <div><label>출발지</label><input id="origin" value="${escapeHtml(state.intake.origin)}" /></div>
-        <div><label>도착지</label><input id="destination" value="${escapeHtml(state.intake.destination)}" /></div>
-        <div><label>주 사용 차량</label><select id="vehicleType">${vehicleTypes.map(v=>`<option ${state.intake.vehicleType===v?'selected':''}>${v}</option>`).join('')}</select></div>
-        <div><label>주 사용 톤급</label><select id="tonnage">${tonnageTypes.map(v=>`<option ${state.intake.tonnage===v?'selected':''}>${v}</option>`).join('')}</select></div>
-        <div><label>월 운송비(선택)</label><select id="monthlyBand">${monthlyBands.map(v=>`<option ${state.intake.monthlyBand===v?'selected':''}>${v}</option>`).join('')}</select></div>
-        <div><label>직접 입력 (만원)</label><input id="monthlyDirect" placeholder="예: 1000" value="${escapeHtml(state.intake.monthlyDirect)}" ${state.intake.monthlyBand==='직접입력'?'':'disabled'} /></div>
-        <div>
-          <label>운임 검토 양식 다운로드</label>
-          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-            <button type="button" class="secondary" id="downloadTemplateBtn" style="padding:12px 14px">양식 다운로드</button>
-            <span class="miniPill">내려받은 양식을 작성한 뒤, 우측 업로드 항목에 첨부해 주세요</span>
-          </div>
-        </div>
-        <div><label>작성 완료한 운임 검토 양식 업로드</label><input id="pricingFile" type="file" /></div>
-        <div style="grid-column:1 / -1"><label>추가 메모</label><input id="notes" value="${escapeHtml(state.intake.notes)}" placeholder="상기 항목에 없는 내용이나 검토 시 참고가 필요한 특이사항이 있다면 작성해 주세요" /></div>
-      </div>
-      <div class="actions">
-        <span class="miniPill">양식을 내려받아 작성 후 업로드해 주세요. 더 운반이 오프라인에서 단가 적정성을 검토한 뒤, 물류 운영 진단 결과와 함께 종합적인 개선 방향을 안내드립니다.</span>
-        <button class="primary" id="estimateBtn">운임 검토 자료 제출 후 물류 진단 시작</button>
-      </div>
-    </div>
-  </section>`;
-
-  ['company','manager','phone','email','pricingUnitType','pricingStructure','origin','destination','vehicleType','tonnage','monthlyBand','monthlyDirect','notes'].forEach(id=>{
-    const el=document.getElementById(id); if(!el) return;
-    if(id==='monthlyDirect'){
-      el.oninput=()=>{ el.value=el.value.replace(/[^0-9]/g,''); state.intake[id]=el.value; save(); };
-      el.onchange=()=>{ el.value=el.value.replace(/[^0-9]/g,''); state.intake[id]=el.value; save(); };
-    } else {
-      el.oninput=el.onchange=()=>{ state.intake[id]=el.value; if(id==='monthlyBand') document.getElementById('monthlyDirect').disabled = el.value !== '직접입력'; save(); };
-    }
-  });
-  document.getElementById('pricingFile').onchange=(e)=>{ state.intake.fileName=e.target.files&&e.target.files[0]?e.target.files[0].name:''; save(); };
-  document.getElementById('downloadTemplateBtn').onclick=()=>{ alert('데모: 운임 검토 양식 다운로드'); };
-  document.getElementById('estimateBtn').onclick=()=>{ state.mode='diagnosis'; save(); render(); };
-  document.getElementById('resetTopBtn').onclick=()=>{ if(confirm('입력값과 응답을 모두 초기화할까요?')) resetAll(); };
+function renderPage1(){
+app.innerHTML=`
+<div class="panel">
+<div class="hd"><div class="sectionTitle">물류 운임 진단</div></div>
+<div class="bd">
+<div class="form">
+<div><label>회사명</label><input></div>
+<div><label>담당자</label><input></div>
+<div><label>연락처</label><input></div>
+<div><label>이메일</label><input></div>
+<div><label>운임 단가 유형</label><select><option>단일구간 단가</option><option>복수구간 단가</option></select></div>
+<div><label>운임 구조</label><select><option>고정 운임</option><option>비고정 운임</option></select></div>
+<div style="grid-column:1/-1"><label>추가 메모</label><input placeholder="상기 항목에 없는 특이사항을 작성해 주세요"></div>
+</div>
+<div class="actions">
+<span class="miniPill">운임 검토 양식을 작성 후 업로드하면 더 운반이 검토합니다</span>
+<button class="primary" onclick="startDiag()">운임 검토 자료 제출 후 물류 진단 시작</button>
+</div>
+</div>
+</div>`
 }
 
-function renderDiagnosis(){
-  const secDoneMap = Object.fromEntries(sections.map(s=>[s.id, questions.filter(q=>q.sec===s.id).every(q=>state.answers[q.no]) ]));
-  const q=currentQuestion(); const sec=sections.find(s=>s.id===state.nav.section); const secList=questions.filter(x=>x.sec===sec.id); const idx=state.nav.index; const globalIndex=questions.findIndex(x=>x.no===q.no); const chosen=state.answers[q.no]||0; const usp=getUspBySection(sec.id);
-  app.innerHTML = `
-  <section class="panel" style="margin-bottom:14px">
-    <div class="bd">
-      <div class="badges">
-        <span class="badge">#물류 운영 진단</span>
-        <span class="badge">#운송비 구조 점검</span>
-        <span class="badge">#배차 운영 수준</span>
-        <span class="badge">#정산 운영 효율</span>
-        <span class="badge">#물류 디지털화 수준</span>
-        <span class="badge">#운영 개선 포인트</span>
-      </div>
-      <div style="margin-top:12px">
-        <div class="sectionTitle">물류 운영 진단</div>
-        <div class="sectionSub">현재 운영 수준을 진단하고, 섹션별 개선 포인트를 확인합니다.</div>
-      </div>
-    </div>
-  </section>
-  <div class="steps">
-    <div class="step done">물류 운임 진단 ✓</div>
-    <div class="step active">물류 운영 진단</div>
-    <div class="step">결과 확인</div>
-    <div class="step">더 운반 연결</div>
-  </div>
-  <section class="panel">
-    <div class="hd">
-      <div class="sectionTitle">진단 진행 중</div>
-      <div class="sectionSub">${globalIndex+1} / 18 · ${sec.name} (${idx+1} / ${secList.length})</div>
-      <div class="tabs" id="tabs"></div>
-    </div>
-    <div class="bd">
-      <div class="qWrap">
-        <div class="qcard">
-          <div class="qNo">Q${String(q.no).padStart(2,'0')}</div>
-          <div class="qTitle">${escapeHtml(q.q)}</div>
-          <div class="scale" id="scale"></div>
-          <div class="hint"><button id="toggleWhy">왜 중요한가요?</button><span id="whyText" class="hide"> ${escapeHtml(q.why)}</span></div>
-          <div class="actions">
-            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-              <button class="ghost" id="prevBtn">← 이전</button>
-              <button class="ghost" id="backToEstimateBtn">← 물류 운임 진단으로 돌아가기</button>
-            </div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-              <span class="miniPill">완료 ${answeredCount()} / 18</span>
-              <button class="primary" id="nextBtn">다음 →</button>
-            </div>
-          </div>
-        </div>
-        <div class="panel">
-          <div class="hd"><div class="sectionTitle" style="font-size:18px">이 질문을 드리는 이유</div><div class="sectionSub">질문과 연결되는 더 운반의 가치</div></div>
-          <div class="bd">
-            <div class="list">
-              <div class="li"><div><b>질문의 목적</b><small>${escapeHtml(q.why)}</small></div><span class="miniPill">WHY</span></div>
-              <div class="li"><div><b>${usp.title}</b><small>${usp.desc}</small></div><span class="miniPill">USP</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>`;
+function startDiag(){state.mode='diagnosis';render()}
 
-  const tabs=document.getElementById('tabs');
-  tabs.innerHTML=sections.map(s=>`<span class="${s.id===sec.id?'tab active':'tab'}" data-sec="${s.id}">${secDoneMap[s.id]?'✓ ':''}${s.name}</span>`).join('');
-  [...tabs.querySelectorAll('.tab')].forEach(t=>t.onclick=()=>{ state.nav.section=t.dataset.sec; state.nav.index=0; save(); render(); });
-  const scale=document.getElementById('scale');
-  scale.innerHTML=[1,2,3,4,5].map(n=>`<div class="${chosen===n?'opt sel':'opt'}" data-val="${n}"><div class="n">${n}</div><div class="t">${escapeHtml(choices[q.no][n-1])}</div></div>`).join('');
-  [...scale.querySelectorAll('.opt')].forEach(el=>el.onclick=()=>{ state.answers[q.no]=Number(el.dataset.val); save(); render(); });
-  document.getElementById('toggleWhy').onclick=()=>document.getElementById('whyText').classList.toggle('hide');
-  document.getElementById('prevBtn').onclick=()=>{ prevQ(); render(); };
-  document.getElementById('nextBtn').onclick=()=>{ if(!state.answers[q.no]) return alert('항목을 선택해 주세요.'); nextQ(); render(); };
-  document.getElementById('backToEstimateBtn').onclick=()=>{ state.mode='estimate'; save(); render(); };
+function renderQuestions(){
+let q=questions[state.i]
+let sec=sections.find(s=>s.id===q.sec)
+let progress=Math.round((state.i/questions.length)*100)
+
+app.innerHTML=`
+<div class="panel" style="margin-bottom:12px">
+<div class="bd">
+<div class="badges">
+<span class="badge">#물류 운영 진단</span>
+<span class="badge">#운송비 구조 점검</span>
+<span class="badge">#배차 운영 수준</span>
+<span class="badge">#정산 운영 효율</span>
+<span class="badge">#물류 디지털화 수준</span>
+</div>
+<div class="sectionTitle" style="margin-top:10px">물류 운영 진단</div>
+<div class="sectionSub">운임·배차·정산·디지털 운영 수준을 진단합니다</div>
+</div>
+</div>
+
+<div class="steps">
+<div class="step done">물류 운임 진단</div>
+<div class="step active">물류 운영 진단</div>
+<div class="step">결과 확인</div>
+<div class="step">더 운반 연결</div>
+</div>
+
+<div class="panel">
+<div class="hd">
+<div class="sectionTitle">${sec.name}</div>
+<div class="sectionSub">${state.i+1} / ${questions.length}</div>
+<div class="progressBar"><div style="width:${progress}%"></div></div>
+</div>
+
+<div class="bd">
+<div class="qWrap">
+
+<div class="qcard">
+<div class="qTitle">${q.q}</div>
+<div class="scale">
+${choices.map((c,i)=>`<div class="opt" onclick="choose(${i+1})">${c}</div>`).join('')}
+</div>
+
+<div class="actions">
+<div>
+<button class="ghost" onclick="prev()">← 이전</button>
+<button class="ghost" onclick="backToStart()">← 물류 운임 진단으로 돌아가기</button>
+</div>
+
+<div>
+<button class="primary" onclick="next()">다음 →</button>
+</div>
+</div>
+</div>
+
+<div class="qcard">
+<b>이 질문의 목적</b>
+<p style="color:#b8c7d9">현재 운영 구조의 성숙도를 파악하기 위한 질문입니다.</p>
+
+<b>더 운반 연결 포인트</b>
+<p style="color:#b8c7d9">AI Pricing · 실시간 관제 · 정산 자동화 기반 개선 가능</p>
+</div>
+
+</div>
+</div>
+</div>`
 }
 
-function nextQ(){ const list=questions.filter(q=>q.sec===state.nav.section); if(state.nav.index<list.length-1){ state.nav.index++; save(); return; } const i=sections.findIndex(s=>s.id===state.nav.section); if(i<sections.length-1){ state.nav.section=sections[i+1].id; state.nav.index=0; save(); return; } if(answeredCount()===18){ state.mode='result'; save(); } }
-function prevQ(){ if(state.nav.index>0){ state.nav.index--; save(); return; } const i=sections.findIndex(s=>s.id===state.nav.section); if(i>0){ const prevSec=sections[i-1].id; state.nav.section=prevSec; state.nav.index=questions.filter(q=>q.sec===prevSec).length-1; save(); } else { state.mode='estimate'; save(); } }
+function choose(v){state.answers[state.i]=v}
+function next(){
+if(state.i<questions.length-1){state.i++;render()}
+else{state.mode='result';render()}
+}
+function prev(){if(state.i>0){state.i--;render()}}
+function backToStart(){state.mode='estimate';render()}
 
 function renderResult(){
-  const bm=benchmark(state.intake); const {total, perSec}=compute(); const lvl=levelByScore(total); const gaps=sections.map(s=>({id:s.id,name:s.name,my:perSec[s.id],avg:bm.secAvg[s.id],gap:perSec[s.id]-bm.secAvg[s.id]})).sort((a,b)=>a.gap-b.gap); const weak=gaps.slice(0,2); const strong=gaps.slice(-2).reverse();
-  const painMap={fare:'운임 비교 기준이 약해 비싸게 쓰고 있는지 판단하기 어려운 상태입니다.',dispatch:'배차 요청과 차량 확보 구조가 비표준화되어 운영 스트레스를 유발할 가능성이 큽니다.',settlement:'정산 검증과 이력 조회 공수가 커서 누락·오청구 대응이 비효율적일 수 있습니다.',digital:'데이터와 운영 방식이 표준화되지 않아 담당자 의존도가 높은 상태입니다.'};
-  const solutionMap={fare:'AI Pricing 기반 실시간 운임 제공',dispatch:'실시간 관제/가시성 기반 배차 운영',settlement:'정산 자동화 및 운송 이력 기반 검증',digital:'데이터 기반 운영 표준화 및 의사결정 지원'};
-  app.innerHTML = `
-  <div class="steps">
-    <div class="step done">물류 운임 진단 ✓</div>
-    <div class="step done">물류 운영 진단 ✓</div>
-    <div class="step active">결과 확인</div>
-    <div class="step">더 운반 연결</div>
-  </div>
-  <div class="resultBox">
-    <div class="resultHeader">
-      <div>
-        <span class="badge dark">CJ대한통운 더 운반 진단 결과</span>
-        <h2>Level ${lvl.level}: ${lvl.name}</h2>
-        <p>동종업계 평균(${bm.avg}점) 대비 ${total>=bm.avg?'▲':'▼'} ${Math.abs(total-bm.avg)}점. 가장 큰 개선 여지는 <b>${weak[0].name}</b>, <b>${weak[1].name}</b>에서 나타납니다.</p>
-      </div>
-    </div>
-    <div class="numbers">
-      <div class="numCard"><div class="k">회사명</div><div class="v" style="font-size:18px">${escapeHtml(state.intake.company||'-')}</div></div>
-      <div class="numCard"><div class="k">월 운송비</div><div class="v" style="font-size:18px">${state.intake.monthlyBand==='직접입력'?fmtMoney(state.intake.monthlyDirect||0)+'만원':escapeHtml(state.intake.monthlyBand)}</div></div>
-      <div class="numCard"><div class="k">진단 총점</div><div class="v">${total}점</div></div>
-    </div>
-  </div>
-  <div class="compare">
-    <div class="panel">
-      <div class="hd"><div class="sectionTitle">섹션별 진단 결과</div><div class="sectionSub">클릭하여 항목별 레포트와 해결방안을 확인하세요</div></div>
-      <div class="bd">
-        ${sections.map(s=>{ const my=perSec[s.id], av=bm.secAvg[s.id]; const maxScore=questions.filter(q=>q.sec===s.id).length*5; const fb=getSectionFeedback(s.id,my); return `<div class="barWrap"><div class="barTitle" style="cursor:pointer" onclick="toggleReport('${s.id}')"><span>${s.name}</span><span>${my} / avg ${av} ▾</span></div><div class="meter"><i style="width:${Math.round((my/maxScore)*100)}%"></i></div><div id="report-${s.id}" class="hint hide"><b>${fb.title}</b><br>${fb.desc}<br><br><b>더 운반 해결방안</b><br>${fb.solution}</div></div>`; }).join('')}
-      </div>
-    </div>
-    <div class="panel">
-      <div class="hd"><div class="sectionTitle">핵심 인사이트</div><div class="sectionSub">부족한 부분과 더 운반 연결 포인트</div></div>
-      <div class="bd"><div class="list">${weak.map(x=>`<div class="li"><div><b>${x.name} 개선 우선</b><small>${painMap[x.id]}<br>→ ${solutionMap[x.id]}</small></div><span class="miniPill">${x.my}점</span></div>`).join('')}${strong.map(x=>`<div class="li"><div><b>${x.name} 상대적 강점</b><small>현재 운영 기반이 비교적 안정적인 영역입니다.</small></div><span class="miniPill">${x.my}점</span></div>`).join('')}</div></div>
-    </div>
-  </div>
-  <div class="panel" style="margin-top:18px">
-    <div class="hd"><div class="sectionTitle">더 운반 추천 서비스</div><div class="sectionSub">진단 결과와 연결되는 더 운반의 핵심 USP</div></div>
-    <div class="bd">
-      <div class="grid3">
-        <div class="card"><h3>AI Pricing 비교</h3><p>주요 구간의 시장 운임 수준을 비교해 현재 단가의 적정성을 빠르게 판단할 수 있습니다.</p></div>
-        <div class="card"><h3>실시간 관제 / 가시성</h3><p>배차 상태, 차량 위치, 진행 현황을 실시간으로 확인해 운영 불확실성을 줄일 수 있습니다.</p></div>
-        <div class="card"><h3>정산 자동화 / 검증</h3><p>운송 이력 기반 정산 구조로 정산 공수와 누락·오청구 대응 부담을 줄일 수 있습니다.</p></div>
-      </div>
-      <div class="ctaRow">
-        <button class="primary" id="cta1">AI Pricing 비교 시작</button>
-        <button class="secondary" id="cta2">더 운반 견적 받기</button>
-        <button class="ghost" id="cta3">응답 수정</button>
-      </div>
-    </div>
-  </div>`;
-  document.getElementById('cta1').onclick=()=>alert('데모: AI Pricing 비교 화면으로 이동');
-  document.getElementById('cta2').onclick=()=>alert('데모: 더 운반 견적 접수로 이동');
-  document.getElementById('cta3').onclick=()=>{ state.mode='diagnosis'; save(); render(); };
+app.innerHTML=`
+<div class="resultBox">
+<h2>진단 완료</h2>
+<p style="color:#b8c7d9">물류 운영 진단이 완료되었습니다. 결과를 기반으로 더 운반이 개선 방향을 제안합니다.</p>
+
+<div class="actions">
+<button class="primary">AI Pricing 비교 시작</button>
+<button class="secondary">더 운반 견적 받기</button>
+</div>
+
+<div style="text-align:center;margin-top:18px">
+<button class="ghost" onclick="resetAll()">처음부터 다시 진단하기</button>
+</div>
+</div>`
 }
-function toggleReport(sectionId){ const el=document.getElementById(`report-${sectionId}`); if(el) el.classList.toggle('hide'); }
-window.addEventListener('keydown',(e)=>{ if(state.mode!=='diagnosis') return; if(['1','2','3','4','5'].includes(e.key)){ const q=currentQuestion(); state.answers[q.no]=Number(e.key); save(); render(); } if(e.key==='ArrowRight'){ nextQ(); render(); } if(e.key==='ArrowLeft'){ prevQ(); render(); } });
-render();
+
+function resetAll(){state={mode:'estimate',answers:{},i:0,section:'fare'};render()}
+
+render()
 </script>
 </body>
 </html>
