@@ -130,7 +130,7 @@ button.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
   </section>
 
   <section class="grid3">
-    <div class="card"><h3>1. 물류 운임 진단</h3><p>기본 운송 조건과 참고 자료를 제출하면 더 운반이 오프라인으로 적정 운임 수준과 검토 포인트를 확인합니다.</p></div>
+    <div class="card"><h3>1. 물류 운임 진단</h3><p>운임 검토 양식을 제출하면 단일구간 단가, 복수구간 단가, 고정/비고정 운임 구조를 기준으로 더 운반이 오프라인으로 검토하고 피드백합니다.</p></div>
     <div class="card"><h3>2. 물류 운영 진단</h3><p>운임, 배차, 정산, 디지털 운영 관점에서 현재 구조의 비효율과 개선 우선순위를 진단합니다.</p></div>
     <div class="card"><h3>3. 해결 방안 제안</h3><p>진단 결과를 기반으로 AI Pricing, 실시간 관제, 정산 자동화 등 더 운반의 해결 방안을 제안합니다.</p></div>
   </section>
@@ -241,7 +241,7 @@ function getSectionFeedback(sectionId, score){
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {
   mode:'estimate',
-  intake:{ company:'', manager:'', phone:'', email:'', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' },
+  intake:{ company:'', manager:'', phone:'', email:'', pricingType:'단일구간 단가', routeCount:'1개 구간', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' },
   answers:{},
   nav:{ section:'fare', index:0 }
 };
@@ -255,7 +255,7 @@ function answeredCount(){ return Object.keys(state.answers).length; }
 function compute(){ const total = questions.reduce((sum,q)=>sum + (state.answers[q.no] || 0),0); const perSec={}; sections.forEach(s=>{ perSec[s.id]=questions.filter(q=>q.sec===s.id).reduce((sum,q)=>sum + (state.answers[q.no]||0),0); }); return { total, perSec }; }
 function resetAll(){
   localStorage.removeItem(STORAGE_KEY);
-  state = { mode:'estimate', intake:{ company:'', manager:'', phone:'', email:'', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' }, answers:{}, nav:{ section:'fare', index:0 } };
+  state = { mode:'estimate', intake:{ company:'', manager:'', phone:'', email:'', pricingType:'단일구간 단가', routeCount:'1개 구간', monthlyBand:'300만원 미만', monthlyDirect:'', origin:'서울', destination:'경기', vehicleType:'카고', tonnage:'1톤', notes:'', fileName:'' }, answers:{}, nav:{ section:'fare', index:0 } };
   render();
 }
 
@@ -269,8 +269,8 @@ function renderEstimate(){
   app.innerHTML = `
     <section class="panel">
       <div class="hd">
-        <div class="sectionTitle">1. AI Pricing 자료 제출</div>
-        <div class="sectionSub">기본 운송 조건과 참고 자료를 제출하면 더 운반이 오프라인으로 검토할 수 있습니다</div>
+        <div class="sectionTitle">1. 물류 운임 진단</div>
+        <div class="sectionSub">운임 검토 양식을 기반으로 단일구간 / 복수구간 / 고정·비고정 운임 구조를 오프라인으로 검토합니다</div>
       </div>
       <div class="bd">
         <div class="form">
@@ -278,24 +278,26 @@ function renderEstimate(){
           <div><label>담당자명</label><input id="manager" value="${escapeHtml(state.intake.manager)}" placeholder="예: 홍길동" /></div>
           <div><label>연락처</label><input id="phone" value="${escapeHtml(state.intake.phone)}" placeholder="예: 010-0000-0000" /></div>
           <div><label>이메일</label><input id="email" value="${escapeHtml(state.intake.email)}" placeholder="예: sample@company.com" /></div>
-          <div><label>월 운송비</label><select id="monthlyBand">${monthlyBands.map(v=>`<option ${state.intake.monthlyBand===v?'selected':''}>${v}</option>`).join('')}</select></div>
-          <div><label>직접 입력 (만원)</label><input id="monthlyDirect" placeholder="예: 1000" value="${escapeHtml(state.intake.monthlyDirect)}" ${state.intake.monthlyBand==='직접입력'?'':'disabled'} /></div>
+          <div><label>운임 검토 유형</label><select id="pricingType"><option ${state.intake.pricingType==='단일구간 단가'?'selected':''}>단일구간 단가</option><option ${state.intake.pricingType==='복수구간 단가'?'selected':''}>복수구간 단가</option><option ${state.intake.pricingType==='고정 운임'?'selected':''}>고정 운임</option><option ${state.intake.pricingType==='비고정 운임'?'selected':''}>비고정 운임</option></select></div>
+          <div><label>검토 구간 수</label><select id="routeCount"><option ${state.intake.routeCount==='1개 구간'?'selected':''}>1개 구간</option><option ${state.intake.routeCount==='2~5개 구간'?'selected':''}>2~5개 구간</option><option ${state.intake.routeCount==='6개 이상'?'selected':''}>6개 이상</option></select></div>
           <div><label>출발지</label><input id="origin" value="${escapeHtml(state.intake.origin)}" /></div>
           <div><label>도착지</label><input id="destination" value="${escapeHtml(state.intake.destination)}" /></div>
           <div><label>주 사용 차량</label><select id="vehicleType">${vehicleTypes.map(v=>`<option ${state.intake.vehicleType===v?'selected':''}>${v}</option>`).join('')}</select></div>
           <div><label>주 사용 톤급</label><select id="tonnage">${tonnageTypes.map(v=>`<option ${state.intake.tonnage===v?'selected':''}>${v}</option>`).join('')}</select></div>
-          <div><label>참고 자료 업로드</label><input id="pricingFile" type="file" /></div>
-          <div><label>추가 메모</label><input id="notes" value="${escapeHtml(state.intake.notes)}" placeholder="검토가 필요한 노선/특이사항 입력" /></div>
+          <div><label>월 운송비(선택)</label><select id="monthlyBand">${monthlyBands.map(v=>`<option ${state.intake.monthlyBand===v?'selected':''}>${v}</option>`).join('')}</select></div>
+          <div><label>직접 입력 (만원)</label><input id="monthlyDirect" placeholder="예: 1000" value="${escapeHtml(state.intake.monthlyDirect)}" ${state.intake.monthlyBand==='직접입력'?'':'disabled'} /></div>
+          <div><label>운임 검토 양식 업로드</label><input id="pricingFile" type="file" /></div>
+          <div><label>추가 메모</label><input id="notes" value="${escapeHtml(state.intake.notes)}" placeholder="고정/비고정 여부, 검토가 필요한 노선 등 입력" /></div>
         </div>
         <div class="actions">
-          <span class="miniPill">프로토타입 단계에서는 제출 데이터를 저장하지 않고 화면상 흐름만 구현합니다.</span>
+          <span class="miniPill">운임 검토는 오프라인으로 산출 후 피드백드리며, 아래 물류 운영 진단 결과와 함께 연락드리는 흐름입니다.</span>
           <button id="estimateBtn">자료 제출 후 물류 진단 시작</button>
         </div>
       </div>
     </section>
     <div id="estimateResultMount"></div>`;
 
-  ['company','manager','phone','email','monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage','notes'].forEach(id=>{
+  ['company','manager','phone','email','pricingType','routeCount','monthlyBand','monthlyDirect','origin','destination','vehicleType','tonnage','notes'].forEach(id=>{
     const el = document.getElementById(id);
     if(!el) return;
     el.oninput = el.onchange = ()=>{
@@ -309,30 +311,9 @@ function renderEstimate(){
 }
 
 function renderEstimateResult(){
-  const mount = document.getElementById('estimateResultMount');
-  if(!mount) return;
-  mount.innerHTML = `
-    <div class="resultBox">
-      <div class="resultHeader">
-        <div>
-          <span class="badge dark">AI Pricing 접수 준비 완료</span>
-          <h2 style="margin-top:10px">자료 검토 후 더 운반이 오프라인으로 운임 적정성을 확인합니다</h2>
-          <p>${escapeHtml(state.intake.origin)} → ${escapeHtml(state.intake.destination)} · ${escapeHtml(state.intake.vehicleType)} · ${escapeHtml(state.intake.tonnage)} 기준 자료가 접수될 수 있도록 준비되었습니다.</p>
-        </div>
-        <div class="miniPill">${state.intake.fileName ? '첨부파일: ' + escapeHtml(state.intake.fileName) : '첨부파일 없음'}</div>
-      </div>
-      <div class="numbers">
-        <div class="numCard"><div class="k">회사명</div><div class="v" style="font-size:18px">${escapeHtml(state.intake.company || '-')}</div></div>
-        <div class="numCard"><div class="k">월 운송비</div><div class="v" style="font-size:18px">${state.intake.monthlyBand==='직접입력' ? fmtMoney(state.intake.monthlyDirect || 0) + '만원' : escapeHtml(state.intake.monthlyBand)}</div></div>
-        <div class="numCard"><div class="k">검토 방식</div><div class="v" style="font-size:18px">AI Pricing 오프라인 검토</div></div>
-      </div>
-      <div class="ctaRow">
-        <button class="secondary" id="startDiagnosis">이어서 물류 진단 시작 →</button>
-        <button class="ghost" id="recalcBtn">입력 다시 보기</button>
-      </div>
-    </div>`;
-  document.getElementById('startDiagnosis').onclick = ()=>{ state.mode='diagnosis'; save(); render(); };
-  document.getElementById('recalcBtn').onclick = ()=> window.scrollTo({top:0, behavior:'smooth'});
+  state.mode='diagnosis';
+  save();
+  render();
 }
 
 function renderDiagnosis(){
