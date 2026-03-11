@@ -399,8 +399,8 @@ function renderResult(){
     <div class="resultHeader">
       <div>
         <span class="badge">CJ대한통운 더 운반 진단 결과</span>
-        <h2>Level ${lvl.level}: ${lvl.name}</h2>
-        <p>동종업계 평균(${bm.avg}점) 대비 ${total>=bm.avg?'▲':'▼'} ${Math.abs(total-bm.avg)}점. 가장 큰 개선 여지는 <b>${weak[0].name}</b>, <b>${weak[1].name}</b>에서 나타납니다.</p>
+        <h2>물류 운영 진단 결과</h2>
+        <p>동종업계 평균(${bm.avg}점) 대비 ${total>=bm.avg?'▲':'▼'} ${Math.abs(total-bm.avg)}점 수준입니다. 가장 큰 개선 여지는 <b>${weak[0].name}</b>, <b>${weak[1].name}</b>에서 나타납니다.</p>
       </div>
     </div>
     <div class="numbers">
@@ -413,7 +413,7 @@ function renderResult(){
     <div class="panel">
       <div class="hd"><div class="sectionTitle">섹션별 진단 결과</div><div class="sectionSub">클릭하여 항목별 레포트와 해결방안을 확인하세요</div></div>
       <div class="bd">
-        ${sections.map(s=>{ const my=perSec[s.id], av=bm.secAvg[s.id]; const maxScore=questions.filter(q=>q.sec===s.id).length*5; const fb=getSectionFeedback(s.id,my); return `<div class="barWrap"><div class="barTitle" style="cursor:pointer" onclick="toggleReport('${s.id}')"><span>${s.name}</span><span>${my} / avg ${av} ▾</span></div><div class="meter"><i style="width:${Math.round((my/maxScore)*100)}%"></i></div><div id="report-${s.id}" class="hint hide"><b>${fb.title}</b><br>${fb.desc}<br><br><b>더 운반 해결방안</b><br>${fb.solution}</div></div>`; }).join('')}
+        ${sections.map(s=>{ const my=perSec[s.id], av=bm.secAvg[s.id]; const maxScore=questions.filter(q=>q.sec===s.id).length*5; const fb=getSectionFeedback(s.id,my); return `<div class="barWrap"><div class="barTitle"><span>${s.name}</span><span>${my} / avg ${av}</span></div><div class="meter"><i style="width:${Math.round((my/maxScore)*100)}%"></i></div><div class="hint"><b>${fb.title}</b><br>${fb.desc}<br><br><b>더 운반 해결방안</b><br>${fb.solution}</div></div>`; }).join('')}
       </div>
     </div>
     <div class="panel">
@@ -446,7 +446,7 @@ function renderResult(){
   document.getElementById('cta3').onclick=()=>{ state.mode='diagnosis'; save(); render(); };
   document.getElementById('resetAllBtn').onclick=()=>{ if(confirm('처음부터 다시 진단하시겠습니까?')) resetAll(); };
 }
-function toggleReport(sectionId){ const el=document.getElementById(`report-${sectionId}`); if(el) el.classList.toggle('hide'); }
+
 window.addEventListener('keydown',(e)=>{ if(state.mode!=='diagnosis') return; if(['1','2','3','4','5'].includes(e.key)){ const q=currentQuestion(); state.answers[q.no]=Number(e.key); save(); render(); } if(e.key==='ArrowRight'){ nextQ(); render(); } if(e.key==='ArrowLeft'){ prevQ(); render(); } });
 render();
 </script>
